@@ -1,3 +1,6 @@
+import React from 'react';
+import SignUp from './SignUp';
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -5,7 +8,9 @@ class App extends React.Component {
 
   render() {
     return (
-      <div/>
-      )
+      <SignUp />
+    )
   }
 }
+
+export default App;
