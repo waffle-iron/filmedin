@@ -22089,7 +22089,7 @@
   \*******************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
 		value: true
@@ -22115,42 +22115,201 @@
 		function SignUp(props) {
 			_classCallCheck(this, SignUp);
 	
-			return _possibleConstructorReturn(this, (SignUp.__proto__ || Object.getPrototypeOf(SignUp)).call(this, props));
+			var _this = _possibleConstructorReturn(this, (SignUp.__proto__ || Object.getPrototypeOf(SignUp)).call(this, props));
+	
+			_this.state = {
+				firstname: '',
+				lastname: '',
+				dob: '',
+				username: '',
+				password: ''
+			};
+	
+			_this.handleSignUpClick = _this.handleSignUpClick.bind(_this);
+			_this.handleLoginClick = _this.handleLoginClick.bind(_this);
+			_this.handleUsernameChange = _this.handleUsernameChange.bind(_this);
+			_this.handlePasswordChange = _this.handlePasswordChange.bind(_this);
+			_this.handleFirstnameChange = _this.handleFirstnameChange.bind(_this);
+			_this.handleLastnameChange = _this.handleLastnameChange.bind(_this);
+			_this.handleDobChange = _this.handleDobChange.bind(_this);
+	
+			return _this;
 		}
 	
 		_createClass(SignUp, [{
-			key: "render",
+			key: 'handleUsernameChange',
+			value: function handleUsernameChange(e) {
+				this.setState({
+					username: e.target.value
+				});
+			}
+		}, {
+			key: 'handlePasswordChange',
+			value: function handlePasswordChange(e) {
+				this.setState({
+					password: e.target.value
+				});
+			}
+		}, {
+			key: 'handleFirstnameChange',
+			value: function handleFirstnameChange(e) {
+				this.setState({
+					firstname: e.target.value
+				});
+			}
+		}, {
+			key: 'handleLastnameChange',
+			value: function handleLastnameChange(e) {
+				this.setState({
+					lastname: e.target.value
+				});
+			}
+		}, {
+			key: 'handleDobChange',
+			value: function handleDobChange(e) {
+				this.setState({
+					dob: e.target.value
+				});
+			}
+		}, {
+			key: 'handleLoginClick',
+			value: function handleLoginClick(event) {
+				console.log('event: ', event.target);
+				console.log('expecting username: ', this.state.username);
+				console.log('expecting password: ', this.state.password);
+				console.log('login click');
+			}
+		}, {
+			key: 'handleSignUpClick',
+			value: function handleSignUpClick(event) {
+				console.log('event: ', event.target.value);
+				console.log('expecting firstname: ', this.state.firstname);
+				console.log('expecting lastname: ', this.state.lastname);
+				console.log('expecting dob: ', this.state.dob);
+				console.log('expecting username: ', this.state.username);
+				console.log('expecting password: ', this.state.password);
+				console.log('signup click');
+			}
+		}, {
+			key: 'render',
 			value: function render() {
 				return _react2.default.createElement(
-					"div",
+					'div',
 					null,
 					_react2.default.createElement(
-						"h1",
+						'h1',
 						null,
-						"FilmedIn"
+						'FilmedIn'
 					),
 					_react2.default.createElement(
-						"nav",
-						null,
+						'nav',
+						{ className: 'navbar' },
 						_react2.default.createElement(
-							"form",
+							'form',
 							null,
 							_react2.default.createElement(
-								"label",
+								'ul',
 								null,
-								"Username:"
-							),
-							_react2.default.createElement("input", { type: "text", placeholder: "your username" }),
+								_react2.default.createElement(
+									'li',
+									null,
+									_react2.default.createElement(
+										'label',
+										null,
+										'Username:'
+									),
+									_react2.default.createElement('input', { type: 'text', value: this.state.username, onChange: this.handleUsernameChange, placeholder: 'your username' })
+								),
+								_react2.default.createElement(
+									'li',
+									null,
+									_react2.default.createElement(
+										'label',
+										null,
+										'Password:'
+									),
+									_react2.default.createElement('input', { type: 'text', value: this.state.password, onChange: this.handlePasswordChange, placeholder: 'your password' })
+								),
+								_react2.default.createElement(
+									'li',
+									null,
+									_react2.default.createElement(
+										'button',
+										{ type: 'button', onClick: this.handleLoginClick },
+										'Login'
+									)
+								)
+							)
+						)
+					),
+					_react2.default.createElement(
+						'div',
+						{ className: 'signup' },
+						_react2.default.createElement(
+							'form',
+							null,
 							_react2.default.createElement(
-								"label",
+								'ul',
 								null,
-								"Password:"
-							),
-							_react2.default.createElement("input", { type: "text", placeholder: "your password" }),
-							_react2.default.createElement(
-								"button",
-								{ type: "submit" },
-								"Login"
+								_react2.default.createElement(
+									'li',
+									null,
+									_react2.default.createElement(
+										'label',
+										null,
+										'First name:'
+									),
+									_react2.default.createElement('input', { type: 'text', value: this.state.firstname, onChange: this.handleFirstnameChange, placeholder: 'your first name' })
+								),
+								_react2.default.createElement(
+									'li',
+									null,
+									_react2.default.createElement(
+										'label',
+										null,
+										'Last name:'
+									),
+									_react2.default.createElement('input', { type: 'text', value: this.state.lastname, onChange: this.handleLastnameChange, placeholder: 'your last name' })
+								),
+								_react2.default.createElement(
+									'li',
+									null,
+									_react2.default.createElement(
+										'label',
+										null,
+										'Date of Birth:'
+									),
+									_react2.default.createElement('input', { type: 'text', value: this.state.dob, onChange: this.handleDobChange, placeholder: 'mm/dd/yyyy' })
+								),
+								_react2.default.createElement(
+									'li',
+									null,
+									_react2.default.createElement(
+										'label',
+										null,
+										'Username:'
+									),
+									_react2.default.createElement('input', { type: 'text', value: this.state.username, onChange: this.handleUsernameChange, placeholder: 'your username' })
+								),
+								_react2.default.createElement(
+									'li',
+									null,
+									_react2.default.createElement(
+										'label',
+										null,
+										'Password:'
+									),
+									_react2.default.createElement('input', { type: 'text', value: this.state.password, onChange: this.handlePasswordChange, placeholder: 'your password' })
+								),
+								_react2.default.createElement(
+									'li',
+									null,
+									_react2.default.createElement(
+										'button',
+										{ type: 'button', onClick: this.handleSignUpClick },
+										'Sign up!'
+									)
+								)
 							)
 						)
 					)
