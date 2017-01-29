@@ -10,7 +10,7 @@
   "author": "Bolgers",
   "license": "ISC",
   "dependencies": {
-    "bcrypt-node": "^0.1.0",
+    "bcrypt-nodejs": "0.0.3",
     "bluebird": "^3.4.7",
     "body-parser": "^1.16.0",
     "express": "^4.14.0",
