@@ -27,8 +27,18 @@ var dbObj =  {
     getByUserID: function (userID, cb) {
       db.query(`SELECT * FROM profile WHERE userID = ${userID}`, cb);
     },
-    post: function ({userID, firstName, lastName, DOB}) {
-      db.query(`INSERT INTO profile (userID, firstName, lastName, DOB) VALUES (${userID}, "${firstName}", "${lastName}", "${DOB}"`);
+    post: function ({userID, firstName, lastName, DOB}, cb) {
+      db.query(`INSERT INTO profile (userID, firstName, lastName, DOB) VALUES (${userID}, "${firstName}", "${lastName}", "${DOB}")`, cb);
+    }
+  },
+  friend: {
+    get: function (id, cb) {
+      db.query(`SELECT p.firstName as firstName, p.lastName as lastName, p.DOB as DOB FROM friends f inner join profile p on p.id = f.friendID and f.primaryID = ${id}`, cb);
+    }
+  },
+  rating: {
+    get: function(id, cb) {
+      db.query(`SELECT r.rating as rating, r.review as review, f.name as name, f.genre as genre, f.posterURL as posterURL from rating r INNER JOIN film f ON r.filmID = f.id where r.profileID = ${id}`, cb);
     }
   },
 

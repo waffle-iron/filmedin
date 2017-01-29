@@ -51,6 +51,10 @@ module.exports = {
               } else {
                 req.body.userID = rows.insertId;
                 db.profile.post(req.body, function (err, rows) {
+                  if (err) {
+                    console.log(err);
+                    next(new Error('Failed to create profile'));
+                  }
                   res.redirect(307, '/signin');
                 });
                 
@@ -70,7 +74,7 @@ module.exports = {
     if ((token !== undefined) && (token !== 'undefined')) {
       var user = jwt.decode(token, 'secret');
       db.user.get(user.username, function (err, rows) {
-        if (rows === 1) {
+        if (rows.length === 1) {
           cb(rows[0]);
         } else {
           cb(null);
