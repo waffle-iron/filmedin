@@ -1,6 +1,7 @@
 var db = require('./db/helpers');
 var auth = require('./auth');
 var gb = require('./guideBoxHelpers');
+var qs = require('querystring');
 
 module.exports = {
   home: function (req, res, next) {
@@ -76,10 +77,66 @@ module.exports = {
     });
 
   },
-  searchUser: function (req, res, next) {
+  addFriend: function (req, res, next) {
+    auth.checkAuth(req, function(user) {
+      if (user !== null) {
+        db.profile.getByUserID(user.id, function (err, rows) { 
+          db.friend.exists(rows[0].id, req.body.friendID, function (err, exists) {
+            if (exists.length > 0) {
+              res.end();
+            } else {
+              db.friend.post(rows[0].id, req.body.friendID, function (err, rows2) {
+                db.friend.post(req.body.friendID, rows[0].id, function(err, rows3) {
+                  res.end();
+                });
+              });
+            }
+          })
+          
+        });
+      }
+    });
+  },
+  addRating: function (req, res, next) {
+    auth.checkAuth(req, function(user) {
+      if (user !== null) {
+        db.profile.getByUserID(user.id, function (err, rows) { 
+          req.body.profileID = rows[0].id;
+          db.rating.exists(req.body, function (err, exists) {
+            if (exists.length > 0) {
+              db.rating.update(req.body, function (err, rows) {
+                res.end();
+              });
+            } else {
+              db.rating.post(req.body, function (err, rows) {
+                res.end();
+              });
+            }
+          })
 
+        });
+      }
+    });
+  },
+  searchUser: function (req, res, next) {
+    auth.checkAuth(req, function(user) {
+      if (user !== null) {
+        db.profile.search(req.params.search, function (err, rows) {
+          res.send(rows);
+        });
+      }
+    });
   },
   searchFilm: function (req, res, next) {
-
+    auth.checkAuth(req, function(user) {
+      if (user !== null) {
+        gb.search(qs.parse(req.params.search), function (err, body) {
+          var test = JSON.parse(body.body);
+          console.log(test);
+          console.log(test.results);
+          res.send(test.results);
+        });
+      }
+    });
   }
 }

@@ -14,5 +14,12 @@ module.exports = {
         //headers: exports.headers
       };
       request.get(options, cb);
+  },
+  search: function (search, cb) {
+      var options = {
+        url: `http://api-public.guidebox.com/v2/search?type=movie&field=title&query=${search}&api_key=${apiKey.key}`
+        //headers: exports.headers
+      };
+      request.get(options, cb);
   }
 }
