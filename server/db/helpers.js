@@ -40,6 +40,9 @@ var dbObj =  {
     get: function(id, cb) {
       db.query(`SELECT r.rating as rating, r.review as review, f.name as name, f.genre as genre, f.posterURL as posterURL from rating r INNER JOIN film f ON r.filmID = f.id where r.profileID = ${id}`, cb);
     },
+    getFeed: function(id, cb) {
+      db.query(`SELECT r.id as id, r.rating as rating, r.review as review, f.name as name, f.genre as genre, f.posterURL as posterURL from rating r INNER JOIN film f ON r.filmID = f.id where r.profileID in (SELECT friendID FROM friends where primaryID = ${id}) order by r.createdAt DESC LIMIT 100`, cb);
+    },
     exists: function({profileID, filmID}, cb) {
       db.query(`SELECT * FROM rating where profileID = ? and filmID = ?`, [profileID, filmID], cb);
     },
@@ -56,8 +59,6 @@ var dbObj =  {
       db.query(`SELECT * FROM film where guideBox = ${id}`, cb);
     },
     post: function ({guideBox, name, releaseDate, director, actor1, actor2, actor3, actor4, posterURL, runtime, genre}, cb) {
-      console.log(actor1);
-      console.log(actor2);
       db.query(`INSERT INTO film (guideBox, name, releaseDate, director, actor1, actor2, actor3, actor4, posterURL, runtime, genre) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, [guideBox, name, releaseDate, director, actor1, actor2, actor3, actor4, posterURL, runtime, genre], cb);
     }
   }
