@@ -1,0 +1,35 @@
+{
+  "name": "filmedinserver",
+  "version": "1.0.0",
+  "description": "Server component of Filmed In project",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "nodemon server/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Bolgers",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/filmedin/"
+  },
+  "engines": {
+    "node": "4.4.3",
+    "npm": "2.15.1"
+  },
+  "keywords": [
+    "node",
+    "heroku",
+    "express"
+  ],
+  "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "bluebird": "^3.4.7",
+    "body-parser": "^1.16.0",
+    "express": "^4.14.0",
+    "jwt-simple": "^0.5.1",
+    "mysql": "^2.13.0",
+    "querystring": "^0.2.0",
+    "request": "^2.79.0"
+  }
+}

@@ -21,8 +21,8 @@ var dbObj =  {
     getByUserID: function (userID, cb) {
       db.query(`SELECT * FROM profile WHERE userID = ${userID}`, cb);
     },
-    post: function ({userID, firstName, lastName, DOB}, cb) {
-      db.query(`INSERT INTO profile (userID, firstName, lastName, DOB) VALUES (${userID}, "${firstName}", "${lastName}", "${DOB}")`, cb);
+    post: function (prof, cb) {
+      db.query(`INSERT INTO profile (userID, firstName, lastName, DOB) VALUES (${prof.userID}, "${prof.firstName}", "${prof.lastName}", "${prof.DOB}")`, cb);
     }
   },
   friend: {
@@ -43,14 +43,14 @@ var dbObj =  {
     getFeed: function(id, cb) {
       db.query(`SELECT r.id as id, r.rating as rating, r.review as review, f.name as name, f.genre as genre, f.posterURL as posterURL from rating r INNER JOIN film f ON r.filmID = f.id where r.profileID in (SELECT friendID FROM friends where primaryID = ${id}) order by r.createdAt DESC LIMIT 100`, cb);
     },
-    exists: function({profileID, filmID}, cb) {
-      db.query(`SELECT * FROM rating where profileID = ? and filmID = ?`, [profileID, filmID], cb);
+    exists: function(rating, cb) {
+      db.query(`SELECT * FROM rating where profileID = ? and filmID = ?`, [rating.profileID, rating.filmID], cb);
     },
-    update: function({profileID, filmID, rating, review}, cb) {
-      db.query(`UPDATE rating SET rating = ?, review = ?, createdAt = NOW() where profileID = ? and filmID = ?`, [rating, review, profileID, filmID], cb);
+    update: function(rating, cb) {
+      db.query(`UPDATE rating SET rating = ?, review = ?, createdAt = NOW() where profileID = ? and filmID = ?`, [rating.rating, rating.review, rating.profileID, rating.filmID], cb);
     },
-    post: function({profileID, filmID, rating, review}, cb) {
-      db.query(`INSERT INTO rating (profileID, filmID, rating, review) VALUES (?, ?, ?, ?)`, [profileID, filmID, rating, review], cb);
+    post: function(rating, cb) {
+      db.query(`INSERT INTO rating (profileID, filmID, rating, review) VALUES (?, ?, ?, ?)`, [rating.profileID, rating.filmID, rating.rating, rating.review], cb);
     }
   },
 
@@ -58,8 +58,8 @@ var dbObj =  {
     get: function (id, cb) {
       db.query(`SELECT * FROM film where guideBox = ${id}`, cb);
     },
-    post: function ({guideBox, name, releaseDate, director, actor1, actor2, actor3, actor4, posterURL, runtime, genre}, cb) {
-      db.query(`INSERT INTO film (guideBox, name, releaseDate, director, actor1, actor2, actor3, actor4, posterURL, runtime, genre) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, [guideBox, name, releaseDate, director, actor1, actor2, actor3, actor4, posterURL, runtime, genre], cb);
+    post: function (film, cb) {
+      db.query(`INSERT INTO film (guideBox, name, releaseDate, director, actor1, actor2, actor3, actor4, posterURL, runtime, genre) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, [film.guideBox, film.name, film.releaseDate, film.director, film.actor1, film.actor2, film.actor3, film.actor4, film.posterURL, film.runtime, film.genre], cb);
     }
   }
 }
