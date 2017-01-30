@@ -131,10 +131,7 @@ module.exports = {
     auth.checkAuth(req, function(user) {
       if (user !== null) {
         gb.search(qs.parse(req.params.search), function (err, body) {
-          var test = JSON.parse(body.body);
-          console.log(test);
-          console.log(test.results);
-          res.send(test.results);
+          res.send(JSON.parse(body.body).results);
         });
       }
     });
