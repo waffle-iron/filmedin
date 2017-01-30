@@ -5,9 +5,7 @@ import FilmEntry from './FilmEntry';
 var FilmList = ({allFilms, allFriends}) => (
 	<div>
 		{console.log('allFilms: ', allFilms)}
-		{allFilms.map(film => 
-			<FilmEntry film={film} />
-		)}
+		{allFilms.map(film => <FilmEntry film={film} /> )}
 	</div>
 )
 
