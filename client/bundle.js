@@ -22053,6 +22053,10 @@
 	
 	var _SignUp2 = _interopRequireDefault(_SignUp);
 	
+	var _UserProfile = __webpack_require__(/*! ./UserProfile */ 180);
+	
+	var _UserProfile2 = _interopRequireDefault(_UserProfile);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -22067,13 +22071,30 @@
 	  function App(props) {
 	    _classCallCheck(this, App);
 	
-	    return _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
+	    var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
+	
+	    _this.state = {
+	      isLoggedIn: false
+	    };
+	    _this.toggleLoggedIn = _this.toggleLoggedIn.bind(_this);
+	    return _this;
 	  }
 	
 	  _createClass(App, [{
+	    key: 'toggleLoggedIn',
+	    value: function toggleLoggedIn() {
+	      this.setState({
+	        isLoggedIn: true
+	      });
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
-	      return _react2.default.createElement(_SignUp2.default, null);
+	      if (this.state.isLoggedIn) {
+	        return _react2.default.createElement(_UserProfile2.default, null);
+	      } else {
+	        return _react2.default.createElement(_SignUp2.default, { toggleLoggedIn: this.toggleLoggedIn });
+	      }
 	    }
 	  }]);
 	
@@ -22174,7 +22195,8 @@
 		}, {
 			key: 'handleLoginClick',
 			value: function handleLoginClick(event) {
-				console.log('event: ', event.target);
+				event.preventDefault();
+				this.props.toggleLoggedIn();
 				console.log('expecting username: ', this.state.username);
 				console.log('expecting password: ', this.state.password);
 				console.log('login click');
@@ -22182,7 +22204,7 @@
 		}, {
 			key: 'handleSignUpClick',
 			value: function handleSignUpClick(event) {
-				console.log('event: ', event.target.value);
+				event.preventDefault();
 				console.log('expecting firstname: ', this.state.firstname);
 				console.log('expecting lastname: ', this.state.lastname);
 				console.log('expecting dob: ', this.state.dob);
@@ -22206,7 +22228,7 @@
 						{ className: 'navbar' },
 						_react2.default.createElement(
 							'form',
-							null,
+							{ onSubmit: this.handleLoginClick },
 							_react2.default.createElement(
 								'ul',
 								null,
@@ -22235,7 +22257,7 @@
 									null,
 									_react2.default.createElement(
 										'button',
-										{ type: 'button', onClick: this.handleLoginClick },
+										{ type: 'submit' },
 										'Login'
 									)
 								)
@@ -22247,7 +22269,7 @@
 						{ className: 'signup' },
 						_react2.default.createElement(
 							'form',
-							null,
+							{ onSubmit: this.handleSignUpClick },
 							_react2.default.createElement(
 								'ul',
 								null,
@@ -22306,7 +22328,7 @@
 									null,
 									_react2.default.createElement(
 										'button',
-										{ type: 'button', onClick: this.handleSignUpClick },
+										{ type: 'submit' },
 										'Sign up!'
 									)
 								)
@@ -22321,6 +22343,58 @@
 	}(_react2.default.Component);
 	
 	exports.default = SignUp;
+
+/***/ },
+/* 180 */
+/*!************************************!*\
+  !*** ./components/UserProfile.jsx ***!
+  \************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var UserProfile = function (_React$Component) {
+		_inherits(UserProfile, _React$Component);
+	
+		function UserProfile(props) {
+			_classCallCheck(this, UserProfile);
+	
+			return _possibleConstructorReturn(this, (UserProfile.__proto__ || Object.getPrototypeOf(UserProfile)).call(this, props));
+		}
+	
+		_createClass(UserProfile, [{
+			key: 'render',
+			value: function render() {
+				return _react2.default.createElement(
+					'div',
+					null,
+					' User profile page '
+				);
+			}
+		}]);
+	
+		return UserProfile;
+	}(_react2.default.Component);
+	
+	exports.default = UserProfile;
 
 /***/ }
 /******/ ]);

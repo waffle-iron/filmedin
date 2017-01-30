@@ -54,14 +54,15 @@ class SignUp extends React.Component {
 	}
 
 	handleLoginClick(event) {
-		console.log('event: ', event.target);
+		event.preventDefault();
+		this.props.toggleLoggedIn();
 		console.log('expecting username: ', this.state.username);
 		console.log('expecting password: ', this.state.password);
 		console.log('login click');
 	}
 
 	handleSignUpClick(event) {
-		console.log('event: ', event.target.value);
+		event.preventDefault();
 		console.log('expecting firstname: ', this.state.firstname);
 		console.log('expecting lastname: ', this.state.lastname);
 		console.log('expecting dob: ', this.state.dob);
@@ -81,7 +82,7 @@ class SignUp extends React.Component {
 
 				{/*this is the navbar for the signup page*/}
 				<nav className="navbar">
-					<form>
+					<form onSubmit={this.handleLoginClick}>
 						<ul>
 							<li>
 								<label>Username:</label>
@@ -92,7 +93,7 @@ class SignUp extends React.Component {
 								<input type="text" value={this.state.password} onChange={this.handlePasswordChange} placeholder="your password" />
 							</li>
 							<li>
-								<button type="button" onClick={this.handleLoginClick}>Login</button>
+								<button type="submit">Login</button>
 							</li>
 						</ul>
 					</form>
@@ -100,7 +101,7 @@ class SignUp extends React.Component {
 
 			{/*this is the signup form for new users*/}
 				<div className="signup">
-				<form>
+				<form onSubmit={this.handleSignUpClick}>
 					<ul>
 						<li>
 							<label>First name:</label>
@@ -123,7 +124,7 @@ class SignUp extends React.Component {
 							<input type="text" value={this.state.password} onChange={this.handlePasswordChange} placeholder="your password" />
 						</li>
 						<li>
-							<button type="button" onClick={this.handleSignUpClick}>Sign up!</button>
+							<button type="submit">Sign up!</button>
 						</li>
 					</ul>
 				</form>
