@@ -1,6 +1,7 @@
 import React from 'react';
 import SignUp from './SignUp';
 import UserProfile from './UserProfile';
+import FilmProfile from './FilmProfile';
 import exampleVideoData from './exampleVideoData.js'
 
 class App extends React.Component {
@@ -9,27 +10,45 @@ class App extends React.Component {
     this.state = {
     	isLoggedIn: false,
       allFilms: exampleVideoData,
-      allFriends: []
+      allFriends: [],
+      showFilmView: false,
+      clickedFilm: {}
     }
     this.toggleLoggedIn = this.toggleLoggedIn.bind(this)
+    this.handleFilmClick = this.handleFilmClick.bind(this)
   }
 
   toggleLoggedIn() {
   	this.setState({
-  		isLoggedIn: true
+  		isLoggedIn: !this.state.isLoggedIn
   	})
+  }
+
+  handleFilmClick(film) {
+    this.setState({
+      showFilmView: !this.state.showFilmView,
+      clickedFilm: film
+    })
   }
 
 
   render() {
   	
 	  if (this.state.isLoggedIn) {
-	  	return ( 
-        <UserProfile 
-          allFilms={this.state.allFilms} 
-          allFriends={this.state.allFriends}
-        /> 
-      )
+      if (this.state.showFilmView) {
+        return (
+          <FilmProfile film={this.state.clickedFilm}/>
+          )
+      } else {
+  	  	return ( 
+          <UserProfile 
+            handleFilmClick={this.handleFilmClick}
+            toggleLoggedIn={this.toggleLoggedIn}
+            allFilms={this.state.allFilms} 
+            allFriends={this.state.allFriends}
+          /> 
+        )
+      }
 	  } else {
 	    return ( <SignUp toggleLoggedIn={this.toggleLoggedIn} /> )
 	  }

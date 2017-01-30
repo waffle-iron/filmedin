@@ -3,6 +3,7 @@ import React from 'react';
 class NavBar extends React.Component{
 	constructor(props) {
 		super(props);
+
 	}
 
 	render() {
@@ -28,7 +29,7 @@ class NavBar extends React.Component{
 						</form>
 					</li>
 					<li>
-						<a href="#">Logout</a>
+						<a href="#" onClick={this.props.toggleLoggedIn}>Logout</a>
 					</li>
 
 

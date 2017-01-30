@@ -22057,7 +22057,11 @@
 	
 	var _UserProfile2 = _interopRequireDefault(_UserProfile);
 	
-	var _exampleVideoData = __webpack_require__(/*! ./exampleVideoData.js */ 184);
+	var _FilmProfile = __webpack_require__(/*! ./FilmProfile */ 181);
+	
+	var _FilmProfile2 = _interopRequireDefault(_FilmProfile);
+	
+	var _exampleVideoData = __webpack_require__(/*! ./exampleVideoData.js */ 182);
 	
 	var _exampleVideoData2 = _interopRequireDefault(_exampleVideoData);
 	
@@ -22080,9 +22084,12 @@
 	    _this.state = {
 	      isLoggedIn: false,
 	      allFilms: _exampleVideoData2.default,
-	      allFriends: []
+	      allFriends: [],
+	      showFilmView: false,
+	      clickedFilm: {}
 	    };
 	    _this.toggleLoggedIn = _this.toggleLoggedIn.bind(_this);
+	    _this.handleFilmClick = _this.handleFilmClick.bind(_this);
 	    return _this;
 	  }
 	
@@ -22090,7 +22097,15 @@
 	    key: 'toggleLoggedIn',
 	    value: function toggleLoggedIn() {
 	      this.setState({
-	        isLoggedIn: true
+	        isLoggedIn: !this.state.isLoggedIn
+	      });
+	    }
+	  }, {
+	    key: 'handleFilmClick',
+	    value: function handleFilmClick(film) {
+	      this.setState({
+	        showFilmView: !this.state.showFilmView,
+	        clickedFilm: film
 	      });
 	    }
 	  }, {
@@ -22098,10 +22113,16 @@
 	    value: function render() {
 	
 	      if (this.state.isLoggedIn) {
-	        return _react2.default.createElement(_UserProfile2.default, {
-	          allFilms: this.state.allFilms,
-	          allFriends: this.state.allFriends
-	        });
+	        if (this.state.showFilmView) {
+	          return _react2.default.createElement(_FilmProfile2.default, { film: this.state.clickedFilm });
+	        } else {
+	          return _react2.default.createElement(_UserProfile2.default, {
+	            handleFilmClick: this.handleFilmClick,
+	            toggleLoggedIn: this.toggleLoggedIn,
+	            allFilms: this.state.allFilms,
+	            allFriends: this.state.allFriends
+	          });
+	        }
 	      } else {
 	        return _react2.default.createElement(_SignUp2.default, { toggleLoggedIn: this.toggleLoggedIn });
 	      }
@@ -22371,23 +22392,25 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _NavBar = __webpack_require__(/*! ./NavBar */ 181);
+	var _NavBar = __webpack_require__(/*! ./NavBar */ 183);
 	
 	var _NavBar2 = _interopRequireDefault(_NavBar);
 	
-	var _FilmList = __webpack_require__(/*! ./FilmList */ 182);
+	var _FilmList = __webpack_require__(/*! ./FilmList */ 184);
 	
 	var _FilmList2 = _interopRequireDefault(_FilmList);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var UserProfile = function UserProfile(_ref) {
-		var allFilms = _ref.allFilms,
+		var handleFilmClick = _ref.handleFilmClick,
+		    toggleLoggedIn = _ref.toggleLoggedIn,
+		    allFilms = _ref.allFilms,
 		    allFriends = _ref.allFriends;
 		return _react2.default.createElement(
 			'div',
 			null,
-			_react2.default.createElement(_NavBar2.default, null),
+			_react2.default.createElement(_NavBar2.default, { toggleLoggedIn: toggleLoggedIn }),
 			_react2.default.createElement(
 				'h2',
 				null,
@@ -22397,165 +22420,21 @@
 				'div',
 				null,
 				_react2.default.createElement(_FilmList2.default, {
+					handleFilmClick: handleFilmClick,
 					allFilms: allFilms,
 					allFriends: allFriends
 				})
-			),
-			_react2.default.createElement('div', null),
-			_react2.default.createElement('div', null)
+			)
 		);
 	};
-	
-	{/*
-	 class UserProfile extends React.Component {
-	 constructor(props) {
-	 	super(props)
-	 }
-	 	render() {
-	 	return ( 
-	 		<div>
-	 			<NavBar />
-	 			<h2>Welcome [user's first name]!</h2>
-	 			<div>
-	 				[List of all ranked films]
-	 				<FilmList />
-	 			</div>
-	 			<div>
-	 				[List of user's ranked films]
-	 				<FilmList />
-	 			</div>
-	 			<div>
-	 				[List of user's friends]
-	 			</div>
-	 		</div> 
-	 		)
-	 }
-	 }
-	 */}
 	
 	exports.default = UserProfile;
 
 /***/ },
 /* 181 */
-/*!*******************************!*\
-  !*** ./components/NavBar.jsx ***!
-  \*******************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	var _react = __webpack_require__(/*! react */ 1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var NavBar = function (_React$Component) {
-		_inherits(NavBar, _React$Component);
-	
-		function NavBar(props) {
-			_classCallCheck(this, NavBar);
-	
-			return _possibleConstructorReturn(this, (NavBar.__proto__ || Object.getPrototypeOf(NavBar)).call(this, props));
-		}
-	
-		_createClass(NavBar, [{
-			key: "render",
-			value: function render() {
-				return _react2.default.createElement(
-					"div",
-					null,
-					_react2.default.createElement(
-						"h1",
-						null,
-						"FilmedIn"
-					),
-					_react2.default.createElement(
-						"ul",
-						null,
-						_react2.default.createElement(
-							"li",
-							null,
-							_react2.default.createElement(
-								"a",
-								{ href: "#" },
-								"Home"
-							)
-						),
-						_react2.default.createElement(
-							"li",
-							null,
-							_react2.default.createElement(
-								"form",
-								null,
-								_react2.default.createElement(
-									"label",
-									null,
-									"Search Film: "
-								),
-								_react2.default.createElement("input", { type: "text", placeholder: "Film Title" }),
-								_react2.default.createElement(
-									"button",
-									null,
-									"Search"
-								)
-							)
-						),
-						_react2.default.createElement(
-							"li",
-							null,
-							_react2.default.createElement(
-								"form",
-								null,
-								_react2.default.createElement(
-									"label",
-									null,
-									"Search Users: "
-								),
-								_react2.default.createElement("input", { type: "text", placeholder: "Name" }),
-								_react2.default.createElement(
-									"button",
-									null,
-									"Search"
-								)
-							)
-						),
-						_react2.default.createElement(
-							"li",
-							null,
-							_react2.default.createElement(
-								"a",
-								{ href: "#" },
-								"Logout"
-							)
-						)
-					)
-				);
-			}
-		}]);
-	
-		return NavBar;
-	}(_react2.default.Component);
-	
-	exports.default = NavBar;
-
-/***/ },
-/* 182 */
-/*!*********************************!*\
-  !*** ./components/FilmList.jsx ***!
-  \*********************************/
+/*!************************************!*\
+  !*** ./components/FilmProfile.jsx ***!
+  \************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -22568,105 +22447,24 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _FilmEntry = __webpack_require__(/*! ./FilmEntry */ 183);
+	var _NavBar = __webpack_require__(/*! ./NavBar */ 183);
 	
-	var _FilmEntry2 = _interopRequireDefault(_FilmEntry);
+	var _NavBar2 = _interopRequireDefault(_NavBar);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var FilmList = function FilmList(_ref) {
-		var allFilms = _ref.allFilms,
-		    allFriends = _ref.allFriends;
+	var FilmProfile = function FilmProfile() {
 		return _react2.default.createElement(
 			'div',
 			null,
-			console.log('allFilms: ', allFilms),
-			allFilms.map(function (film) {
-				return _react2.default.createElement(_FilmEntry2.default, { film: film });
-			})
+			'Testing film profile!'
 		);
 	};
 	
-	{/*
-	 class FilmList extends React.Component {
-	 constructor(props) {
-	 	super(props);
-	 }
-	 	render() {
-	 	return (
-	 		<div>A list of all film entries
-	 			<FilmEntry />
-	 		</div>
-	 		)
-	 }
-	 }
-	 */}
-	
-	exports.default = FilmList;
+	exports.default = FilmProfile;
 
 /***/ },
-/* 183 */
-/*!**********************************!*\
-  !*** ./components/FilmEntry.jsx ***!
-  \**********************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-	
-	var _react = __webpack_require__(/*! react */ 1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var FilmEntry = function FilmEntry(_ref) {
-		var film = _ref.film;
-		return _react2.default.createElement(
-			"div",
-			null,
-			_react2.default.createElement(
-				"div",
-				null,
-				_react2.default.createElement("img", { src: film.snippet.thumbnails.default.url, alt: "" })
-			),
-			_react2.default.createElement(
-				"div",
-				null,
-				film.snippet.title
-			),
-			_react2.default.createElement(
-				"div",
-				null,
-				film.snippet.description
-			)
-		);
-	};
-	
-	{/*
-	 class FilmEntry extends React.Component {
-	 constructor(props) {
-	 	super(props);
-	 }
-	 	render() {
-	 	return (
-	 		<div>
-	 			<span>A Single Film Entry</span><br />
-	 			<img src="link from get request" /><br />
-	 			<a href="link to film page">Film Title</a>
-	 		</div>
-	 		)
-	 }
-	 }
-	 */}
-	
-	exports.default = FilmEntry;
-
-/***/ },
-/* 184 */
+/* 182 */
 /*!****************************************!*\
   !*** ./components/exampleVideoData.js ***!
   \****************************************/
@@ -22844,6 +22642,211 @@
 	}];
 	
 	exports.default = exampleVideoData;
+
+/***/ },
+/* 183 */
+/*!*******************************!*\
+  !*** ./components/NavBar.jsx ***!
+  \*******************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var NavBar = function (_React$Component) {
+		_inherits(NavBar, _React$Component);
+	
+		function NavBar(props) {
+			_classCallCheck(this, NavBar);
+	
+			return _possibleConstructorReturn(this, (NavBar.__proto__ || Object.getPrototypeOf(NavBar)).call(this, props));
+		}
+	
+		_createClass(NavBar, [{
+			key: "render",
+			value: function render() {
+				return _react2.default.createElement(
+					"div",
+					null,
+					_react2.default.createElement(
+						"h1",
+						null,
+						"FilmedIn"
+					),
+					_react2.default.createElement(
+						"ul",
+						null,
+						_react2.default.createElement(
+							"li",
+							null,
+							_react2.default.createElement(
+								"a",
+								{ href: "#" },
+								"Home"
+							)
+						),
+						_react2.default.createElement(
+							"li",
+							null,
+							_react2.default.createElement(
+								"form",
+								null,
+								_react2.default.createElement(
+									"label",
+									null,
+									"Search Film: "
+								),
+								_react2.default.createElement("input", { type: "text", placeholder: "Film Title" }),
+								_react2.default.createElement(
+									"button",
+									null,
+									"Search"
+								)
+							)
+						),
+						_react2.default.createElement(
+							"li",
+							null,
+							_react2.default.createElement(
+								"form",
+								null,
+								_react2.default.createElement(
+									"label",
+									null,
+									"Search Users: "
+								),
+								_react2.default.createElement("input", { type: "text", placeholder: "Name" }),
+								_react2.default.createElement(
+									"button",
+									null,
+									"Search"
+								)
+							)
+						),
+						_react2.default.createElement(
+							"li",
+							null,
+							_react2.default.createElement(
+								"a",
+								{ href: "#", onClick: this.props.toggleLoggedIn },
+								"Logout"
+							)
+						)
+					)
+				);
+			}
+		}]);
+	
+		return NavBar;
+	}(_react2.default.Component);
+	
+	exports.default = NavBar;
+
+/***/ },
+/* 184 */
+/*!*********************************!*\
+  !*** ./components/FilmList.jsx ***!
+  \*********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _FilmEntry = __webpack_require__(/*! ./FilmEntry */ 185);
+	
+	var _FilmEntry2 = _interopRequireDefault(_FilmEntry);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var FilmList = function FilmList(_ref) {
+		var handleFilmClick = _ref.handleFilmClick,
+		    allFilms = _ref.allFilms,
+		    allFriends = _ref.allFriends;
+		return _react2.default.createElement(
+			'div',
+			null,
+			console.log('allFilms: ', allFilms),
+			allFilms.map(function (film) {
+				return _react2.default.createElement(_FilmEntry2.default, {
+					handleFilmClick: handleFilmClick,
+					film: film
+				});
+			})
+		);
+	};
+	
+	exports.default = FilmList;
+
+/***/ },
+/* 185 */
+/*!**********************************!*\
+  !*** ./components/FilmEntry.jsx ***!
+  \**********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var FilmEntry = function FilmEntry(_ref) {
+	  var handleFilmClick = _ref.handleFilmClick,
+	      film = _ref.film;
+	  return _react2.default.createElement(
+	    "div",
+	    { onClick: function onClick() {
+	        return handleFilmClick(film);
+	      } },
+	    _react2.default.createElement(
+	      "div",
+	      null,
+	      _react2.default.createElement("img", { src: film.snippet.thumbnails.default.url, alt: "" })
+	    ),
+	    _react2.default.createElement(
+	      "div",
+	      null,
+	      film.snippet.title
+	    ),
+	    _react2.default.createElement(
+	      "div",
+	      null,
+	      film.snippet.description
+	    )
+	  );
+	};
+	
+	exports.default = FilmEntry;
 
 /***/ }
 /******/ ]);

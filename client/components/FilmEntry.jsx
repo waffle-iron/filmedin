@@ -1,8 +1,8 @@
 import React from 'react';
 
 
-var FilmEntry = ({film}) => (
-	<div>
+var FilmEntry = ({handleFilmClick, film}) => (
+	<div onClick={() => handleFilmClick(film)}>
     <div>
       <img src={film.snippet.thumbnails.default.url} alt="" />
     </div>
@@ -12,23 +12,5 @@ var FilmEntry = ({film}) => (
 )
 
 
-
-{/*
-class FilmEntry extends React.Component {
-	constructor(props) {
-		super(props);
-	}
-
-	render() {
-		return (
-			<div>
-				<span>A Single Film Entry</span><br />
-				<img src="link from get request" /><br />
-				<a href="link to film page">Film Title</a>
-			</div>
-			)
-	}
-}
-*/}
 
 export default FilmEntry;
