@@ -22057,7 +22057,7 @@
 	
 	var _UserProfile2 = _interopRequireDefault(_UserProfile);
 	
-	var _exampleVideoData = __webpack_require__(/*! ./exampleVideoData.js */ 186);
+	var _exampleVideoData = __webpack_require__(/*! ./exampleVideoData.js */ 184);
 	
 	var _exampleVideoData2 = _interopRequireDefault(_exampleVideoData);
 	
@@ -22375,7 +22375,7 @@
 	
 	var _NavBar2 = _interopRequireDefault(_NavBar);
 	
-	var _FilmList = __webpack_require__(/*! ./FilmList */ 183);
+	var _FilmList = __webpack_require__(/*! ./FilmList */ 182);
 	
 	var _FilmList2 = _interopRequireDefault(_FilmList);
 	
@@ -22552,8 +22552,7 @@
 	exports.default = NavBar;
 
 /***/ },
-/* 182 */,
-/* 183 */
+/* 182 */
 /*!*********************************!*\
   !*** ./components/FilmList.jsx ***!
   \*********************************/
@@ -22569,7 +22568,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _FilmEntry = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./FilmEntry\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	var _FilmEntry = __webpack_require__(/*! ./FilmEntry */ 183);
 	
 	var _FilmEntry2 = _interopRequireDefault(_FilmEntry);
 	
@@ -22606,9 +22605,68 @@
 	exports.default = FilmList;
 
 /***/ },
-/* 184 */,
-/* 185 */,
-/* 186 */
+/* 183 */
+/*!**********************************!*\
+  !*** ./components/FilmEntry.jsx ***!
+  \**********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var FilmEntry = function FilmEntry(_ref) {
+		var film = _ref.film;
+		return _react2.default.createElement(
+			"div",
+			null,
+			_react2.default.createElement(
+				"div",
+				null,
+				_react2.default.createElement("img", { src: film.snippet.thumbnails.default.url, alt: "" })
+			),
+			_react2.default.createElement(
+				"div",
+				null,
+				film.snippet.title
+			),
+			_react2.default.createElement(
+				"div",
+				null,
+				film.snippet.description
+			)
+		);
+	};
+	
+	{/*
+	 class FilmEntry extends React.Component {
+	 constructor(props) {
+	 	super(props);
+	 }
+	 	render() {
+	 	return (
+	 		<div>
+	 			<span>A Single Film Entry</span><br />
+	 			<img src="link from get request" /><br />
+	 			<a href="link to film page">Film Title</a>
+	 		</div>
+	 		)
+	 }
+	 }
+	 */}
+	
+	exports.default = FilmEntry;
+
+/***/ },
+/* 184 */
 /*!****************************************!*\
   !*** ./components/exampleVideoData.js ***!
   \****************************************/

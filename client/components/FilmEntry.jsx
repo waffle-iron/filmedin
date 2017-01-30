@@ -1,7 +1,7 @@
 import React from 'react';
 
 
-var FilmEntry = ({film}) => (t
+var FilmEntry = ({film}) => (
 	<div>
     <div>
       <img src={film.snippet.thumbnails.default.url} alt="" />
