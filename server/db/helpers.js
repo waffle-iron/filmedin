@@ -33,7 +33,7 @@ var dbObj =  {
   },
   friend: {
     get: function (id, cb) {
-      db.query(`SELECT p.firstName as firstName, p.lastName as lastName, p.DOB as DOB FROM friends f inner join profile p on p.id = f.friendID and f.primaryID = ${id}`, cb);
+      db.query(`SELECT p.firstName as firstName, p.lastName as lastName, p.DOB as DOB, p.id as ID FROM friends f inner join profile p on p.id = f.friendID and f.primaryID = ${id}`, cb);
     }
   },
   rating: {
@@ -43,11 +43,13 @@ var dbObj =  {
   },
 
   film: {
-    get: function () {
-
+    get: function (id, cb) {
+      db.query(`SELECT * FROM film where guideBox = ${id}`, cb);
     },
-    post: function (film) {
-      
+    post: function ({guideBox, name, releaseDate, director, actor1, actor2, actor3, actor4, posterURL, runtime, genre}, cb) {
+      console.log(actor1);
+      console.log(actor2);
+      db.query(`INSERT INTO film (guideBox, name, releaseDate, director, actor1, actor2, actor3, actor4, posterURL, runtime, genre) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, [guideBox, name, releaseDate, director, actor1, actor2, actor3, actor4, posterURL, runtime, genre], cb);
     }
   }
 }

@@ -12,8 +12,8 @@ app.post('/signin', auth.signin);
 app.post('/signup', auth.signup);
 
 app.get('/home', routeHelpers.home);
-app.get('/friend', routeHelpers.friend);
-app.get('/film', routeHelpers.film);
+app.get('/profile/:id', routeHelpers.profile);
+app.get('/film/:id', routeHelpers.film);
 app.get('/search/user', routeHelpers.searchUser);
 app.get('/search/film', routeHelpers.searchFilm);
 
