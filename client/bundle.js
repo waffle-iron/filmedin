@@ -22057,6 +22057,10 @@
 	
 	var _UserProfile2 = _interopRequireDefault(_UserProfile);
 	
+	var _exampleVideoData = __webpack_require__(/*! ./exampleVideoData.js */ 186);
+	
+	var _exampleVideoData2 = _interopRequireDefault(_exampleVideoData);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -22075,7 +22079,7 @@
 	
 	    _this.state = {
 	      isLoggedIn: false,
-	      allFilms: [],
+	      allFilms: _exampleVideoData2.default,
 	      allFriends: []
 	    };
 	    _this.toggleLoggedIn = _this.toggleLoggedIn.bind(_this);
@@ -22363,8 +22367,6 @@
 		value: true
 	});
 	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
 	var _react = __webpack_require__(/*! react */ 1);
 	
 	var _react2 = _interopRequireDefault(_react);
@@ -22373,66 +22375,63 @@
 	
 	var _NavBar2 = _interopRequireDefault(_NavBar);
 	
-	var _FilmEntry = __webpack_require__(/*! ./FilmEntry */ 182);
-	
-	var _FilmEntry2 = _interopRequireDefault(_FilmEntry);
-	
 	var _FilmList = __webpack_require__(/*! ./FilmList */ 183);
 	
 	var _FilmList2 = _interopRequireDefault(_FilmList);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	var UserProfile = function UserProfile(_ref) {
+		var allFilms = _ref.allFilms,
+		    allFriends = _ref.allFriends;
+		return _react2.default.createElement(
+			'div',
+			null,
+			_react2.default.createElement(_NavBar2.default, null),
+			_react2.default.createElement(
+				'h2',
+				null,
+				'Welcome [user\'s first name]!'
+			),
+			_react2.default.createElement(
+				'div',
+				null,
+				_react2.default.createElement(_FilmList2.default, {
+					allFilms: allFilms,
+					allFriends: allFriends
+				})
+			),
+			_react2.default.createElement('div', null),
+			_react2.default.createElement('div', null)
+		);
+	};
 	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var UserProfile = function (_React$Component) {
-		_inherits(UserProfile, _React$Component);
-	
-		function UserProfile(props) {
-			_classCallCheck(this, UserProfile);
-	
-			return _possibleConstructorReturn(this, (UserProfile.__proto__ || Object.getPrototypeOf(UserProfile)).call(this, props));
-		}
-	
-		_createClass(UserProfile, [{
-			key: 'render',
-			value: function render() {
-				return _react2.default.createElement(
-					'div',
-					null,
-					_react2.default.createElement(_NavBar2.default, null),
-					_react2.default.createElement(
-						'h2',
-						null,
-						'Welcome [user\'s first name]!'
-					),
-					_react2.default.createElement(
-						'div',
-						null,
-						'[List of all ranked films]',
-						_react2.default.createElement(_FilmList2.default, null)
-					),
-					_react2.default.createElement(
-						'div',
-						null,
-						'[List of user\'s ranked films]',
-						_react2.default.createElement(_FilmList2.default, null)
-					),
-					_react2.default.createElement(
-						'div',
-						null,
-						'[List of user\'s friends]'
-					)
-				);
-			}
-		}]);
-	
-		return UserProfile;
-	}(_react2.default.Component);
+	{/*
+	 class UserProfile extends React.Component {
+	 constructor(props) {
+	 	super(props)
+	 }
+	 	render() {
+	 	return ( 
+	 		<div>
+	 			<NavBar />
+	 			<h2>Welcome [user's first name]!</h2>
+	 			<div>
+	 				[List of all ranked films]
+	 				<FilmList />
+	 			</div>
+	 			<div>
+	 				[List of user's ranked films]
+	 				<FilmList />
+	 			</div>
+	 			<div>
+	 				[List of user's friends]
+	 			</div>
+	 		</div> 
+	 		)
+	 }
+	 }
+	 */}
 	
 	exports.default = UserProfile;
 
@@ -22565,54 +22564,51 @@
 		value: true
 	});
 	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
 	var _react = __webpack_require__(/*! react */ 1);
 	
 	var _react2 = _interopRequireDefault(_react);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	var FilmEntry = function FilmEntry(_ref) {
+		var film = _ref.film;
+		return _react2.default.createElement(
+			"div",
+			null,
+			_react2.default.createElement(
+				"div",
+				null,
+				_react2.default.createElement("img", { src: film.snippet.thumbnails.default.url, alt: "" })
+			),
+			_react2.default.createElement(
+				"div",
+				null,
+				film.snippet.title
+			),
+			_react2.default.createElement(
+				"div",
+				null,
+				film.snippet.description
+			)
+		);
+	};
 	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var FilmEntry = function (_React$Component) {
-		_inherits(FilmEntry, _React$Component);
-	
-		function FilmEntry(props) {
-			_classCallCheck(this, FilmEntry);
-	
-			return _possibleConstructorReturn(this, (FilmEntry.__proto__ || Object.getPrototypeOf(FilmEntry)).call(this, props));
-		}
-	
-		_createClass(FilmEntry, [{
-			key: "render",
-			value: function render() {
-				return _react2.default.createElement(
-					"div",
-					null,
-					_react2.default.createElement(
-						"span",
-						null,
-						"A Single Film Entry"
-					),
-					_react2.default.createElement("br", null),
-					_react2.default.createElement("img", { src: "link from get request" }),
-					_react2.default.createElement("br", null),
-					_react2.default.createElement(
-						"a",
-						{ href: "link to film page" },
-						"Film Title"
-					)
-				);
-			}
-		}]);
-	
-		return FilmEntry;
-	}(_react2.default.Component);
+	{/*
+	 class FilmEntry extends React.Component {
+	 constructor(props) {
+	 	super(props);
+	 }
+	 	render() {
+	 	return (
+	 		<div>
+	 			<span>A Single Film Entry</span><br />
+	 			<img src="link from get request" /><br />
+	 			<a href="link to film page">Film Title</a>
+	 		</div>
+	 		)
+	 }
+	 }
+	 */}
 	
 	exports.default = FilmEntry;
 
@@ -22629,8 +22625,6 @@
 		value: true
 	});
 	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
 	var _react = __webpack_require__(/*! react */ 1);
 	
 	var _react2 = _interopRequireDefault(_react);
@@ -22641,37 +22635,217 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	var FilmList = function FilmList(_ref) {
+		var allFilms = _ref.allFilms,
+		    allFriends = _ref.allFriends;
+		return _react2.default.createElement(
+			'div',
+			null,
+			console.log('allFilms: ', allFilms),
+			allFilms.map(function (film) {
+				return _react2.default.createElement(_FilmEntry2.default, { film: film });
+			})
+		);
+	};
 	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var FilmList = function (_React$Component) {
-		_inherits(FilmList, _React$Component);
-	
-		function FilmList(props) {
-			_classCallCheck(this, FilmList);
-	
-			return _possibleConstructorReturn(this, (FilmList.__proto__ || Object.getPrototypeOf(FilmList)).call(this, props));
-		}
-	
-		_createClass(FilmList, [{
-			key: 'render',
-			value: function render() {
-				return _react2.default.createElement(
-					'div',
-					null,
-					'A list of all film entries',
-					_react2.default.createElement(_FilmEntry2.default, null)
-				);
-			}
-		}]);
-	
-		return FilmList;
-	}(_react2.default.Component);
+	{/*
+	 class FilmList extends React.Component {
+	 constructor(props) {
+	 	super(props);
+	 }
+	 	render() {
+	 	return (
+	 		<div>A list of all film entries
+	 			<FilmEntry />
+	 		</div>
+	 		)
+	 }
+	 }
+	 */}
 	
 	exports.default = FilmList;
+
+/***/ },
+/* 184 */,
+/* 185 */,
+/* 186 */
+/*!****************************************!*\
+  !*** ./components/exampleVideoData.js ***!
+  \****************************************/
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	// import React from 'react';
+	// DO NOT EDIT THIS FILE
+	// This is an example response from the YouTube Search API
+	// when searching with the query 'react tutorial'
+	var exampleVideoData = [{
+	  kind: 'youtube#searchResult',
+	  etag: 'abQHWywil_AkNqdqji7_FqiK-u4/Ykxo_CqKu8F8kcm-iNgL332gQTY',
+	  id: {
+	    kind: 'youtube#video',
+	    videoId: '4ZAEBxGipoA'
+	  },
+	  snippet: {
+	    publishedAt: '2015-08-02T20:52:58.000Z',
+	    channelId: 'UCJbPGzawDH1njbqV-D5HqKw',
+	    title: 'React JS Tutorial for Beginners - 1 - Introduction',
+	    description: 'My website - https://www.thenewboston.com/videos.php Have questions about the tutorial or React? Ask them here ...',
+	    thumbnails: {
+	      default: {
+	        url: 'https://i.ytimg.com/vi/4ZAEBxGipoA/default.jpg',
+	        width: 120,
+	        height: 90
+	      },
+	      medium: {
+	        url: 'https://i.ytimg.com/vi/4ZAEBxGipoA/mqdefault.jpg',
+	        width: 320,
+	        height: 180
+	      },
+	      high: {
+	        url: 'https://i.ytimg.com/vi/4ZAEBxGipoA/hqdefault.jpg',
+	        width: 480,
+	        height: 360
+	      }
+	    },
+	    channelTitle: 'thenewboston',
+	    liveBroadcastContent: 'none'
+	  }
+	}, {
+	  kind: 'youtube#searchResult',
+	  etag: 'abQHWywil_AkNqdqji7_FqiK-u4/tS3xe6KXEJbntCAmn01SmEuSYxg',
+	  id: {
+	    kind: 'youtube#video',
+	    videoId: 'mFEoarLnnqM'
+	  },
+	  snippet: {
+	    publishedAt: '2014-08-08T21:31:58.000Z',
+	    channelId: 'UCKKQaFUwyPb6iC-42rFRz2Q',
+	    title: 'Thinking in React, a step by step screencast tutorial',
+	    description: 'A step by step video tutorial that takes you through the correct way of coding Facebook React views. Check out the rest of the tagtree library: http://tagtree.tv.',
+	    thumbnails: {
+	      default: {
+	        url: 'https://i.ytimg.com/vi/mFEoarLnnqM/default.jpg',
+	        width: 120,
+	        height: 90
+	      },
+	      medium: {
+	        url: 'https://i.ytimg.com/vi/mFEoarLnnqM/mqdefault.jpg',
+	        width: 320,
+	        height: 180
+	      },
+	      high: {
+	        url: 'https://i.ytimg.com/vi/mFEoarLnnqM/hqdefault.jpg',
+	        width: 480,
+	        height: 360
+	      }
+	    },
+	    channelTitle: '',
+	    liveBroadcastContent: 'none'
+	  }
+	}, {
+	  kind: 'youtube#searchResult',
+	  etag: 'abQHWywil_AkNqdqji7_FqiK-u4/FZYrgJg7qfkv0yfImJPujBKBmLk',
+	  id: {
+	    kind: 'youtube#video',
+	    videoId: '0ByoQm-vnYw'
+	  },
+	  snippet: {
+	    publishedAt: '2015-12-08T20:51:18.000Z',
+	    channelId: 'UClLXKYEEM8OBBx85DOa6-cg',
+	    title: 'React Tutorial for Beginners',
+	    description: 'Get the full course here: http://devslopes.com/react In this video you will learn how to setup your project for React development and you will build a simple React ...',
+	    thumbnails: {
+	      default: {
+	        url: 'https://i.ytimg.com/vi/0ByoQm-vnYw/default.jpg',
+	        width: 120,
+	        height: 90
+	      },
+	      medium: {
+	        url: 'https://i.ytimg.com/vi/0ByoQm-vnYw/mqdefault.jpg',
+	        width: 320,
+	        height: 180
+	      },
+	      high: {
+	        url: 'https://i.ytimg.com/vi/0ByoQm-vnYw/hqdefault.jpg',
+	        width: 480,
+	        height: 360
+	      }
+	    },
+	    channelTitle: '',
+	    liveBroadcastContent: 'none'
+	  }
+	}, {
+	  kind: 'youtube#searchResult',
+	  etag: 'abQHWywil_AkNqdqji7_FqiK-u4/nSaavPWVkTWpn2p-ClwNj7xszf8',
+	  id: {
+	    kind: 'youtube#video',
+	    videoId: 'o5E894TmHJg'
+	  },
+	  snippet: {
+	    publishedAt: '2015-03-09T08:19:59.000Z',
+	    channelId: 'UCMYct3vtNaMwZAA3_DNsWMw',
+	    title: 'Flux Tutorial - Writing a Simple App in Flux and React',
+	    description: 'Hey! Write something in the comments, even if it\'s critical. I\'d love to hear feedback! (also, please thumbs-up if you like the vid, and I\'ll make more). Personally I ...',
+	    thumbnails: {
+	      default: {
+	        url: 'https://i.ytimg.com/vi/o5E894TmHJg/default.jpg',
+	        width: 120,
+	        height: 90
+	      },
+	      medium: {
+	        url: 'https://i.ytimg.com/vi/o5E894TmHJg/mqdefault.jpg',
+	        width: 320,
+	        height: 180
+	      },
+	      high: {
+	        url: 'https://i.ytimg.com/vi/o5E894TmHJg/hqdefault.jpg',
+	        width: 480,
+	        height: 360
+	      }
+	    },
+	    channelTitle: 'bengrunfeld',
+	    liveBroadcastContent: 'none'
+	  }
+	}, {
+	  kind: 'youtube#searchResult',
+	  etag: 'abQHWywil_AkNqdqji7_FqiK-u4/3E7u1VZ18KYyfLIA6RgI2w-7nRI',
+	  id: {
+	    kind: 'youtube#video',
+	    videoId: 'Pd6Ub7Ju2RM'
+	  },
+	  snippet: {
+	    publishedAt: '2015-02-13T18:50:38.000Z',
+	    channelId: 'UCr5lOCcjZzNprLrhxO0WZQw',
+	    title: 'Learn React, Flux, and Flow: Part I',
+	    description: 'Brought to you by Formidable Labs and SeattleJS, Colin Megill walks us through Facebook\'s React framework in part one of this three-part series. The workshop ...',
+	    thumbnails: {
+	      default: {
+	        url: 'https://i.ytimg.com/vi/Pd6Ub7Ju2RM/default.jpg',
+	        width: 120,
+	        height: 90
+	      },
+	      medium: {
+	        url: 'https://i.ytimg.com/vi/Pd6Ub7Ju2RM/mqdefault.jpg',
+	        width: 320,
+	        height: 180
+	      },
+	      high: {
+	        url: 'https://i.ytimg.com/vi/Pd6Ub7Ju2RM/hqdefault.jpg',
+	        width: 480,
+	        height: 360
+	      }
+	    },
+	    channelTitle: '',
+	    liveBroadcastContent: 'none'
+	  }
+	}];
+	
+	exports.default = exampleVideoData;
 
 /***/ }
 /******/ ]);

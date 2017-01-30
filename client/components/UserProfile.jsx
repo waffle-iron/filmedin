@@ -1,15 +1,30 @@
 import React from 'react';
 import NavBar from './NavBar';
-import FilmEntry from './FilmEntry';
 import FilmList from './FilmList';
 
+
+var UserProfile = ({allFilms, allFriends}) => (
+	<div>
+		<NavBar />
+				<h2>Welcome [user's first name]!</h2>
+				<div>
+					<FilmList 
+						allFilms={allFilms} 
+	          allFriends={allFriends}
+					/>
+				</div>
+				<div>
+				</div>
+				<div>
+				</div>
+	</div>
+	)
+
+
+{/*
 class UserProfile extends React.Component {
 	constructor(props) {
 		super(props)
-		
-
-
-
 	}
 
 	render() {
@@ -31,7 +46,7 @@ class UserProfile extends React.Component {
 			</div> 
 			)
 	}
-
 }
+*/}
 
 export default UserProfile;

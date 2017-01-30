@@ -1,6 +1,17 @@
 import React from 'react';
 import FilmEntry from './FilmEntry';
 
+
+var FilmList = ({allFilms, allFriends}) => (
+	<div>
+		{console.log('allFilms: ', allFilms)}
+		{allFilms.map(film => 
+			<FilmEntry film={film} />
+		)}
+	</div>
+)
+
+{/*
 class FilmList extends React.Component {
 	constructor(props) {
 		super(props);
@@ -14,5 +25,6 @@ class FilmList extends React.Component {
 			)
 	}
 }
+*/}
 
 export default FilmList;

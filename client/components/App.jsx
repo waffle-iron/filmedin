@@ -1,13 +1,14 @@
 import React from 'react';
 import SignUp from './SignUp';
 import UserProfile from './UserProfile';
+import exampleVideoData from './exampleVideoData.js'
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
     	isLoggedIn: false,
-      allFilms: [],
+      allFilms: exampleVideoData,
       allFriends: []
     }
     this.toggleLoggedIn = this.toggleLoggedIn.bind(this)
