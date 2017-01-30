@@ -12,3 +12,10 @@ li {
 	display: block;
 	width: 300px;
 }
+
+div {
+	border-width: 1px;
+	border-style: solid;
+	margin: 5px 5px 5px 5px;
+	padding: 5px 5px 5px 5px;
+}
