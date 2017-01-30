@@ -5,46 +5,45 @@ var qs = require('querystring');
 
 module.exports = {
   home: function (req, res, next) {
-    auth.checkAuth(req, function (user) {
+    auth.checkAuth(req, user => {
       if (user !== null) {
-        db.profile.getByUserID(user.id, function (err, rows) {
+        db.profile.getByUserID(user.id, (err, rows) => {
           var profile = rows[0];
-          db.friend.get(profile.id, function (err, rows) {
+          db.friend.get(profile.id, (err, rows) => {
             profile.friends = rows;
-            db.rating.get(profile.id, function (err, rows) {
+            db.rating.get(profile.id, (err, rows) => {
               profile.ratings = rows;
               res.send(JSON.stringify(profile));
             });
           });
         });
+      } else {
+        next(new Error('Invalid credentials'));
       }
-      
     });
-
   },
   profile: function (req, res, next) {
-    auth.checkAuth(req, function (user) {
+    auth.checkAuth(req, user => {
       if (user !== null) {
-        db.profile.get(req.params.id, function (err, rows) {
+        db.profile.get(req.params.id, (err, rows) => {
           var profile = rows[0];
-          db.friend.get(profile.id, function (err, rows) {
+          db.friend.get(profile.id, (err, rows) => {
           profile.friends = rows;
-            db.rating.get(profile.id, function (err, rows) {
+            db.rating.get(profile.id, (err, rows) => {
               profile.ratings = rows;
               res.send(JSON.stringify(profile));
             });
           });
         });
-      }
-      
+      } else {
+        next(new Error('Invalid credentials'));
+      }   
     });
-    
   },
   film: function (req, res, next) {
-    auth.checkAuth(req, function (user) {
-
+    auth.checkAuth(req, user => {
       if (user !== null) {
-        db.film.get(req.params.id, function (err, rows) {
+        db.film.get(req.params.id, (err, rows) => {
           if (rows.length !== 0) {
             res.send(JSON.stringify(rows[0]));
           } else {
@@ -64,8 +63,7 @@ module.exports = {
               film.runtime = (movie.duration / 60) + ' mins.';
               film.genre = movie.genres.map(genre => genre.title).join(' ');
               // console.log(film);
-              db.film.post(film, function (err, rows) {
-                console.log(err);
+              db.film.post(film, (err, rows) => {
                 film.id = rows.insertId;
                 res.send(JSON.stringify(film));
               })
@@ -73,20 +71,35 @@ module.exports = {
 
           }
         })
+      } else {
+        next(new Error('Invalid credentials'));
       }
     });
 
   },
-  addFriend: function (req, res, next) {
-    auth.checkAuth(req, function(user) {
+  feed: function(req, res, next) {
+    auth.checkAuth(req, user => {
       if (user !== null) {
-        db.profile.getByUserID(user.id, function (err, rows) { 
-          db.friend.exists(rows[0].id, req.body.friendID, function (err, exists) {
+        db.profile.getByUserID(user.id, (err, rows) => {
+          db.rating.getFeed(rows[0].id, (err, rows) => {
+            res.send(JSON.stringify(rows));
+          });
+        });
+      } else {
+        next(new Error('Invalid credentials'));
+      }
+    })
+  },
+  addFriend: function (req, res, next) {
+    auth.checkAuth(req, user => {
+      if (user !== null) {
+        db.profile.getByUserID(user.id, (err, rows) => { 
+          db.friend.exists(rows[0].id, req.body.friendID, (err, exists) => {
             if (exists.length > 0) {
               res.end();
             } else {
-              db.friend.post(rows[0].id, req.body.friendID, function (err, rows2) {
-                db.friend.post(req.body.friendID, rows[0].id, function(err, rows3) {
+              db.friend.post(rows[0].id, req.body.friendID, (err, rows2) => {
+                db.friend.post(req.body.friendID, rows[0].id, (err, rows3) => {
                   res.end();
                 });
               });
@@ -94,45 +107,53 @@ module.exports = {
           })
           
         });
+      } else {
+        next(new Error('Invalid credentials'));
       }
     });
   },
   addRating: function (req, res, next) {
-    auth.checkAuth(req, function(user) {
+    auth.checkAuth(req, user  => {
       if (user !== null) {
-        db.profile.getByUserID(user.id, function (err, rows) { 
+        db.profile.getByUserID(user.id, err, rows  => { 
           req.body.profileID = rows[0].id;
-          db.rating.exists(req.body, function (err, exists) {
+          db.rating.exists(req.body, (err, exists) => {
             if (exists.length > 0) {
-              db.rating.update(req.body, function (err, rows) {
+              db.rating.update(req.body, (err, rows) => {
                 res.end();
               });
             } else {
-              db.rating.post(req.body, function (err, rows) {
+              db.rating.post(req.body, (err, rows) => {
                 res.end();
               });
             }
           })
 
         });
+      } else {
+        next(new Error('Invalid credentials'));
       }
     });
   },
   searchUser: function (req, res, next) {
-    auth.checkAuth(req, function(user) {
+    auth.checkAuth(req, user => {
       if (user !== null) {
-        db.profile.search(req.params.search, function (err, rows) {
+        db.profile.search(req.params.search, (err, rows) => {
           res.send(rows);
         });
+      } else {
+        next(new Error('Invalid credentials'));
       }
     });
   },
   searchFilm: function (req, res, next) {
-    auth.checkAuth(req, function(user) {
+    auth.checkAuth(req, user => {
       if (user !== null) {
-        gb.search(qs.parse(req.params.search), function (err, body) {
+        gb.search(qs.parse(req.params.search), (err, body) => {
           res.send(JSON.parse(body.body).results);
         });
+      } else {
+        next(new Error('Invalid credentials'));
       }
     });
   }
