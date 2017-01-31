@@ -22061,6 +22061,10 @@
 	
 	var _FilmProfile2 = _interopRequireDefault(_FilmProfile);
 	
+	var _UserProfile = __webpack_require__(/*! ./UserProfile */ 189);
+	
+	var _UserProfile2 = _interopRequireDefault(_UserProfile);
+	
 	var _exampleVideoData = __webpack_require__(/*! ./exampleVideoData */ 185);
 	
 	var _exampleVideoData2 = _interopRequireDefault(_exampleVideoData);
@@ -22090,11 +22094,13 @@
 	      allFilms: _exampleVideoData2.default,
 	      allFriends: _exampleFriendData2.default,
 	      clickedFilm: {},
+	      clickedUser: {},
 	      view: ''
 	    };
 	    _this.toggleLoggedIn = _this.toggleLoggedIn.bind(_this);
 	    _this.handleFilmClick = _this.handleFilmClick.bind(_this);
 	    _this.handleHomeClick = _this.handleHomeClick.bind(_this);
+	    _this.handleUserClick = _this.handleUserClick.bind(_this);
 	    return _this;
 	  }
 	
@@ -22104,6 +22110,15 @@
 	      this.setState({
 	        isLoggedIn: !this.state.isLoggedIn,
 	        view: 'showUserHomeView'
+	      });
+	    }
+	  }, {
+	    key: 'handleUserClick',
+	    value: function handleUserClick(user) {
+	      console.log('current user: ', user);
+	      this.setState({
+	        view: 'showUserView',
+	        clickedUser: user
 	      });
 	    }
 	  }, {
@@ -22129,6 +22144,7 @@
 	        if (this.state.view === 'showFilmView') {
 	          return _react2.default.createElement(_FilmProfile2.default, {
 	            handleHomeClick: this.handleHomeClick,
+	            handleUserClick: this.handleUserClick,
 	            toggleLoggedIn: this.toggleLoggedIn,
 	            film: this.state.clickedFilm
 	          });
@@ -22136,9 +22152,18 @@
 	          return _react2.default.createElement(_UserHome2.default, {
 	            handleHomeClick: this.handleHomeClick,
 	            handleFilmClick: this.handleFilmClick,
+	            handleUserClick: this.handleUserClick,
 	            toggleLoggedIn: this.toggleLoggedIn,
 	            allFilms: this.state.allFilms,
 	            allFriends: this.state.allFriends
+	          });
+	        } else if (this.state.view === 'showUserView') {
+	          return _react2.default.createElement(_UserProfile2.default, {
+	            handleHomeClick: this.handleHomeClick,
+	            toggleLoggedIn: this.toggleLoggedIn,
+	            handleFilmClick: this.handleFilmClick,
+	            handleUserClick: this.handleUserClick,
+	            user: this.state.clickedUser
 	          });
 	        }
 	      } else {
@@ -22266,15 +22291,15 @@
 			value: function render() {
 				return _react2.default.createElement(
 					'div',
-					null,
+					{ className: 'signup' },
 					_react2.default.createElement(
-						'h1',
-						null,
-						'FilmedIn'
-					),
-					_react2.default.createElement(
-						'nav',
+						'div',
 						{ className: 'navbar' },
+						_react2.default.createElement(
+							'h1',
+							null,
+							'FilmedIn'
+						),
 						_react2.default.createElement(
 							'form',
 							{ onSubmit: this.handleLoginClick },
@@ -22418,17 +22443,22 @@
 	
 	var _FilmList2 = _interopRequireDefault(_FilmList);
 	
+	var _UserList = __webpack_require__(/*! ./UserList */ 187);
+	
+	var _UserList2 = _interopRequireDefault(_UserList);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var UserHome = function UserHome(_ref) {
 		var handleFilmClick = _ref.handleFilmClick,
 		    handleHomeClick = _ref.handleHomeClick,
+		    handleUserClick = _ref.handleUserClick,
 		    toggleLoggedIn = _ref.toggleLoggedIn,
 		    allFilms = _ref.allFilms,
 		    allFriends = _ref.allFriends;
 		return _react2.default.createElement(
 			'div',
-			null,
+			{ className: 'user-home' },
 			_react2.default.createElement(_NavBar2.default, {
 				handleHomeClick: handleHomeClick,
 				toggleLoggedIn: toggleLoggedIn
@@ -22446,7 +22476,14 @@
 					allFilms: allFilms
 				})
 			),
-			_react2.default.createElement('div', null)
+			_react2.default.createElement(
+				'div',
+				null,
+				_react2.default.createElement(_UserList2.default, {
+					handleUserClick: handleUserClick,
+					allFriends: allFriends
+				})
+			)
 		);
 	};
 	
@@ -22493,7 +22530,7 @@
 			value: function render() {
 				return _react2.default.createElement(
 					"div",
-					null,
+					{ className: "navbar" },
 					_react2.default.createElement(
 						"h1",
 						null,
@@ -22525,7 +22562,7 @@
 								_react2.default.createElement("input", { type: "text", placeholder: "Film Title" }),
 								_react2.default.createElement(
 									"button",
-									null,
+									{ type: "submit" },
 									"Search"
 								)
 							)
@@ -22544,7 +22581,7 @@
 								_react2.default.createElement("input", { type: "text", placeholder: "Name" }),
 								_react2.default.createElement(
 									"button",
-									null,
+									{ type: "submit" },
 									"Search"
 								)
 							)
@@ -22593,11 +22630,10 @@
 	
 	var FilmList = function FilmList(_ref) {
 		var handleFilmClick = _ref.handleFilmClick,
-		    allFilms = _ref.allFilms,
-		    allFriends = _ref.allFriends;
+		    allFilms = _ref.allFilms;
 		return _react2.default.createElement(
 			'div',
-			null,
+			{ className: 'film-list' },
 			console.log('allFilms: ', allFilms),
 			allFilms.map(function (film) {
 				return _react2.default.createElement(_FilmEntry2.default, {
@@ -22634,7 +22670,7 @@
 	      film = _ref.film;
 	  return _react2.default.createElement(
 	    "div",
-	    { onClick: function onClick() {
+	    { className: "film-entry", onClick: function onClick() {
 	        return handleFilmClick(film);
 	      } },
 	    _react2.default.createElement(
@@ -22686,7 +22722,7 @@
 		    toggleLoggedIn = _ref.toggleLoggedIn;
 		return _react2.default.createElement(
 			'div',
-			null,
+			{ className: 'film-profile' },
 			_react2.default.createElement(_NavBar2.default, {
 				handleHomeClick: handleHomeClick,
 				toggleLoggedIn: toggleLoggedIn
@@ -22752,7 +22788,7 @@
 	  snippet: {
 	    publishedAt: '2015-08-02T20:52:58.000Z',
 	    channelId: 'UCJbPGzawDH1njbqV-D5HqKw',
-	    title: 'React JS Tutorial for Beginners - 1 - Introduction',
+	    title: 'Film 1',
 	    description: 'My website - https://www.thenewboston.com/videos.php Have questions about the tutorial or React? Ask them here ...',
 	    thumbnails: {
 	      default: {
@@ -22785,7 +22821,7 @@
 	  snippet: {
 	    publishedAt: '2014-08-08T21:31:58.000Z',
 	    channelId: 'UCKKQaFUwyPb6iC-42rFRz2Q',
-	    title: 'Thinking in React, a step by step screencast tutorial',
+	    title: 'Film 2',
 	    description: 'A step by step video tutorial that takes you through the correct way of coding Facebook React views. Check out the rest of the tagtree library: http://tagtree.tv.',
 	    thumbnails: {
 	      default: {
@@ -22818,7 +22854,7 @@
 	  snippet: {
 	    publishedAt: '2015-12-08T20:51:18.000Z',
 	    channelId: 'UClLXKYEEM8OBBx85DOa6-cg',
-	    title: 'React Tutorial for Beginners',
+	    title: 'Film 3',
 	    description: 'Get the full course here: http://devslopes.com/react In this video you will learn how to setup your project for React development and you will build a simple React ...',
 	    thumbnails: {
 	      default: {
@@ -22851,7 +22887,7 @@
 	  snippet: {
 	    publishedAt: '2015-03-09T08:19:59.000Z',
 	    channelId: 'UCMYct3vtNaMwZAA3_DNsWMw',
-	    title: 'Flux Tutorial - Writing a Simple App in Flux and React',
+	    title: 'Film 4',
 	    description: 'Hey! Write something in the comments, even if it\'s critical. I\'d love to hear feedback! (also, please thumbs-up if you like the vid, and I\'ll make more). Personally I ...',
 	    thumbnails: {
 	      default: {
@@ -22884,7 +22920,7 @@
 	  snippet: {
 	    publishedAt: '2015-02-13T18:50:38.000Z',
 	    channelId: 'UCr5lOCcjZzNprLrhxO0WZQw',
-	    title: 'Learn React, Flux, and Flow: Part I',
+	    title: 'Film 5',
 	    description: 'Brought to you by Formidable Labs and SeattleJS, Colin Megill walks us through Facebook\'s React framework in part one of this three-part series. The workshop ...',
 	    thumbnails: {
 	      default: {
@@ -22929,25 +22965,231 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var exampleFriendData = [{ firstname: 'Jasmine',
+	var exampleFriendData = [{
+		firstname: 'Jasmine',
 		lastname: 'Mina',
 		username: 'jMina',
-		films: _exampleVideoData2.default
-	}, { firstname: 'Nick',
+		films: _exampleVideoData2.default,
+		friends: [{ firstname: 'Nick',
+			lastname: 'Cobbett',
+			username: 'nickC',
+			films: _exampleVideoData2.default
+		}, { firstname: 'Sai',
+			lastname: 'Vickna',
+			username: 'saiClops',
+			films: _exampleVideoData2.default
+		}, { firstname: 'Jimothy',
+			lastname: 'Zhang',
+			username: 'jayZ',
+			films: _exampleVideoData2.default
+		}]
+	}, {
+		firstname: 'Nick',
 		lastname: 'Cobbett',
 		username: 'nickC',
-		films: _exampleVideoData2.default
-	}, { firstname: 'Sai',
+		films: _exampleVideoData2.default,
+		friends: [{ firstname: 'Jasmine',
+			lastname: 'Mina',
+			username: 'jMina',
+			films: _exampleVideoData2.default
+		}, { firstname: 'Sai',
+			lastname: 'Vickna',
+			username: 'saiClops',
+			films: _exampleVideoData2.default
+		}, { firstname: 'Jimothy',
+			lastname: 'Zhang',
+			username: 'jayZ',
+			films: _exampleVideoData2.default
+		}]
+	}, {
+		firstname: 'Sai',
 		lastname: 'Vickna',
 		username: 'saiClops',
-		films: _exampleVideoData2.default
-	}, { firstname: 'Jimothy',
+		films: _exampleVideoData2.default,
+		friends: [{ firstname: 'Jasmine',
+			lastname: 'Mina',
+			username: 'jMina',
+			films: _exampleVideoData2.default
+		}, { firstname: 'Nick',
+			lastname: 'Cobbett',
+			username: 'nickC',
+			films: _exampleVideoData2.default
+		}, { firstname: 'Jimothy',
+			lastname: 'Zhang',
+			username: 'jayZ',
+			films: _exampleVideoData2.default
+		}]
+	}, {
+		firstname: 'Jimothy',
 		lastname: 'Zhang',
 		username: 'jayZ',
-		films: _exampleVideoData2.default
+		films: _exampleVideoData2.default,
+		friends: [{ firstname: 'Jasmine',
+			lastname: 'Mina',
+			username: 'jMina',
+			films: _exampleVideoData2.default
+		}, { firstname: 'Nick',
+			lastname: 'Cobbett',
+			username: 'nickC',
+			films: _exampleVideoData2.default
+		}, { firstname: 'Sai',
+			lastname: 'Vickna',
+			username: 'saiClops',
+			films: _exampleVideoData2.default
+		}]
 	}];
 	
 	exports.default = exampleFriendData;
+
+/***/ },
+/* 187 */
+/*!*********************************!*\
+  !*** ./components/UserList.jsx ***!
+  \*********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _UserEntry = __webpack_require__(/*! ./UserEntry */ 188);
+	
+	var _UserEntry2 = _interopRequireDefault(_UserEntry);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var UserList = function UserList(_ref) {
+		var handleUserClick = _ref.handleUserClick,
+		    allFriends = _ref.allFriends;
+		return _react2.default.createElement(
+			'div',
+			{ className: 'user-list' },
+			console.log('allFriends: ', allFriends),
+			allFriends.map(function (user) {
+				return _react2.default.createElement(_UserEntry2.default, {
+					handleUserClick: handleUserClick,
+					user: user
+				});
+			})
+		);
+	};
+	
+	exports.default = UserList;
+
+/***/ },
+/* 188 */
+/*!**********************************!*\
+  !*** ./components/UserEntry.jsx ***!
+  \**********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var UserEntry = function UserEntry(_ref) {
+	  var handleUserClick = _ref.handleUserClick,
+	      user = _ref.user;
+	  return _react2.default.createElement(
+	    "div",
+	    { className: "user-entry", onClick: function onClick() {
+	        return handleUserClick(user);
+	      } },
+	    _react2.default.createElement(
+	      "div",
+	      null,
+	      user.firstname,
+	      " ",
+	      user.lastname
+	    ),
+	    _react2.default.createElement(
+	      "div",
+	      null,
+	      "Username: ",
+	      user.username
+	    )
+	  );
+	};
+	
+	exports.default = UserEntry;
+
+/***/ },
+/* 189 */
+/*!************************************!*\
+  !*** ./components/UserProfile.jsx ***!
+  \************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _NavBar = __webpack_require__(/*! ./NavBar */ 181);
+	
+	var _NavBar2 = _interopRequireDefault(_NavBar);
+	
+	var _FilmList = __webpack_require__(/*! ./FilmList */ 182);
+	
+	var _FilmList2 = _interopRequireDefault(_FilmList);
+	
+	var _UserList = __webpack_require__(/*! ./UserList */ 187);
+	
+	var _UserList2 = _interopRequireDefault(_UserList);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var UserProfile = function UserProfile(_ref) {
+		var user = _ref.user,
+		    handleHomeClick = _ref.handleHomeClick,
+		    handleFilmClick = _ref.handleFilmClick,
+		    handleUserClick = _ref.handleUserClick,
+		    toggleLoggedIn = _ref.toggleLoggedIn;
+		return _react2.default.createElement(
+			'div',
+			{ className: 'user-profile' },
+			_react2.default.createElement(_NavBar2.default, {
+				handleHomeClick: handleHomeClick,
+				toggleLoggedIn: toggleLoggedIn
+			}),
+			_react2.default.createElement(
+				'h1',
+				null,
+				user.firstname,
+				' ',
+				user.lastname
+			),
+			_react2.default.createElement(_FilmList2.default, {
+				allFilms: user.films,
+				handleFilmClick: handleFilmClick
+			}),
+			_react2.default.createElement(_UserList2.default, {
+				allFriends: user.friends,
+				handleUserClick: handleUserClick
+			})
+		);
+	};
+	
+	exports.default = UserProfile;
 
 /***/ }
 /******/ ]);

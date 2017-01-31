@@ -1,21 +1,84 @@
+#app {
+	width: 800px;
+}
 
+.navbar {
+	display: inline-block;
+}
 
-ul {
-	border-width: 2px;
-	border-style: solid;
+.navbar ul {
 	list-style-type: none;
-	margin: 5px 5px 5px 5px;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+
+}
+
+.navbar li {
+	float: left;
+	padding: 14px 16px;
+}
+
+.signup ul {
+	list-style-type: none;
+}
+
+.signup li {
+	margin: 15px 15px 15px 15px;
+}
+
+.user-home {
+
+}
+
+.film-profile {
+
+}
+
+.film-list{
 	padding: 5px 5px 5px 5px;
-}
-
-li {
-	display: block;
-	width: 300px;
-}
-
-div {
-	border-width: 1px;
+	margin: 15px 15px 15px 15px;
 	border-style: solid;
-	margin: 5px 5px 5px 5px;
+	border-width: 1px;
+	height: 200px;
+	overflow: scroll;
+
+}
+
+.film-entry {
+	border-style: solid;
+	border-width: 1px;
+	margin: 15px 15px 15px 15px;
+	padding: 15px 15px 15px 15px;
+}
+
+.film-entry:hover {
+	background-color: #555;
+	color: white;
+}
+
+.user-profile {
+
+}
+
+.user-list{
 	padding: 5px 5px 5px 5px;
+	margin: 15px 15px 15px 15px;
+	border-style: solid;
+	border-width: 1px;
+	height: 100px;
+	overflow: scroll;
+
+}
+
+.user-entry {
+	border-style: solid;
+	border-width: 1px;
+	margin: 15px 15px 15px 15px;
+	padding: 15px 15px 15px 15px;
+}
+
+.user-entry:hover {
+	background-color: #555;
+	color: white;
 }

@@ -2,7 +2,7 @@ import React from 'react';
 import NavBar from './NavBar';
 
 var FilmProfile = ({film, handleHomeClick, toggleLoggedIn}) => (
-		<div>
+		<div className="film-profile">
 			<NavBar 
 				handleHomeClick={handleHomeClick}
 				toggleLoggedIn={toggleLoggedIn}

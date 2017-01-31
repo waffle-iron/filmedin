@@ -6,9 +6,11 @@ class NavBar extends React.Component{
 
 	}
 
+
+
 	render() {
 		return (
-			<div>
+			<div className="navbar">
 				<h1>FilmedIn</h1>
 				<ul>
 					<li>
@@ -18,14 +20,14 @@ class NavBar extends React.Component{
 						<form>
 							<label>Search Film: </label>
 							<input type="text" placeholder="Film Title" />
-							<button>Search</button>
+							<button type="submit">Search</button>
 						</form>
 					</li>
 					<li>
 						<form>
 							<label>Search Users: </label>
 							<input type="text" placeholder="Name" />
-							<button>Search</button>
+							<button type="submit">Search</button>
 						</form>
 					</li>
 					<li>

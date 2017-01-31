@@ -75,13 +75,13 @@ class SignUp extends React.Component {
 
 	render() {
 		return (
-			<div>
+			<div className="signup">
 
 				{/* this h1 tag is the webApp title, it will include the logo later */}
-				<h1>FilmedIn</h1>
 
 				{/*this is the navbar for the signup page*/}
-				<nav className="navbar">
+				<div className="navbar">
+					<h1>FilmedIn</h1>
 					<form onSubmit={this.handleLoginClick}>
 						<ul>
 							<li>
@@ -97,7 +97,7 @@ class SignUp extends React.Component {
 							</li>
 						</ul>
 					</form>
-				</nav>
+				</div>
 
 			{/*this is the signup form for new users*/}
 				<div className="signup">

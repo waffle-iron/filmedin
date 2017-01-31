@@ -2,7 +2,7 @@ import React from 'react';
 
 
 var FilmEntry = ({handleFilmClick, film}) => (
-	<div onClick={() => handleFilmClick(film)}>
+	<div className="film-entry" onClick={() => handleFilmClick(film)}>
     <div>
       <img src={film.snippet.thumbnails.default.url} alt="" />
     </div>

@@ -2,8 +2,8 @@ import React from 'react';
 import FilmEntry from './FilmEntry';
 
 
-var FilmList = ({handleFilmClick, allFilms, allFriends}) => (
-	<div>
+var FilmList = ({handleFilmClick, allFilms}) => (
+	<div className="film-list">
 		{console.log('allFilms: ', allFilms)}
 		{allFilms.map(film => 
 			<FilmEntry 

@@ -1,10 +1,11 @@
 import React from 'react';
 import NavBar from './NavBar';
 import FilmList from './FilmList';
+import UserList from './UserList';
 
 
-var UserHome = ({handleFilmClick, handleHomeClick, toggleLoggedIn, allFilms, allFriends}) => (
-	<div>
+var UserHome = ({handleFilmClick, handleHomeClick, handleUserClick, toggleLoggedIn, allFilms, allFriends}) => (
+	<div className="user-home">
 		<NavBar 
 			handleHomeClick={handleHomeClick}
 			toggleLoggedIn={toggleLoggedIn}
@@ -17,7 +18,10 @@ var UserHome = ({handleFilmClick, handleHomeClick, toggleLoggedIn, allFilms, all
 					/>
 				</div>
 				<div>
-					
+					<UserList
+						handleUserClick={handleUserClick}
+						allFriends={allFriends}
+					/>
 				</div>
 	</div>
 	)

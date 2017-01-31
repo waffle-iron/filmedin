@@ -2,8 +2,9 @@ import React from 'react';
 import SignUp from './SignUp';
 import UserHome from './UserHome';
 import FilmProfile from './FilmProfile';
-import exampleVideoData from './exampleVideoData'
-import exampleFriendData from './exampleFriendData'
+import UserProfile from './UserProfile';
+import exampleVideoData from './exampleVideoData';
+import exampleFriendData from './exampleFriendData';
 
 class App extends React.Component {
   constructor(props) {
@@ -13,11 +14,13 @@ class App extends React.Component {
       allFilms: exampleVideoData,
       allFriends: exampleFriendData,
       clickedFilm: {},
-      view: '',
+      clickedUser: {},
+      view: ''
     }
     this.toggleLoggedIn = this.toggleLoggedIn.bind(this)
     this.handleFilmClick = this.handleFilmClick.bind(this)
     this.handleHomeClick = this.handleHomeClick.bind(this)
+    this.handleUserClick = this.handleUserClick.bind(this)
   }
 
 
@@ -25,6 +28,14 @@ class App extends React.Component {
     this.setState({
       isLoggedIn: !this.state.isLoggedIn,
       view: 'showUserHomeView'
+    })
+  }
+
+  handleUserClick(user) {
+    console.log('current user: ', user);
+    this.setState({
+      view: 'showUserView',
+      clickedUser: user
     })
   }
 
@@ -51,6 +62,7 @@ class App extends React.Component {
         return (
           <FilmProfile 
             handleHomeClick={this.handleHomeClick}
+            handleUserClick={this.handleUserClick}
             toggleLoggedIn={this.toggleLoggedIn}
             film={this.state.clickedFilm}
           />
@@ -60,10 +72,21 @@ class App extends React.Component {
           <UserHome 
             handleHomeClick={this.handleHomeClick}
             handleFilmClick={this.handleFilmClick}
+            handleUserClick={this.handleUserClick}
             toggleLoggedIn={this.toggleLoggedIn}
             allFilms={this.state.allFilms} 
             allFriends={this.state.allFriends}
           /> 
+        )
+      } else if (this.state.view === 'showUserView') {
+        return (
+          <UserProfile 
+            handleHomeClick={this.handleHomeClick}
+            toggleLoggedIn={this.toggleLoggedIn}
+            handleFilmClick={this.handleFilmClick}
+            handleUserClick={this.handleUserClick}
+            user={this.state.clickedUser}
+          />
         )
       }
 	  } else {
