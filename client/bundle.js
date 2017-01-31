@@ -22053,17 +22053,21 @@
 	
 	var _SignUp2 = _interopRequireDefault(_SignUp);
 	
-	var _UserProfile = __webpack_require__(/*! ./UserProfile */ 180);
+	var _UserHome = __webpack_require__(/*! ./UserHome */ 180);
 	
-	var _UserProfile2 = _interopRequireDefault(_UserProfile);
+	var _UserHome2 = _interopRequireDefault(_UserHome);
 	
-	var _FilmProfile = __webpack_require__(/*! ./FilmProfile */ 181);
+	var _FilmProfile = __webpack_require__(/*! ./FilmProfile */ 184);
 	
 	var _FilmProfile2 = _interopRequireDefault(_FilmProfile);
 	
-	var _exampleVideoData = __webpack_require__(/*! ./exampleVideoData.js */ 182);
+	var _exampleVideoData = __webpack_require__(/*! ./exampleVideoData */ 185);
 	
 	var _exampleVideoData2 = _interopRequireDefault(_exampleVideoData);
+	
+	var _exampleFriendData = __webpack_require__(/*! ./exampleFriendData */ 186);
+	
+	var _exampleFriendData2 = _interopRequireDefault(_exampleFriendData);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -22084,12 +22088,13 @@
 	    _this.state = {
 	      isLoggedIn: false,
 	      allFilms: _exampleVideoData2.default,
-	      allFriends: [],
-	      showFilmView: false,
-	      clickedFilm: {}
+	      allFriends: _exampleFriendData2.default,
+	      clickedFilm: {},
+	      view: ''
 	    };
 	    _this.toggleLoggedIn = _this.toggleLoggedIn.bind(_this);
 	    _this.handleFilmClick = _this.handleFilmClick.bind(_this);
+	    _this.handleHomeClick = _this.handleHomeClick.bind(_this);
 	    return _this;
 	  }
 	
@@ -22097,15 +22102,23 @@
 	    key: 'toggleLoggedIn',
 	    value: function toggleLoggedIn() {
 	      this.setState({
-	        isLoggedIn: !this.state.isLoggedIn
+	        isLoggedIn: !this.state.isLoggedIn,
+	        view: 'showUserHomeView'
 	      });
 	    }
 	  }, {
 	    key: 'handleFilmClick',
 	    value: function handleFilmClick(film) {
 	      this.setState({
-	        showFilmView: !this.state.showFilmView,
+	        view: 'showFilmView',
 	        clickedFilm: film
+	      });
+	    }
+	  }, {
+	    key: 'handleHomeClick',
+	    value: function handleHomeClick() {
+	      this.setState({
+	        view: 'showUserHomeView'
 	      });
 	    }
 	  }, {
@@ -22113,10 +22126,15 @@
 	    value: function render() {
 	
 	      if (this.state.isLoggedIn) {
-	        if (this.state.showFilmView) {
-	          return _react2.default.createElement(_FilmProfile2.default, { film: this.state.clickedFilm });
-	        } else {
-	          return _react2.default.createElement(_UserProfile2.default, {
+	        if (this.state.view === 'showFilmView') {
+	          return _react2.default.createElement(_FilmProfile2.default, {
+	            handleHomeClick: this.handleHomeClick,
+	            toggleLoggedIn: this.toggleLoggedIn,
+	            film: this.state.clickedFilm
+	          });
+	        } else if (this.state.view === 'showUserHomeView') {
+	          return _react2.default.createElement(_UserHome2.default, {
+	            handleHomeClick: this.handleHomeClick,
 	            handleFilmClick: this.handleFilmClick,
 	            toggleLoggedIn: this.toggleLoggedIn,
 	            allFilms: this.state.allFilms,
@@ -22377,9 +22395,9 @@
 
 /***/ },
 /* 180 */
-/*!************************************!*\
-  !*** ./components/UserProfile.jsx ***!
-  \************************************/
+/*!*********************************!*\
+  !*** ./components/UserHome.jsx ***!
+  \*********************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -22392,25 +22410,29 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _NavBar = __webpack_require__(/*! ./NavBar */ 183);
+	var _NavBar = __webpack_require__(/*! ./NavBar */ 181);
 	
 	var _NavBar2 = _interopRequireDefault(_NavBar);
 	
-	var _FilmList = __webpack_require__(/*! ./FilmList */ 184);
+	var _FilmList = __webpack_require__(/*! ./FilmList */ 182);
 	
 	var _FilmList2 = _interopRequireDefault(_FilmList);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var UserProfile = function UserProfile(_ref) {
+	var UserHome = function UserHome(_ref) {
 		var handleFilmClick = _ref.handleFilmClick,
+		    handleHomeClick = _ref.handleHomeClick,
 		    toggleLoggedIn = _ref.toggleLoggedIn,
 		    allFilms = _ref.allFilms,
 		    allFriends = _ref.allFriends;
 		return _react2.default.createElement(
 			'div',
 			null,
-			_react2.default.createElement(_NavBar2.default, { toggleLoggedIn: toggleLoggedIn }),
+			_react2.default.createElement(_NavBar2.default, {
+				handleHomeClick: handleHomeClick,
+				toggleLoggedIn: toggleLoggedIn
+			}),
 			_react2.default.createElement(
 				'h2',
 				null,
@@ -22421,230 +22443,17 @@
 				null,
 				_react2.default.createElement(_FilmList2.default, {
 					handleFilmClick: handleFilmClick,
-					allFilms: allFilms,
-					allFriends: allFriends
+					allFilms: allFilms
 				})
-			)
+			),
+			_react2.default.createElement('div', null)
 		);
 	};
 	
-	exports.default = UserProfile;
+	exports.default = UserHome;
 
 /***/ },
 /* 181 */
-/*!************************************!*\
-  !*** ./components/FilmProfile.jsx ***!
-  \************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-	
-	var _react = __webpack_require__(/*! react */ 1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _NavBar = __webpack_require__(/*! ./NavBar */ 183);
-	
-	var _NavBar2 = _interopRequireDefault(_NavBar);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var FilmProfile = function FilmProfile() {
-		return _react2.default.createElement(
-			'div',
-			null,
-			'Testing film profile!'
-		);
-	};
-	
-	exports.default = FilmProfile;
-
-/***/ },
-/* 182 */
-/*!****************************************!*\
-  !*** ./components/exampleVideoData.js ***!
-  \****************************************/
-/***/ function(module, exports) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	// import React from 'react';
-	// DO NOT EDIT THIS FILE
-	// This is an example response from the YouTube Search API
-	// when searching with the query 'react tutorial'
-	var exampleVideoData = [{
-	  kind: 'youtube#searchResult',
-	  etag: 'abQHWywil_AkNqdqji7_FqiK-u4/Ykxo_CqKu8F8kcm-iNgL332gQTY',
-	  id: {
-	    kind: 'youtube#video',
-	    videoId: '4ZAEBxGipoA'
-	  },
-	  snippet: {
-	    publishedAt: '2015-08-02T20:52:58.000Z',
-	    channelId: 'UCJbPGzawDH1njbqV-D5HqKw',
-	    title: 'React JS Tutorial for Beginners - 1 - Introduction',
-	    description: 'My website - https://www.thenewboston.com/videos.php Have questions about the tutorial or React? Ask them here ...',
-	    thumbnails: {
-	      default: {
-	        url: 'https://i.ytimg.com/vi/4ZAEBxGipoA/default.jpg',
-	        width: 120,
-	        height: 90
-	      },
-	      medium: {
-	        url: 'https://i.ytimg.com/vi/4ZAEBxGipoA/mqdefault.jpg',
-	        width: 320,
-	        height: 180
-	      },
-	      high: {
-	        url: 'https://i.ytimg.com/vi/4ZAEBxGipoA/hqdefault.jpg',
-	        width: 480,
-	        height: 360
-	      }
-	    },
-	    channelTitle: 'thenewboston',
-	    liveBroadcastContent: 'none'
-	  }
-	}, {
-	  kind: 'youtube#searchResult',
-	  etag: 'abQHWywil_AkNqdqji7_FqiK-u4/tS3xe6KXEJbntCAmn01SmEuSYxg',
-	  id: {
-	    kind: 'youtube#video',
-	    videoId: 'mFEoarLnnqM'
-	  },
-	  snippet: {
-	    publishedAt: '2014-08-08T21:31:58.000Z',
-	    channelId: 'UCKKQaFUwyPb6iC-42rFRz2Q',
-	    title: 'Thinking in React, a step by step screencast tutorial',
-	    description: 'A step by step video tutorial that takes you through the correct way of coding Facebook React views. Check out the rest of the tagtree library: http://tagtree.tv.',
-	    thumbnails: {
-	      default: {
-	        url: 'https://i.ytimg.com/vi/mFEoarLnnqM/default.jpg',
-	        width: 120,
-	        height: 90
-	      },
-	      medium: {
-	        url: 'https://i.ytimg.com/vi/mFEoarLnnqM/mqdefault.jpg',
-	        width: 320,
-	        height: 180
-	      },
-	      high: {
-	        url: 'https://i.ytimg.com/vi/mFEoarLnnqM/hqdefault.jpg',
-	        width: 480,
-	        height: 360
-	      }
-	    },
-	    channelTitle: '',
-	    liveBroadcastContent: 'none'
-	  }
-	}, {
-	  kind: 'youtube#searchResult',
-	  etag: 'abQHWywil_AkNqdqji7_FqiK-u4/FZYrgJg7qfkv0yfImJPujBKBmLk',
-	  id: {
-	    kind: 'youtube#video',
-	    videoId: '0ByoQm-vnYw'
-	  },
-	  snippet: {
-	    publishedAt: '2015-12-08T20:51:18.000Z',
-	    channelId: 'UClLXKYEEM8OBBx85DOa6-cg',
-	    title: 'React Tutorial for Beginners',
-	    description: 'Get the full course here: http://devslopes.com/react In this video you will learn how to setup your project for React development and you will build a simple React ...',
-	    thumbnails: {
-	      default: {
-	        url: 'https://i.ytimg.com/vi/0ByoQm-vnYw/default.jpg',
-	        width: 120,
-	        height: 90
-	      },
-	      medium: {
-	        url: 'https://i.ytimg.com/vi/0ByoQm-vnYw/mqdefault.jpg',
-	        width: 320,
-	        height: 180
-	      },
-	      high: {
-	        url: 'https://i.ytimg.com/vi/0ByoQm-vnYw/hqdefault.jpg',
-	        width: 480,
-	        height: 360
-	      }
-	    },
-	    channelTitle: '',
-	    liveBroadcastContent: 'none'
-	  }
-	}, {
-	  kind: 'youtube#searchResult',
-	  etag: 'abQHWywil_AkNqdqji7_FqiK-u4/nSaavPWVkTWpn2p-ClwNj7xszf8',
-	  id: {
-	    kind: 'youtube#video',
-	    videoId: 'o5E894TmHJg'
-	  },
-	  snippet: {
-	    publishedAt: '2015-03-09T08:19:59.000Z',
-	    channelId: 'UCMYct3vtNaMwZAA3_DNsWMw',
-	    title: 'Flux Tutorial - Writing a Simple App in Flux and React',
-	    description: 'Hey! Write something in the comments, even if it\'s critical. I\'d love to hear feedback! (also, please thumbs-up if you like the vid, and I\'ll make more). Personally I ...',
-	    thumbnails: {
-	      default: {
-	        url: 'https://i.ytimg.com/vi/o5E894TmHJg/default.jpg',
-	        width: 120,
-	        height: 90
-	      },
-	      medium: {
-	        url: 'https://i.ytimg.com/vi/o5E894TmHJg/mqdefault.jpg',
-	        width: 320,
-	        height: 180
-	      },
-	      high: {
-	        url: 'https://i.ytimg.com/vi/o5E894TmHJg/hqdefault.jpg',
-	        width: 480,
-	        height: 360
-	      }
-	    },
-	    channelTitle: 'bengrunfeld',
-	    liveBroadcastContent: 'none'
-	  }
-	}, {
-	  kind: 'youtube#searchResult',
-	  etag: 'abQHWywil_AkNqdqji7_FqiK-u4/3E7u1VZ18KYyfLIA6RgI2w-7nRI',
-	  id: {
-	    kind: 'youtube#video',
-	    videoId: 'Pd6Ub7Ju2RM'
-	  },
-	  snippet: {
-	    publishedAt: '2015-02-13T18:50:38.000Z',
-	    channelId: 'UCr5lOCcjZzNprLrhxO0WZQw',
-	    title: 'Learn React, Flux, and Flow: Part I',
-	    description: 'Brought to you by Formidable Labs and SeattleJS, Colin Megill walks us through Facebook\'s React framework in part one of this three-part series. The workshop ...',
-	    thumbnails: {
-	      default: {
-	        url: 'https://i.ytimg.com/vi/Pd6Ub7Ju2RM/default.jpg',
-	        width: 120,
-	        height: 90
-	      },
-	      medium: {
-	        url: 'https://i.ytimg.com/vi/Pd6Ub7Ju2RM/mqdefault.jpg',
-	        width: 320,
-	        height: 180
-	      },
-	      high: {
-	        url: 'https://i.ytimg.com/vi/Pd6Ub7Ju2RM/hqdefault.jpg',
-	        width: 480,
-	        height: 360
-	      }
-	    },
-	    channelTitle: '',
-	    liveBroadcastContent: 'none'
-	  }
-	}];
-	
-	exports.default = exampleVideoData;
-
-/***/ },
-/* 183 */
 /*!*******************************!*\
   !*** ./components/NavBar.jsx ***!
   \*******************************/
@@ -22698,7 +22507,7 @@
 							null,
 							_react2.default.createElement(
 								"a",
-								{ href: "#" },
+								{ href: "#", onClick: this.props.handleHomeClick },
 								"Home"
 							)
 						),
@@ -22760,7 +22569,7 @@
 	exports.default = NavBar;
 
 /***/ },
-/* 184 */
+/* 182 */
 /*!*********************************!*\
   !*** ./components/FilmList.jsx ***!
   \*********************************/
@@ -22776,7 +22585,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _FilmEntry = __webpack_require__(/*! ./FilmEntry */ 185);
+	var _FilmEntry = __webpack_require__(/*! ./FilmEntry */ 183);
 	
 	var _FilmEntry2 = _interopRequireDefault(_FilmEntry);
 	
@@ -22802,7 +22611,7 @@
 	exports.default = FilmList;
 
 /***/ },
-/* 185 */
+/* 183 */
 /*!**********************************!*\
   !*** ./components/FilmEntry.jsx ***!
   \**********************************/
@@ -22847,6 +22656,298 @@
 	};
 	
 	exports.default = FilmEntry;
+
+/***/ },
+/* 184 */
+/*!************************************!*\
+  !*** ./components/FilmProfile.jsx ***!
+  \************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _NavBar = __webpack_require__(/*! ./NavBar */ 181);
+	
+	var _NavBar2 = _interopRequireDefault(_NavBar);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var FilmProfile = function FilmProfile(_ref) {
+		var film = _ref.film,
+		    handleHomeClick = _ref.handleHomeClick,
+		    toggleLoggedIn = _ref.toggleLoggedIn;
+		return _react2.default.createElement(
+			'div',
+			null,
+			_react2.default.createElement(_NavBar2.default, {
+				handleHomeClick: handleHomeClick,
+				toggleLoggedIn: toggleLoggedIn
+			}),
+			_react2.default.createElement(
+				'h1',
+				null,
+				film.snippet.title
+			),
+			_react2.default.createElement('img', { src: film.snippet.thumbnails.default.url, alt: '' }),
+			_react2.default.createElement(
+				'div',
+				null,
+				'Your ranking: ',
+				film.userRank
+			),
+			_react2.default.createElement(
+				'div',
+				null,
+				'Film Description:',
+				_react2.default.createElement('br', null),
+				film.snippet.description
+			),
+			_react2.default.createElement(
+				'div',
+				null,
+				'This will contain links to stream the film'
+			),
+			_react2.default.createElement(
+				'div',
+				null,
+				'This will contain friends who have ranked the film'
+			)
+		);
+	};
+	
+	exports.default = FilmProfile;
+
+/***/ },
+/* 185 */
+/*!****************************************!*\
+  !*** ./components/exampleVideoData.js ***!
+  \****************************************/
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	// import React from 'react';
+	// DO NOT EDIT THIS FILE
+	// This is an example response from the YouTube Search API
+	// when searching with the query 'react tutorial'
+	var exampleVideoData = [{
+	  userRank: 4,
+	  kind: 'youtube#searchResult',
+	  etag: 'abQHWywil_AkNqdqji7_FqiK-u4/Ykxo_CqKu8F8kcm-iNgL332gQTY',
+	  id: {
+	    kind: 'youtube#video',
+	    videoId: '4ZAEBxGipoA'
+	  },
+	  snippet: {
+	    publishedAt: '2015-08-02T20:52:58.000Z',
+	    channelId: 'UCJbPGzawDH1njbqV-D5HqKw',
+	    title: 'React JS Tutorial for Beginners - 1 - Introduction',
+	    description: 'My website - https://www.thenewboston.com/videos.php Have questions about the tutorial or React? Ask them here ...',
+	    thumbnails: {
+	      default: {
+	        url: 'https://i.ytimg.com/vi/4ZAEBxGipoA/default.jpg',
+	        width: 120,
+	        height: 90
+	      },
+	      medium: {
+	        url: 'https://i.ytimg.com/vi/4ZAEBxGipoA/mqdefault.jpg',
+	        width: 320,
+	        height: 180
+	      },
+	      high: {
+	        url: 'https://i.ytimg.com/vi/4ZAEBxGipoA/hqdefault.jpg',
+	        width: 480,
+	        height: 360
+	      }
+	    },
+	    channelTitle: 'thenewboston',
+	    liveBroadcastContent: 'none'
+	  }
+	}, {
+	  userRank: 5,
+	  kind: 'youtube#searchResult',
+	  etag: 'abQHWywil_AkNqdqji7_FqiK-u4/tS3xe6KXEJbntCAmn01SmEuSYxg',
+	  id: {
+	    kind: 'youtube#video',
+	    videoId: 'mFEoarLnnqM'
+	  },
+	  snippet: {
+	    publishedAt: '2014-08-08T21:31:58.000Z',
+	    channelId: 'UCKKQaFUwyPb6iC-42rFRz2Q',
+	    title: 'Thinking in React, a step by step screencast tutorial',
+	    description: 'A step by step video tutorial that takes you through the correct way of coding Facebook React views. Check out the rest of the tagtree library: http://tagtree.tv.',
+	    thumbnails: {
+	      default: {
+	        url: 'https://i.ytimg.com/vi/mFEoarLnnqM/default.jpg',
+	        width: 120,
+	        height: 90
+	      },
+	      medium: {
+	        url: 'https://i.ytimg.com/vi/mFEoarLnnqM/mqdefault.jpg',
+	        width: 320,
+	        height: 180
+	      },
+	      high: {
+	        url: 'https://i.ytimg.com/vi/mFEoarLnnqM/hqdefault.jpg',
+	        width: 480,
+	        height: 360
+	      }
+	    },
+	    channelTitle: '',
+	    liveBroadcastContent: 'none'
+	  }
+	}, {
+	  userRank: 0,
+	  kind: 'youtube#searchResult',
+	  etag: 'abQHWywil_AkNqdqji7_FqiK-u4/FZYrgJg7qfkv0yfImJPujBKBmLk',
+	  id: {
+	    kind: 'youtube#video',
+	    videoId: '0ByoQm-vnYw'
+	  },
+	  snippet: {
+	    publishedAt: '2015-12-08T20:51:18.000Z',
+	    channelId: 'UClLXKYEEM8OBBx85DOa6-cg',
+	    title: 'React Tutorial for Beginners',
+	    description: 'Get the full course here: http://devslopes.com/react In this video you will learn how to setup your project for React development and you will build a simple React ...',
+	    thumbnails: {
+	      default: {
+	        url: 'https://i.ytimg.com/vi/0ByoQm-vnYw/default.jpg',
+	        width: 120,
+	        height: 90
+	      },
+	      medium: {
+	        url: 'https://i.ytimg.com/vi/0ByoQm-vnYw/mqdefault.jpg',
+	        width: 320,
+	        height: 180
+	      },
+	      high: {
+	        url: 'https://i.ytimg.com/vi/0ByoQm-vnYw/hqdefault.jpg',
+	        width: 480,
+	        height: 360
+	      }
+	    },
+	    channelTitle: '',
+	    liveBroadcastContent: 'none'
+	  }
+	}, {
+	  userRank: 4,
+	  kind: 'youtube#searchResult',
+	  etag: 'abQHWywil_AkNqdqji7_FqiK-u4/nSaavPWVkTWpn2p-ClwNj7xszf8',
+	  id: {
+	    kind: 'youtube#video',
+	    videoId: 'o5E894TmHJg'
+	  },
+	  snippet: {
+	    publishedAt: '2015-03-09T08:19:59.000Z',
+	    channelId: 'UCMYct3vtNaMwZAA3_DNsWMw',
+	    title: 'Flux Tutorial - Writing a Simple App in Flux and React',
+	    description: 'Hey! Write something in the comments, even if it\'s critical. I\'d love to hear feedback! (also, please thumbs-up if you like the vid, and I\'ll make more). Personally I ...',
+	    thumbnails: {
+	      default: {
+	        url: 'https://i.ytimg.com/vi/o5E894TmHJg/default.jpg',
+	        width: 120,
+	        height: 90
+	      },
+	      medium: {
+	        url: 'https://i.ytimg.com/vi/o5E894TmHJg/mqdefault.jpg',
+	        width: 320,
+	        height: 180
+	      },
+	      high: {
+	        url: 'https://i.ytimg.com/vi/o5E894TmHJg/hqdefault.jpg',
+	        width: 480,
+	        height: 360
+	      }
+	    },
+	    channelTitle: 'bengrunfeld',
+	    liveBroadcastContent: 'none'
+	  }
+	}, {
+	  userRank: 1,
+	  kind: 'youtube#searchResult',
+	  etag: 'abQHWywil_AkNqdqji7_FqiK-u4/3E7u1VZ18KYyfLIA6RgI2w-7nRI',
+	  id: {
+	    kind: 'youtube#video',
+	    videoId: 'Pd6Ub7Ju2RM'
+	  },
+	  snippet: {
+	    publishedAt: '2015-02-13T18:50:38.000Z',
+	    channelId: 'UCr5lOCcjZzNprLrhxO0WZQw',
+	    title: 'Learn React, Flux, and Flow: Part I',
+	    description: 'Brought to you by Formidable Labs and SeattleJS, Colin Megill walks us through Facebook\'s React framework in part one of this three-part series. The workshop ...',
+	    thumbnails: {
+	      default: {
+	        url: 'https://i.ytimg.com/vi/Pd6Ub7Ju2RM/default.jpg',
+	        width: 120,
+	        height: 90
+	      },
+	      medium: {
+	        url: 'https://i.ytimg.com/vi/Pd6Ub7Ju2RM/mqdefault.jpg',
+	        width: 320,
+	        height: 180
+	      },
+	      high: {
+	        url: 'https://i.ytimg.com/vi/Pd6Ub7Ju2RM/hqdefault.jpg',
+	        width: 480,
+	        height: 360
+	      }
+	    },
+	    channelTitle: '',
+	    liveBroadcastContent: 'none'
+	  }
+	}];
+	
+	exports.default = exampleVideoData;
+
+/***/ },
+/* 186 */
+/*!*****************************************!*\
+  !*** ./components/exampleFriendData.js ***!
+  \*****************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	
+	var _exampleVideoData = __webpack_require__(/*! ./exampleVideoData */ 185);
+	
+	var _exampleVideoData2 = _interopRequireDefault(_exampleVideoData);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var exampleFriendData = [{ firstname: 'Jasmine',
+		lastname: 'Mina',
+		username: 'jMina',
+		films: _exampleVideoData2.default
+	}, { firstname: 'Nick',
+		lastname: 'Cobbett',
+		username: 'nickC',
+		films: _exampleVideoData2.default
+	}, { firstname: 'Sai',
+		lastname: 'Vickna',
+		username: 'saiClops',
+		films: _exampleVideoData2.default
+	}, { firstname: 'Jimothy',
+		lastname: 'Zhang',
+		username: 'jayZ',
+		films: _exampleVideoData2.default
+	}];
+	
+	exports.default = exampleFriendData;
 
 /***/ }
 /******/ ]);

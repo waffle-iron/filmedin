@@ -12,7 +12,7 @@ class NavBar extends React.Component{
 				<h1>FilmedIn</h1>
 				<ul>
 					<li>
-						<a href="#">Home</a>
+						<a href="#" onClick={this.props.handleHomeClick}>Home</a>
 					</li>
 					<li>
 						<form>

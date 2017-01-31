@@ -3,6 +3,7 @@
 // This is an example response from the YouTube Search API
 // when searching with the query 'react tutorial'
 var exampleVideoData = [{
+  userRank: 4,
   kind: 'youtube#searchResult',
   etag: 'abQHWywil_AkNqdqji7_FqiK-u4/Ykxo_CqKu8F8kcm-iNgL332gQTY',
   id: {
@@ -35,6 +36,7 @@ var exampleVideoData = [{
     liveBroadcastContent: 'none'
   }
 }, {
+  userRank: 5,
   kind: 'youtube#searchResult',
   etag: 'abQHWywil_AkNqdqji7_FqiK-u4/tS3xe6KXEJbntCAmn01SmEuSYxg',
   id: {
@@ -67,6 +69,7 @@ var exampleVideoData = [{
     liveBroadcastContent: 'none'
   }
 }, {
+  userRank: 0,
   kind: 'youtube#searchResult',
   etag: 'abQHWywil_AkNqdqji7_FqiK-u4/FZYrgJg7qfkv0yfImJPujBKBmLk',
   id: {
@@ -99,6 +102,7 @@ var exampleVideoData = [{
     liveBroadcastContent: 'none'
   }
 }, {
+  userRank: 4,
   kind: 'youtube#searchResult',
   etag: 'abQHWywil_AkNqdqji7_FqiK-u4/nSaavPWVkTWpn2p-ClwNj7xszf8',
   id: {
@@ -131,6 +135,7 @@ var exampleVideoData = [{
     liveBroadcastContent: 'none'
   }
 }, {
+  userRank: 1,
   kind: 'youtube#searchResult',
   etag: 'abQHWywil_AkNqdqji7_FqiK-u4/3E7u1VZ18KYyfLIA6RgI2w-7nRI',
   id: {

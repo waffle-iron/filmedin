@@ -1,8 +1,9 @@
 import React from 'react';
 import SignUp from './SignUp';
-import UserProfile from './UserProfile';
+import UserHome from './UserHome';
 import FilmProfile from './FilmProfile';
-import exampleVideoData from './exampleVideoData.js'
+import exampleVideoData from './exampleVideoData'
+import exampleFriendData from './exampleFriendData'
 
 class App extends React.Component {
   constructor(props) {
@@ -10,24 +11,35 @@ class App extends React.Component {
     this.state = {
     	isLoggedIn: false,
       allFilms: exampleVideoData,
-      allFriends: [],
-      showFilmView: false,
-      clickedFilm: {}
+      allFriends: exampleFriendData,
+      clickedFilm: {},
+      view: '',
     }
     this.toggleLoggedIn = this.toggleLoggedIn.bind(this)
     this.handleFilmClick = this.handleFilmClick.bind(this)
+    this.handleHomeClick = this.handleHomeClick.bind(this)
   }
 
+
   toggleLoggedIn() {
-  	this.setState({
-  		isLoggedIn: !this.state.isLoggedIn
-  	})
+    this.setState({
+      isLoggedIn: !this.state.isLoggedIn,
+      view: 'showUserHomeView'
+    })
   }
+
 
   handleFilmClick(film) {
     this.setState({
-      showFilmView: !this.state.showFilmView,
+      view: 'showFilmView',
       clickedFilm: film
+    })
+  }
+
+
+  handleHomeClick() {
+    this.setState({
+      view: 'showUserHomeView',
     })
   }
 
@@ -35,13 +47,18 @@ class App extends React.Component {
   render() {
   	
 	  if (this.state.isLoggedIn) {
-      if (this.state.showFilmView) {
+      if (this.state.view === 'showFilmView') {
         return (
-          <FilmProfile film={this.state.clickedFilm}/>
-          )
-      } else {
+          <FilmProfile 
+            handleHomeClick={this.handleHomeClick}
+            toggleLoggedIn={this.toggleLoggedIn}
+            film={this.state.clickedFilm}
+          />
+        )
+      } else if (this.state.view === 'showUserHomeView') {
   	  	return ( 
-          <UserProfile 
+          <UserHome 
+            handleHomeClick={this.handleHomeClick}
             handleFilmClick={this.handleFilmClick}
             toggleLoggedIn={this.toggleLoggedIn}
             allFilms={this.state.allFilms} 
