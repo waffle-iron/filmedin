@@ -52,12 +52,20 @@ module.exports = {
                 req.body.userID = rows.insertId;
                 db.profile.post(req.body, function (err, rows) {
                   if (err) {
-                    console.log(err);
                     next(new Error('Failed to create profile'));
                   }
-                  res.redirect(307, '/signin');
+                  db.user.get(username, function(err, rows) {
+                    if (err) {
+                      next(new Error('Failed to connect to database'));
+                    } else if (rows.length === 0) {
+                      next(new Error('User does not exist'));
+                    } else {
+                      var user = rows[0];
+                      var token = jwt.encode(user, 'secret');
+                      res.json({token: token});
+                    }
+                  });
                 });
-                
               }
             });
           });
