@@ -5,9 +5,12 @@ var db = require('./db/helpers');
 var app = express();
 var auth = require('./auth');
 var routeHelpers = require('./routeHelpers');
+var cors = require('cors');
+
+app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
+app.options('*', cors());
 app.post('/signin', auth.signin);
 app.post('/signup', auth.signup);
 app.post('/friend', routeHelpers.addFriend);
