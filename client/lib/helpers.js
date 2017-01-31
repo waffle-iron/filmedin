@@ -6,7 +6,7 @@ var getRequest = function (url) {
     headers: {
       'x-access-token': window.localStorage.getItem('filmedInToken')
     },
-    url: url
+    url: url,
     baseURL: 'https://filmedin.herokuapp.com/',
     method: 'GET'
   }

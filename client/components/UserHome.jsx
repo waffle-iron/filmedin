@@ -4,11 +4,11 @@ import FilmList from './FilmList';
 import UserList from './UserList';
 
 
-var UserHome = ({handleFilmClick, handleHomeClick, handleUserClick, toggleLoggedIn, firstName, lastName, allFilms, allFriends}) => (
+var UserHome = ({handleFilmClick, handleHomeClick, handleUserClick, handleLogOutClick, firstName, lastName, allFilms, allFriends}) => (
 	<div className="user-home">
 		<NavBar
 			handleHomeClick={handleHomeClick}
-			toggleLoggedIn={toggleLoggedIn}
+			handleLogOutClick={handleLogOutClick}
 		/>
 				<h2>Welcome {firstName} {lastName}</h2>
 				<div>
@@ -21,7 +21,7 @@ var UserHome = ({handleFilmClick, handleHomeClick, handleUserClick, toggleLogged
 				<div>
 					<h3>List of user's friends</h3>
 					<UserList
-						handleUserClick={handleUserClick}
+						handleLogOutClick={handleLogOutClick}
 						allFriends={allFriends}
 					/>
 				</div>

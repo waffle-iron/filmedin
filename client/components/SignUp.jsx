@@ -65,8 +65,10 @@ class SignUp extends React.Component {
 		helpers.logInUser(signinInputs).then(response => {
 			window.localStorage.setItem('filmedInToken', response.token);
 			console.log('set token');
-			this.props.toggleLoggedIn();
-		});
+			this.props.handleLogInClick();
+			}).catch(err => {
+				console.log('error with login')
+			})
 	}
 
 	handleSignUpClick(event) {
@@ -80,8 +82,8 @@ class SignUp extends React.Component {
 	  }
 
 		helpers.signUpUser(signupInputs).then(response => {
-	    window.localStorage.setItem('filmedInToken', reponse.token)
-	    this.props.toggleLoggedIn();
+	    window.localStorage.setItem('filmedInToken', response.token)
+	    this.props.handleLogInClick(this.state.username);
   	}).catch(err => {
   		console.log('error with login')
   	})

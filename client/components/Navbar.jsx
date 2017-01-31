@@ -31,7 +31,7 @@ class NavBar extends React.Component{
 						</form>
 					</li>
 					<li>
-						<a href="#" onClick={this.props.toggleLoggedIn}>Logout</a>
+						<a href="#" onClick={this.props.handleLogOutClick}>Logout</a>
 					</li>
 
 
