@@ -22077,6 +22077,10 @@
 	
 	var _exampleFriendData2 = _interopRequireDefault(_exampleFriendData);
 	
+	var _helpers = __webpack_require__(/*! ../lib/helpers */ 215);
+	
+	var _helpers2 = _interopRequireDefault(_helpers);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -22094,8 +22098,10 @@
 	    var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 	
 	    _this.state = {
-	      token: '',
+	      token: window.localStorage.getItem('filmedInToken'),
 	      isLoggedIn: false,
+	      firstName: '',
+	      lastName: '',
 	      allFilms: _exampleVideoData2.default,
 	      allFriends: _exampleFriendData2.default,
 	      clickedFilm: {},
@@ -22106,12 +22112,20 @@
 	    _this.handleFilmClick = _this.handleFilmClick.bind(_this);
 	    _this.handleHomeClick = _this.handleHomeClick.bind(_this);
 	    _this.handleUserClick = _this.handleUserClick.bind(_this);
+	    _this.logInUser = _helpers2.default.logInUser.bind(_this);
 	    return _this;
 	  }
+	
+	  //keep as toggle because works for signout
+	  //how do i handle clearing of token on signout?
+	
 	
 	  _createClass(App, [{
 	    key: 'toggleLoggedIn',
 	    value: function toggleLoggedIn() {
+	      if (this.state.isLoggedIn) {
+	        window.localStorage.removeItem('filmedInToken');
+	      }
 	      this.setState({
 	        isLoggedIn: !this.state.isLoggedIn,
 	        view: 'showUserHomeView'
@@ -22120,7 +22134,6 @@
 	  }, {
 	    key: 'handleUserClick',
 	    value: function handleUserClick(user) {
-	      console.log('current user: ', user);
 	      this.setState({
 	        view: 'showUserView',
 	        clickedUser: user
@@ -22147,11 +22160,8 @@
 	  }, {
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
-	      //include token here
-	      // var config = {
-	      //   headers: {'x-access-token': 'Header-Value'}
-	      // };
-	      // axios.get('http://127.0.0.1:5000/home', config).then()
+	      // include token here
+	      this.logInUser();
 	    }
 	  }, {
 	    key: 'render',
@@ -22180,6 +22190,8 @@
 	            toggleLoggedIn: this.toggleLoggedIn,
 	            handleFilmClick: this.handleFilmClick,
 	            handleUserClick: this.handleUserClick,
+	            firstName: this.state.firstName,
+	            lastName: this.state.lastName,
 	            user: this.state.clickedUser
 	          });
 	        }
@@ -22217,6 +22229,10 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+	var _helpers = __webpack_require__(/*! ../lib/helpers */ 215);
+	
+	var _helpers2 = _interopRequireDefault(_helpers);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -22248,7 +22264,8 @@
 			_this.handleFirstnameChange = _this.handleFirstnameChange.bind(_this);
 			_this.handleLastnameChange = _this.handleLastnameChange.bind(_this);
 			_this.handleDobChange = _this.handleDobChange.bind(_this);
-	
+			_this.signUpUser = _helpers2.default.signUpUser.bind(_this);
+			_this.logInUser = _helpers2.default.logInUser.bind(_this);
 			return _this;
 		}
 	
@@ -22290,39 +22307,14 @@
 		}, {
 			key: 'handleLoginClick',
 			value: function handleLoginClick(event) {
-				var _this2 = this;
-	
 				event.preventDefault();
-				var loginInputs = {
-					username: this.state.username,
-					password: this.state.password
-				};
-	
-				_axios2.default.post('https://filmedin.herokuapp.com/login', loginInputs).then(function (response) {
-					window.localStorage.setItem('FilmedInToken', reponse.token);
-					_this2.props.toggleLoggedIn();
-				});
-	
-				//once token received then call this function
+				this.logInUser();
 			}
 		}, {
 			key: 'handleSignUpClick',
 			value: function handleSignUpClick(event) {
-				var _this3 = this;
-	
 				event.preventDefault();
-	
-				var signupInputs = {
-					username: this.state.username,
-					password: this.state.password,
-					firstname: this.state.firstname,
-					lastname: this.state.lastname,
-					dob: this.state.dob
-				};
-				_axios2.default.post('https://filmedin.herokuapp.com/signup', signupInputs).then(function (response) {
-					window.localStorage.setItem('FilmedInToken', reponse.token);
-					_this3.props.toggleLoggedIn();
-				});
+				this.signUpUser();
 			}
 		}, {
 			key: 'render',
@@ -22362,7 +22354,7 @@
 										null,
 										'Password:'
 									),
-									_react2.default.createElement('input', { type: 'text', value: this.state.password, onChange: this.handlePasswordChange, placeholder: 'your password' })
+									_react2.default.createElement('input', { type: 'password', value: this.state.password, onChange: this.handlePasswordChange, placeholder: 'your password' })
 								),
 								_react2.default.createElement(
 									'li',
@@ -22433,7 +22425,7 @@
 										null,
 										'Password:'
 									),
-									_react2.default.createElement('input', { type: 'text', value: this.state.password, onChange: this.handlePasswordChange, placeholder: 'your password' })
+									_react2.default.createElement('input', { type: 'password', value: this.state.password, onChange: this.handlePasswordChange, placeholder: 'your password' })
 								),
 								_react2.default.createElement(
 									'li',
@@ -22492,6 +22484,8 @@
 		    handleHomeClick = _ref.handleHomeClick,
 		    handleUserClick = _ref.handleUserClick,
 		    toggleLoggedIn = _ref.toggleLoggedIn,
+		    firstName = _ref.firstName,
+		    lastName = _ref.lastName,
 		    allFilms = _ref.allFilms,
 		    allFriends = _ref.allFriends;
 		return _react2.default.createElement(
@@ -22504,7 +22498,10 @@
 			_react2.default.createElement(
 				'h2',
 				null,
-				'Welcome [user\'s first name]!'
+				'Welcome ',
+				firstName,
+				' ',
+				lastName
 			),
 			_react2.default.createElement(
 				'div',
@@ -24815,6 +24812,69 @@
 	  };
 	};
 
+
+/***/ },
+/* 215 */
+/*!************************!*\
+  !*** ./lib/helpers.js ***!
+  \************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _axios = __webpack_require__(/*! axios */ 190);
+	
+	var _axios2 = _interopRequireDefault(_axios);
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var helpers = {};
+	
+	helpers.logInUser = function () {
+	  var _this = this;
+	
+	  var config = {
+	    headers: { 'x-access-token': this.state.token }
+	  };
+	
+	  _axios2.default.get('https://filmedin.herokuapp.com/home', config).then(function (reponse) {
+	    console.log('response: ', response);
+	    _this.setState({
+	      firstName: response.firstName,
+	      lastName: response.lastName,
+	      allFriends: response.friends,
+	      allFilms: response.rating
+	      // what should it be??
+	    });
+	    _this.props.toggleLoggedIn();
+	  });
+	};
+	
+	helpers.signUpUser = function () {
+	  var _this2 = this;
+	
+	  var signupInputs = {
+	    username: this.state.username,
+	    password: this.state.password,
+	    firstname: this.state.firstname,
+	    lastname: this.state.lastname,
+	    dob: this.state.dob
+	  };
+	  _axios2.default.post('https://filmedin.herokuapp.com/signup', signupInputs).then(function (response) {
+	    window.localStorage.setItem('FilmedInToken', reponse.token);
+	    _this2.props.toggleLoggedIn();
+	  });
+	};
+	
+	exports.default = helpers;
 
 /***/ }
 /******/ ]);

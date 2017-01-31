@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React from 'react';
+import helpers from '../lib/helpers';
 
 class SignUp extends React.Component {
 	constructor(props) {
@@ -21,7 +22,8 @@ class SignUp extends React.Component {
 		this.handleFirstnameChange = this.handleFirstnameChange.bind(this);
 		this.handleLastnameChange = this.handleLastnameChange.bind(this);
 		this.handleDobChange = this.handleDobChange.bind(this);
-
+		this.signUpUser = helpers.signUpUser.bind(this);
+		this.logInUser = helpers.logInUser.bind(this);
 	}
 
 	handleUsernameChange(e) {
@@ -56,34 +58,12 @@ class SignUp extends React.Component {
 
 	handleLoginClick(event) {
 		event.preventDefault();
-		var loginInputs = {
-			username: this.state.username,
-			password: this.state.password
-		}
-
-		axios.post('https://filmedin.herokuapp.com/login', loginInputs).then(response => {
-			window.localStorage.setItem('FilmedInToken', reponse.token)
-			this.props.toggleLoggedIn();
-		})
-
-		//once token received then call this function
+		this.logInUser();
 	}
 
 	handleSignUpClick(event) {
 		event.preventDefault();
-
-    var signupInputs = {
-    	username: this.state.username,
-    	password: this.state.password,
-    	firstname: this.state.firstname,
-    	lastname: this.state.lastname,
-    	dob: this.state.dob
-    }
-    axios.post('https://filmedin.herokuapp.com/signup', signupInputs).then(response => {
-    	window.localStorage.setItem('FilmedInToken', reponse.token)
-			this.props.toggleLoggedIn();
-
-    })
+		this.signUpUser()
 	}
 
 	render() {
@@ -103,7 +83,7 @@ class SignUp extends React.Component {
 							</li>
 							<li>
 								<label>Password:</label>
-								<input type="text" value={this.state.password} onChange={this.handlePasswordChange} placeholder="your password" />
+								<input type="password" value={this.state.password} onChange={this.handlePasswordChange} placeholder="your password" />
 							</li>
 							<li>
 								<button type="submit">Login</button>
@@ -134,7 +114,7 @@ class SignUp extends React.Component {
 						</li>
 						<li>
 							<label>Password:</label>
-							<input type="text" value={this.state.password} onChange={this.handlePasswordChange} placeholder="your password" />
+							<input type="password" value={this.state.password} onChange={this.handlePasswordChange} placeholder="your password" />
 						</li>
 						<li>
 							<button type="submit">Sign up!</button>

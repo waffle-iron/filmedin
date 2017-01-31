@@ -6,13 +6,16 @@ import FilmProfile from './FilmProfile';
 import UserProfile from './UserProfile';
 import exampleVideoData from './exampleVideoData';
 import exampleFriendData from './exampleFriendData';
+import helpers from '../lib/helpers';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      token: '',
+      token: window.localStorage.getItem('filmedInToken'),
     	isLoggedIn: false,
+      firstName: '',
+      lastName: '',
       allFilms: exampleVideoData,
       allFriends: exampleFriendData,
       clickedFilm: {},
@@ -23,10 +26,15 @@ class App extends React.Component {
     this.handleFilmClick = this.handleFilmClick.bind(this)
     this.handleHomeClick = this.handleHomeClick.bind(this)
     this.handleUserClick = this.handleUserClick.bind(this)
+    this.logInUser = helpers.logInUser.bind(this)
   }
 
-
+  //keep as toggle because works for signout
+  //how do i handle clearing of token on signout?
   toggleLoggedIn() {
+    if (this.state.isLoggedIn) {
+      window.localStorage.removeItem('filmedInToken');
+    }
     this.setState({
       isLoggedIn: !this.state.isLoggedIn,
       view: 'showUserHomeView'
@@ -34,13 +42,11 @@ class App extends React.Component {
   }
 
   handleUserClick(user) {
-    console.log('current user: ', user);
     this.setState({
       view: 'showUserView',
       clickedUser: user
     })
   }
-
 
   handleFilmClick(film) {
     this.setState({
@@ -48,7 +54,6 @@ class App extends React.Component {
       clickedFilm: film
     })
   }
-
 
   handleHomeClick() {
     this.setState({
@@ -58,11 +63,8 @@ class App extends React.Component {
 
   //get request for allFilms and allFriends
   componentDidMount() {
-    //include token here
-    // var config = {
-    //   headers: {'x-access-token': 'Header-Value'}
-    // };
-    // axios.get('http://127.0.0.1:5000/home', config).then()
+   // include token here
+   this.logInUser()
   }
 
   render() {
@@ -95,6 +97,8 @@ class App extends React.Component {
             toggleLoggedIn={this.toggleLoggedIn}
             handleFilmClick={this.handleFilmClick}
             handleUserClick={this.handleUserClick}
+            firstName={this.state.firstName}
+            lastName={this.state.lastName}
             user={this.state.clickedUser}
           />
         )
