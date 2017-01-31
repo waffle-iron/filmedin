@@ -1,5 +1,5 @@
 var app = require('./server');
-
-app.listen(4568, function() {
-  console.log('Server is listening on 4568');
+var port = process.env.PORT || 5000;
+app.listen(port, function() {
+  console.log('Server is listening on ' + port);
 });
