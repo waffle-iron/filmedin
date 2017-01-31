@@ -1,4 +1,6 @@
+import axios from 'axios';
 import React from 'react';
+import helpers from '../lib/helpers';
 
 class SignUp extends React.Component {
 	constructor(props) {
@@ -6,11 +8,11 @@ class SignUp extends React.Component {
 		super(props);
 
 		this.state = {
-			firstname: '',
-			lastname: '',
-			dob: '',
-			username: '',
-			password: '',
+			username: 'nickc',
+			password: 'pass',
+			firstname: 'nick',
+			lastname: 'cobbett',
+			DOB: '1985-04-18'
 		}
 
 		this.handleSignUpClick = this.handleSignUpClick.bind(this);
@@ -20,19 +22,20 @@ class SignUp extends React.Component {
 		this.handleFirstnameChange = this.handleFirstnameChange.bind(this);
 		this.handleLastnameChange = this.handleLastnameChange.bind(this);
 		this.handleDobChange = this.handleDobChange.bind(this);
-
+		// this.signUpUser = helpers.signUpUser.bind(this);
+		// this.logInUser = helpers.logInUser.bind(this);
 	}
 
 	handleUsernameChange(e) {
 		this.setState({
 			username: e.target.value
-		})		
+		})
 	}
 
 	handlePasswordChange(e) {
 		this.setState({
 			password: e.target.value
-		})		
+		})
 	}
 
 	handleFirstnameChange(e) {
@@ -55,23 +58,34 @@ class SignUp extends React.Component {
 
 	handleLoginClick(event) {
 		event.preventDefault();
-		this.props.toggleLoggedIn();
-		console.log('expecting username: ', this.state.username);
-		console.log('expecting password: ', this.state.password);
-		console.log('login click');
+		var signinInputs = {
+			username: this.state.username,
+			password: this.state.password
+		}
+		helpers.logInUser(signinInputs).then(response => {
+			window.localStorage.setItem('filmedInToken', response.token);
+			console.log('set token');
+			this.props.toggleLoggedIn();
+		});
 	}
 
 	handleSignUpClick(event) {
 		event.preventDefault();
-		console.log('expecting firstname: ', this.state.firstname);
-		console.log('expecting lastname: ', this.state.lastname);
-		console.log('expecting dob: ', this.state.dob);
-		console.log('expecting username: ', this.state.username);
-		console.log('expecting password: ', this.state.password);
-		console.log('signup click');
+	  var signupInputs = {
+	    username: this.state.username,
+	    password: this.state.password,
+	    firstName: this.state.firstname,
+	    lastName: this.state.lastname,
+	    DOB: this.state.DOB
+	  }
+
+		helpers.signUpUser(signupInputs).then(response => {
+	    window.localStorage.setItem('filmedInToken', reponse.token)
+	    this.props.toggleLoggedIn();
+  	}).catch(err => {
+  		console.log('error with login')
+  	})
 	}
-
-
 
 	render() {
 		return (
@@ -90,7 +104,7 @@ class SignUp extends React.Component {
 							</li>
 							<li>
 								<label>Password:</label>
-								<input type="text" value={this.state.password} onChange={this.handlePasswordChange} placeholder="your password" />
+								<input type="password" value={this.state.password} onChange={this.handlePasswordChange} placeholder="your password" />
 							</li>
 							<li>
 								<button type="submit">Login</button>
@@ -113,7 +127,7 @@ class SignUp extends React.Component {
 						</li>
 						<li>
 							<label>Date of Birth:</label>
-							<input type="text" value={this.state.dob} onChange={this.handleDobChange} placeholder="mm/dd/yyyy" />
+							<input type="text" value={this.state.DOB} onChange={this.handleDobChange} placeholder="yyyy-mm-dd" />
 						</li>
 						<li>
 							<label>Username:</label>
@@ -121,7 +135,7 @@ class SignUp extends React.Component {
 						</li>
 						<li>
 							<label>Password:</label>
-							<input type="text" value={this.state.password} onChange={this.handlePasswordChange} placeholder="your password" />
+							<input type="password" value={this.state.password} onChange={this.handlePasswordChange} placeholder="your password" />
 						</li>
 						<li>
 							<button type="submit">Sign up!</button>

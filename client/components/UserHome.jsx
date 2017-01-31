@@ -4,18 +4,18 @@ import FilmList from './FilmList';
 import UserList from './UserList';
 
 
-var UserHome = ({handleFilmClick, handleHomeClick, handleUserClick, toggleLoggedIn, allFilms, allFriends}) => (
+var UserHome = ({handleFilmClick, handleHomeClick, handleUserClick, toggleLoggedIn, firstName, lastName, allFilms, allFriends}) => (
 	<div className="user-home">
-		<NavBar 
+		<NavBar
 			handleHomeClick={handleHomeClick}
 			toggleLoggedIn={toggleLoggedIn}
 		/>
-				<h2>Welcome [user's first name]!</h2>
+				<h2>Welcome {firstName} {lastName}</h2>
 				<div>
 					<h3>List of user's ranked films</h3>
-					<FilmList 
+					<FilmList
 						handleFilmClick={handleFilmClick}
-						allFilms={allFilms} 
+						allFilms={allFilms}
 					/>
 				</div>
 				<div>
