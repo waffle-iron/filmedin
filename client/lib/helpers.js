@@ -1,46 +1,71 @@
 import axios from 'axios';
 import react from 'react';
 
-
-var getHeaders = function () {
-  var headers = {
-    'x-access-token': window.localStorage.getItem('filmedInToken'),
-    'access-control-allow-origin': '*',
-    'access-control-allow-methods': 'GET, POST, PUT, DELETE, OPTIONS',
-    'access-control-allow-headers': '*',
-    'access-control-max-age': 10
+var getRequest = function (url) {
+  var request = {
+    headers: {
+      'x-access-token': window.localStorage.getItem('filmedInToken')
+    },
+    url: url
+    baseURL: 'https://filmedin.herokuapp.com/',
+    method: 'GET'
   }
-  return headers;
+  return request;
 }
 
 var helpers = {};
 
-// helpers.logInUser = function() {
-//   return axios.post('https://filmedin.herokuapp.com/home', getHeaders())
-// }
-helpers.logInUser = function(signinInputs) {
-  //var config = getHeaders();
+helpers.logInUser = function(data) {
   return axios.request({
     url: 'https://filmedin.herokuapp.com/signin',
     method: 'POST',
-    data: signinInputs
-  })
+    data: data
+  });
 }
-helpers.signUpUser = function(signupInputs) {
-  console.log(signupInputs)
-  var config = getHeaders();
-  config.data = signupInputs
+helpers.signUpUser = function(data) {
   return axios.request({
     url: 'https://filmedin.herokuapp.com/signup',
     method: 'POST',
-    // headers: getHeaders(),
-    data: signupInputs
-  }).catch(err => {
-    console.log(err)
-  })
+    data: data
+  });
 }
-
-helpers.getFilm = function() {}
-
+helpers.getHome = function () {
+  return axios.request(getRequest('/home'));
+}
+helpers.getFeed = function () {
+  return axios.request(getRequest('/feed'));
+}
+helpers.getProfile = function (id) {
+  return axios.request(getRequest('/profile/' + id));
+}
+helpers.getFilm = function(id) {
+  return axios.request(getRequest('/film/' + id));
+}
+helpers.searchProfile = function(search) {
+  return axios.request(getRequest('/search/profile/' + search));
+}
+helpers.searchFilm = function(search) {
+  return axios.request(getRequest('/search/film/' + search));
+}
+helpers.addFriend = function(friendID) {
+  return axios.request({
+    url: 'https://filmedin.herokuapp.com/addFriend',
+    method: 'POST',
+    data: {
+      friendID: friendID
+    }
+  });
+}
+helpers.addRating = function(filmID, rating, review) {
+  return axios.request({
+    url: 'https://filmedin.herokuapp.com/addRating',
+    method: 'POST',
+    data: {
+      filmID: filmID,
+      rating: rating,
+      review: review
+    }
+  });
+}
 
 export default helpers

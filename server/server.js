@@ -20,7 +20,7 @@ app.get('/', routeHelpers.default);
 app.get('/home', routeHelpers.home);
 app.get('/profile/:id', routeHelpers.profile);
 app.get('/film/:id', routeHelpers.film);
-app.post('/feed', routeHelpers.feed);
+app.get('/feed', routeHelpers.feed);
 app.get('/search/profile/:search', routeHelpers.searchUser);
 app.get('/search/film/:search', routeHelpers.searchFilm);
 
