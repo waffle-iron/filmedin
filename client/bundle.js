@@ -22045,7 +22045,7 @@
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	var _axios = __webpack_require__(/*! axios */ 190);
+	var _axios = __webpack_require__(/*! axios */ 179);
 	
 	var _axios2 = _interopRequireDefault(_axios);
 	
@@ -22053,27 +22053,27 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _SignUp = __webpack_require__(/*! ./SignUp */ 179);
+	var _SignUp = __webpack_require__(/*! ./SignUp */ 204);
 	
 	var _SignUp2 = _interopRequireDefault(_SignUp);
 	
-	var _UserHome = __webpack_require__(/*! ./UserHome */ 180);
+	var _UserHome = __webpack_require__(/*! ./UserHome */ 205);
 	
 	var _UserHome2 = _interopRequireDefault(_UserHome);
 	
-	var _FilmProfile = __webpack_require__(/*! ./FilmProfile */ 186);
+	var _FilmProfile = __webpack_require__(/*! ./FilmProfile */ 211);
 	
 	var _FilmProfile2 = _interopRequireDefault(_FilmProfile);
 	
-	var _UserProfile = __webpack_require__(/*! ./UserProfile */ 187);
+	var _UserProfile = __webpack_require__(/*! ./UserProfile */ 212);
 	
 	var _UserProfile2 = _interopRequireDefault(_UserProfile);
 	
-	var _exampleVideoData = __webpack_require__(/*! ./exampleVideoData */ 188);
+	var _exampleVideoData = __webpack_require__(/*! ./exampleVideoData */ 213);
 	
 	var _exampleVideoData2 = _interopRequireDefault(_exampleVideoData);
 	
-	var _exampleFriendData = __webpack_require__(/*! ./exampleFriendData */ 189);
+	var _exampleFriendData = __webpack_require__(/*! ./exampleFriendData */ 214);
 	
 	var _exampleFriendData2 = _interopRequireDefault(_exampleFriendData);
 	
@@ -22108,26 +22108,44 @@
 	      clickedUser: {},
 	      view: ''
 	    };
-	    _this.toggleLoggedIn = _this.toggleLoggedIn.bind(_this);
+	    // this.toggleLoggedIn = this.toggleLoggedIn.bind(this)
 	    _this.handleFilmClick = _this.handleFilmClick.bind(_this);
 	    _this.handleHomeClick = _this.handleHomeClick.bind(_this);
 	    _this.handleUserClick = _this.handleUserClick.bind(_this);
+	    _this.handleLogInClick = _this.handleLogInClick.bind(_this);
+	    _this.handleLogOutClick = _this.handleLogOutClick.bind(_this);
 	    // this.logInUser = helpers.logInUser.bind(this)
 	    return _this;
 	  }
 	
 	  //keep as toggle because works for signout
 	  //how do i handle clearing of token on signout?
+	  // toggleLoggedIn() {
 	
+	  //   if (this.state.isLoggedIn) {
+	  //     window.localStorage.removeItem('filmedInToken');
+	  //   }
+	
+	  //   this.setState({
+	  //     isLoggedIn: !this.state.isLoggedIn,
+	  //     view: 'showUserHomeView'
+	  //   })
+	  // }
 	
 	  _createClass(App, [{
-	    key: 'toggleLoggedIn',
-	    value: function toggleLoggedIn() {
-	      if (this.state.isLoggedIn) {
-	        window.localStorage.removeItem('filmedInToken');
-	      }
+	    key: 'handleLogOutClick',
+	    value: function handleLogOutClick() {
+	      window.localStorage.removeItem('filmedInToken');
 	      this.setState({
-	        isLoggedIn: !this.state.isLoggedIn,
+	        isLoggedIn: false,
+	        view: ''
+	      });
+	    }
+	  }, {
+	    key: 'handleLogInClick',
+	    value: function handleLogInClick(username) {
+	      this.setState({
+	        isLoggedIn: true,
 	        view: 'showUserHomeView'
 	      });
 	    }
@@ -22160,20 +22178,18 @@
 	  }, {
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
-	      var _this2 = this;
-	
 	      // include token here
-	      _helpers2.default.logInUser().then(function (response) {
-	        console.log('response: ', response);
-	        _this2.setState({
-	          firstName: response.firstName,
-	          lastName: response.lastName,
-	          allFriends: response.friends,
-	          allFilms: response.rating
-	          // what should it be??
-	        });
-	        _this2.toggleLoggedIn();
-	      });
+	      // helpers.logInUser().then(response => {
+	      //   console.log('response: ', response)
+	      //   this.setState({
+	      //     firstName: response.firstName,
+	      //     lastName: response.lastName,
+	      //     allFriends: response.friends,
+	      //     allFilms: response.rating
+	      //     // what should it be??
+	      //   })
+	      //   this.toggleLoggedIn();
+	      // })
 	    }
 	  }, {
 	    key: 'render',
@@ -22184,22 +22200,24 @@
 	          return _react2.default.createElement(_FilmProfile2.default, {
 	            handleHomeClick: this.handleHomeClick,
 	            handleUserClick: this.handleUserClick,
-	            toggleLoggedIn: this.toggleLoggedIn,
+	            handleLogOutClick: this.handleLogOutClick,
 	            film: this.state.clickedFilm
 	          });
 	        } else if (this.state.view === 'showUserHomeView') {
 	          return _react2.default.createElement(_UserHome2.default, {
+	            firstName: this.state.firstName,
+	            lastName: this.state.lastName,
+	            allFilms: this.state.allFilms,
+	            allFriends: this.state.allFriends,
 	            handleHomeClick: this.handleHomeClick,
 	            handleFilmClick: this.handleFilmClick,
 	            handleUserClick: this.handleUserClick,
-	            toggleLoggedIn: this.toggleLoggedIn,
-	            allFilms: this.state.allFilms,
-	            allFriends: this.state.allFriends
+	            handleLogOutClick: this.handleLogOutClick
 	          });
 	        } else if (this.state.view === 'showUserView') {
 	          return _react2.default.createElement(_UserProfile2.default, {
 	            handleHomeClick: this.handleHomeClick,
-	            toggleLoggedIn: this.toggleLoggedIn,
+	            handleLogOutClick: this.handleLogOutClick,
 	            handleFilmClick: this.handleFilmClick,
 	            handleUserClick: this.handleUserClick,
 	            firstName: this.state.firstName,
@@ -22208,7 +22226,7 @@
 	          });
 	        }
 	      } else {
-	        return _react2.default.createElement(_SignUp2.default, { toggleLoggedIn: this.toggleLoggedIn });
+	        return _react2.default.createElement(_SignUp2.default, { handleLogInClick: this.handleLogInClick });
 	      }
 	    }
 	  }]);
@@ -22220,1083 +22238,15 @@
 
 /***/ },
 /* 179 */
-/*!*******************************!*\
-  !*** ./components/SignUp.jsx ***!
-  \*******************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	var _axios = __webpack_require__(/*! axios */ 190);
-	
-	var _axios2 = _interopRequireDefault(_axios);
-	
-	var _react = __webpack_require__(/*! react */ 1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _helpers = __webpack_require__(/*! ../lib/helpers */ 215);
-	
-	var _helpers2 = _interopRequireDefault(_helpers);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var SignUp = function (_React$Component) {
-		_inherits(SignUp, _React$Component);
-	
-		function SignUp(props) {
-			_classCallCheck(this, SignUp);
-	
-			var _this = _possibleConstructorReturn(this, (SignUp.__proto__ || Object.getPrototypeOf(SignUp)).call(this, props));
-	
-			_this.state = {
-				username: 'nickc',
-				password: 'pass',
-				firstname: 'nick',
-				lastname: 'cobbett',
-				DOB: '1985-04-18'
-			};
-	
-			_this.handleSignUpClick = _this.handleSignUpClick.bind(_this);
-			_this.handleLoginClick = _this.handleLoginClick.bind(_this);
-			_this.handleUsernameChange = _this.handleUsernameChange.bind(_this);
-			_this.handlePasswordChange = _this.handlePasswordChange.bind(_this);
-			_this.handleFirstnameChange = _this.handleFirstnameChange.bind(_this);
-			_this.handleLastnameChange = _this.handleLastnameChange.bind(_this);
-			_this.handleDobChange = _this.handleDobChange.bind(_this);
-			// this.signUpUser = helpers.signUpUser.bind(this);
-			// this.logInUser = helpers.logInUser.bind(this);
-			return _this;
-		}
-	
-		_createClass(SignUp, [{
-			key: 'handleUsernameChange',
-			value: function handleUsernameChange(e) {
-				this.setState({
-					username: e.target.value
-				});
-			}
-		}, {
-			key: 'handlePasswordChange',
-			value: function handlePasswordChange(e) {
-				this.setState({
-					password: e.target.value
-				});
-			}
-		}, {
-			key: 'handleFirstnameChange',
-			value: function handleFirstnameChange(e) {
-				this.setState({
-					firstname: e.target.value
-				});
-			}
-		}, {
-			key: 'handleLastnameChange',
-			value: function handleLastnameChange(e) {
-				this.setState({
-					lastname: e.target.value
-				});
-			}
-		}, {
-			key: 'handleDobChange',
-			value: function handleDobChange(e) {
-				this.setState({
-					dob: e.target.value
-				});
-			}
-		}, {
-			key: 'handleLoginClick',
-			value: function handleLoginClick(event) {
-				var _this2 = this;
-	
-				event.preventDefault();
-				var signinInputs = {
-					username: this.state.username,
-					password: this.state.password
-				};
-				_helpers2.default.logInUser(signinInputs).then(function (response) {
-					window.localStorage.setItem('filmedInToken', response.token);
-					console.log('set token');
-					_this2.props.toggleLoggedIn();
-				});
-			}
-		}, {
-			key: 'handleSignUpClick',
-			value: function handleSignUpClick(event) {
-				var _this3 = this;
-	
-				event.preventDefault();
-				var signupInputs = {
-					username: this.state.username,
-					password: this.state.password,
-					firstName: this.state.firstname,
-					lastName: this.state.lastname,
-					DOB: this.state.DOB
-				};
-	
-				_helpers2.default.signUpUser(signupInputs).then(function (response) {
-					window.localStorage.setItem('filmedInToken', reponse.token);
-					_this3.props.toggleLoggedIn();
-				}).catch(function (err) {
-					console.log('error with login');
-				});
-			}
-		}, {
-			key: 'render',
-			value: function render() {
-				return _react2.default.createElement(
-					'div',
-					{ className: 'signup' },
-					_react2.default.createElement(
-						'div',
-						{ className: 'navbar' },
-						_react2.default.createElement(
-							'h1',
-							null,
-							'FilmedIn'
-						),
-						_react2.default.createElement(
-							'form',
-							{ onSubmit: this.handleLoginClick },
-							_react2.default.createElement(
-								'ul',
-								null,
-								_react2.default.createElement(
-									'li',
-									null,
-									_react2.default.createElement(
-										'label',
-										null,
-										'Username:'
-									),
-									_react2.default.createElement('input', { type: 'text', value: this.state.username, onChange: this.handleUsernameChange, placeholder: 'your username' })
-								),
-								_react2.default.createElement(
-									'li',
-									null,
-									_react2.default.createElement(
-										'label',
-										null,
-										'Password:'
-									),
-									_react2.default.createElement('input', { type: 'password', value: this.state.password, onChange: this.handlePasswordChange, placeholder: 'your password' })
-								),
-								_react2.default.createElement(
-									'li',
-									null,
-									_react2.default.createElement(
-										'button',
-										{ type: 'submit' },
-										'Login'
-									)
-								)
-							)
-						)
-					),
-					_react2.default.createElement(
-						'div',
-						{ className: 'signup' },
-						_react2.default.createElement(
-							'form',
-							{ onSubmit: this.handleSignUpClick },
-							_react2.default.createElement(
-								'ul',
-								null,
-								_react2.default.createElement(
-									'li',
-									null,
-									_react2.default.createElement(
-										'label',
-										null,
-										'First name:'
-									),
-									_react2.default.createElement('input', { type: 'text', value: this.state.firstname, onChange: this.handleFirstnameChange, placeholder: 'your first name' })
-								),
-								_react2.default.createElement(
-									'li',
-									null,
-									_react2.default.createElement(
-										'label',
-										null,
-										'Last name:'
-									),
-									_react2.default.createElement('input', { type: 'text', value: this.state.lastname, onChange: this.handleLastnameChange, placeholder: 'your last name' })
-								),
-								_react2.default.createElement(
-									'li',
-									null,
-									_react2.default.createElement(
-										'label',
-										null,
-										'Date of Birth:'
-									),
-									_react2.default.createElement('input', { type: 'text', value: this.state.DOB, onChange: this.handleDobChange, placeholder: 'yyyy-mm-dd' })
-								),
-								_react2.default.createElement(
-									'li',
-									null,
-									_react2.default.createElement(
-										'label',
-										null,
-										'Username:'
-									),
-									_react2.default.createElement('input', { type: 'text', value: this.state.username, onChange: this.handleUsernameChange, placeholder: 'your username' })
-								),
-								_react2.default.createElement(
-									'li',
-									null,
-									_react2.default.createElement(
-										'label',
-										null,
-										'Password:'
-									),
-									_react2.default.createElement('input', { type: 'password', value: this.state.password, onChange: this.handlePasswordChange, placeholder: 'your password' })
-								),
-								_react2.default.createElement(
-									'li',
-									null,
-									_react2.default.createElement(
-										'button',
-										{ type: 'submit' },
-										'Sign up!'
-									)
-								)
-							)
-						)
-					)
-				);
-			}
-		}]);
-	
-		return SignUp;
-	}(_react2.default.Component);
-	
-	exports.default = SignUp;
-
-/***/ },
-/* 180 */
-/*!*********************************!*\
-  !*** ./components/UserHome.jsx ***!
-  \*********************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-	
-	var _react = __webpack_require__(/*! react */ 1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _NavBar = __webpack_require__(/*! ./NavBar */ 181);
-	
-	var _NavBar2 = _interopRequireDefault(_NavBar);
-	
-	var _FilmList = __webpack_require__(/*! ./FilmList */ 182);
-	
-	var _FilmList2 = _interopRequireDefault(_FilmList);
-	
-	var _UserList = __webpack_require__(/*! ./UserList */ 184);
-	
-	var _UserList2 = _interopRequireDefault(_UserList);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var UserHome = function UserHome(_ref) {
-		var handleFilmClick = _ref.handleFilmClick,
-		    handleHomeClick = _ref.handleHomeClick,
-		    handleUserClick = _ref.handleUserClick,
-		    toggleLoggedIn = _ref.toggleLoggedIn,
-		    firstName = _ref.firstName,
-		    lastName = _ref.lastName,
-		    allFilms = _ref.allFilms,
-		    allFriends = _ref.allFriends;
-		return _react2.default.createElement(
-			'div',
-			{ className: 'user-home' },
-			_react2.default.createElement(_NavBar2.default, {
-				handleHomeClick: handleHomeClick,
-				toggleLoggedIn: toggleLoggedIn
-			}),
-			_react2.default.createElement(
-				'h2',
-				null,
-				'Welcome ',
-				firstName,
-				' ',
-				lastName
-			),
-			_react2.default.createElement(
-				'div',
-				null,
-				_react2.default.createElement(
-					'h3',
-					null,
-					'List of user\'s ranked films'
-				),
-				_react2.default.createElement(_FilmList2.default, {
-					handleFilmClick: handleFilmClick,
-					allFilms: allFilms
-				})
-			),
-			_react2.default.createElement(
-				'div',
-				null,
-				_react2.default.createElement(
-					'h3',
-					null,
-					'List of user\'s friends'
-				),
-				_react2.default.createElement(_UserList2.default, {
-					handleUserClick: handleUserClick,
-					allFriends: allFriends
-				})
-			)
-		);
-	};
-	
-	exports.default = UserHome;
-
-/***/ },
-/* 181 */
-/*!*******************************!*\
-  !*** ./components/NavBar.jsx ***!
-  \*******************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	var _react = __webpack_require__(/*! react */ 1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var NavBar = function (_React$Component) {
-		_inherits(NavBar, _React$Component);
-	
-		function NavBar(props) {
-			_classCallCheck(this, NavBar);
-	
-			return _possibleConstructorReturn(this, (NavBar.__proto__ || Object.getPrototypeOf(NavBar)).call(this, props));
-		}
-	
-		_createClass(NavBar, [{
-			key: "render",
-			value: function render() {
-				return _react2.default.createElement(
-					"div",
-					{ className: "navbar" },
-					_react2.default.createElement(
-						"h1",
-						null,
-						"FilmedIn"
-					),
-					_react2.default.createElement(
-						"ul",
-						null,
-						_react2.default.createElement(
-							"li",
-							null,
-							_react2.default.createElement(
-								"a",
-								{ href: "#", onClick: this.props.handleHomeClick },
-								"Home"
-							)
-						),
-						_react2.default.createElement(
-							"li",
-							null,
-							_react2.default.createElement(
-								"form",
-								null,
-								_react2.default.createElement(
-									"label",
-									null,
-									"Search Film: "
-								),
-								_react2.default.createElement("input", { type: "text", placeholder: "Film Title" }),
-								_react2.default.createElement(
-									"button",
-									{ type: "submit" },
-									"Search"
-								)
-							)
-						),
-						_react2.default.createElement(
-							"li",
-							null,
-							_react2.default.createElement(
-								"form",
-								null,
-								_react2.default.createElement(
-									"label",
-									null,
-									"Search Users: "
-								),
-								_react2.default.createElement("input", { type: "text", placeholder: "Name" }),
-								_react2.default.createElement(
-									"button",
-									{ type: "submit" },
-									"Search"
-								)
-							)
-						),
-						_react2.default.createElement(
-							"li",
-							null,
-							_react2.default.createElement(
-								"a",
-								{ href: "#", onClick: this.props.toggleLoggedIn },
-								"Logout"
-							)
-						)
-					)
-				);
-			}
-		}]);
-	
-		return NavBar;
-	}(_react2.default.Component);
-	
-	exports.default = NavBar;
-
-/***/ },
-/* 182 */
-/*!*********************************!*\
-  !*** ./components/FilmList.jsx ***!
-  \*********************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-	
-	var _react = __webpack_require__(/*! react */ 1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _FilmEntry = __webpack_require__(/*! ./FilmEntry */ 183);
-	
-	var _FilmEntry2 = _interopRequireDefault(_FilmEntry);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var FilmList = function FilmList(_ref) {
-		var handleFilmClick = _ref.handleFilmClick,
-		    allFilms = _ref.allFilms;
-		return _react2.default.createElement(
-			'div',
-			{ className: 'film-list' },
-			console.log('allFilms: ', allFilms),
-			allFilms.map(function (film) {
-				return _react2.default.createElement(_FilmEntry2.default, {
-					handleFilmClick: handleFilmClick,
-					film: film
-				});
-			})
-		);
-	};
-	
-	exports.default = FilmList;
-
-/***/ },
-/* 183 */
-/*!**********************************!*\
-  !*** ./components/FilmEntry.jsx ***!
-  \**********************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _react = __webpack_require__(/*! react */ 1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var FilmEntry = function FilmEntry(_ref) {
-	  var handleFilmClick = _ref.handleFilmClick,
-	      film = _ref.film;
-	  return _react2.default.createElement(
-	    "div",
-	    { className: "film-entry", onClick: function onClick() {
-	        return handleFilmClick(film);
-	      } },
-	    _react2.default.createElement(
-	      "div",
-	      null,
-	      _react2.default.createElement("img", { src: film.snippet.thumbnails.default.url, alt: "" })
-	    ),
-	    _react2.default.createElement(
-	      "div",
-	      null,
-	      film.snippet.title
-	    ),
-	    _react2.default.createElement(
-	      "div",
-	      null,
-	      film.snippet.description
-	    )
-	  );
-	};
-	
-	exports.default = FilmEntry;
-
-/***/ },
-/* 184 */
-/*!*********************************!*\
-  !*** ./components/UserList.jsx ***!
-  \*********************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-	
-	var _react = __webpack_require__(/*! react */ 1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _UserEntry = __webpack_require__(/*! ./UserEntry */ 185);
-	
-	var _UserEntry2 = _interopRequireDefault(_UserEntry);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var UserList = function UserList(_ref) {
-		var handleUserClick = _ref.handleUserClick,
-		    allFriends = _ref.allFriends;
-		return _react2.default.createElement(
-			'div',
-			{ className: 'user-list' },
-			console.log('allFriends: ', allFriends),
-			allFriends.map(function (user) {
-				return _react2.default.createElement(_UserEntry2.default, {
-					handleUserClick: handleUserClick,
-					user: user
-				});
-			})
-		);
-	};
-	
-	exports.default = UserList;
-
-/***/ },
-/* 185 */
-/*!**********************************!*\
-  !*** ./components/UserEntry.jsx ***!
-  \**********************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _react = __webpack_require__(/*! react */ 1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var UserEntry = function UserEntry(_ref) {
-	  var handleUserClick = _ref.handleUserClick,
-	      user = _ref.user;
-	  return _react2.default.createElement(
-	    "div",
-	    { className: "user-entry", onClick: function onClick() {
-	        return handleUserClick(user);
-	      } },
-	    _react2.default.createElement(
-	      "div",
-	      null,
-	      user.firstname,
-	      " ",
-	      user.lastname
-	    ),
-	    _react2.default.createElement(
-	      "div",
-	      null,
-	      "Username: ",
-	      user.username
-	    )
-	  );
-	};
-	
-	exports.default = UserEntry;
-
-/***/ },
-/* 186 */
-/*!************************************!*\
-  !*** ./components/FilmProfile.jsx ***!
-  \************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-	
-	var _react = __webpack_require__(/*! react */ 1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _NavBar = __webpack_require__(/*! ./NavBar */ 181);
-	
-	var _NavBar2 = _interopRequireDefault(_NavBar);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var FilmProfile = function FilmProfile(_ref) {
-		var film = _ref.film,
-		    handleHomeClick = _ref.handleHomeClick,
-		    toggleLoggedIn = _ref.toggleLoggedIn;
-		return _react2.default.createElement(
-			'div',
-			{ className: 'film-profile' },
-			_react2.default.createElement(_NavBar2.default, {
-				handleHomeClick: handleHomeClick,
-				toggleLoggedIn: toggleLoggedIn
-			}),
-			_react2.default.createElement(
-				'h1',
-				null,
-				film.snippet.title
-			),
-			_react2.default.createElement('img', { src: film.snippet.thumbnails.default.url, alt: '' }),
-			_react2.default.createElement(
-				'div',
-				null,
-				'Your ranking: ',
-				film.userRank
-			),
-			_react2.default.createElement('br', null),
-			_react2.default.createElement(
-				'div',
-				null,
-				'Film Description:',
-				_react2.default.createElement('br', null),
-				film.snippet.description
-			),
-			_react2.default.createElement('br', null),
-			_react2.default.createElement(
-				'div',
-				null,
-				'This will contain links to stream the film'
-			),
-			_react2.default.createElement('br', null),
-			_react2.default.createElement(
-				'div',
-				null,
-				'This will contain friends who have ranked the film'
-			)
-		);
-	};
-	
-	exports.default = FilmProfile;
-
-/***/ },
-/* 187 */
-/*!************************************!*\
-  !*** ./components/UserProfile.jsx ***!
-  \************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-	
-	var _react = __webpack_require__(/*! react */ 1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _NavBar = __webpack_require__(/*! ./NavBar */ 181);
-	
-	var _NavBar2 = _interopRequireDefault(_NavBar);
-	
-	var _FilmList = __webpack_require__(/*! ./FilmList */ 182);
-	
-	var _FilmList2 = _interopRequireDefault(_FilmList);
-	
-	var _UserList = __webpack_require__(/*! ./UserList */ 184);
-	
-	var _UserList2 = _interopRequireDefault(_UserList);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var UserProfile = function UserProfile(_ref) {
-		var user = _ref.user,
-		    handleHomeClick = _ref.handleHomeClick,
-		    handleFilmClick = _ref.handleFilmClick,
-		    handleUserClick = _ref.handleUserClick,
-		    toggleLoggedIn = _ref.toggleLoggedIn;
-		return _react2.default.createElement(
-			'div',
-			{ className: 'user-profile' },
-			_react2.default.createElement(_NavBar2.default, {
-				handleHomeClick: handleHomeClick,
-				toggleLoggedIn: toggleLoggedIn
-			}),
-			_react2.default.createElement(
-				'h1',
-				null,
-				user.firstname,
-				' ',
-				user.lastname
-			),
-			_react2.default.createElement(
-				'h3',
-				null,
-				'List of your ranked films'
-			),
-			_react2.default.createElement(_FilmList2.default, {
-				allFilms: user.films,
-				handleFilmClick: handleFilmClick
-			}),
-			_react2.default.createElement(
-				'h3',
-				null,
-				'List of your friends'
-			),
-			_react2.default.createElement(_UserList2.default, {
-				allFriends: user.friends,
-				handleUserClick: handleUserClick
-			})
-		);
-	};
-	
-	exports.default = UserProfile;
-
-/***/ },
-/* 188 */
-/*!****************************************!*\
-  !*** ./components/exampleVideoData.js ***!
-  \****************************************/
-/***/ function(module, exports) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	// import React from 'react';
-	// DO NOT EDIT THIS FILE
-	// This is an example response from the YouTube Search API
-	// when searching with the query 'react tutorial'
-	var exampleVideoData = [{
-	  userRank: 4,
-	  kind: 'youtube#searchResult',
-	  etag: 'abQHWywil_AkNqdqji7_FqiK-u4/Ykxo_CqKu8F8kcm-iNgL332gQTY',
-	  id: {
-	    kind: 'youtube#video',
-	    videoId: '4ZAEBxGipoA'
-	  },
-	  snippet: {
-	    publishedAt: '2015-08-02T20:52:58.000Z',
-	    channelId: 'UCJbPGzawDH1njbqV-D5HqKw',
-	    title: 'Film 1',
-	    description: 'My website - https://www.thenewboston.com/videos.php Have questions about the tutorial or React? Ask them here ...',
-	    thumbnails: {
-	      default: {
-	        url: 'https://i.ytimg.com/vi/4ZAEBxGipoA/default.jpg',
-	        width: 120,
-	        height: 90
-	      },
-	      medium: {
-	        url: 'https://i.ytimg.com/vi/4ZAEBxGipoA/mqdefault.jpg',
-	        width: 320,
-	        height: 180
-	      },
-	      high: {
-	        url: 'https://i.ytimg.com/vi/4ZAEBxGipoA/hqdefault.jpg',
-	        width: 480,
-	        height: 360
-	      }
-	    },
-	    channelTitle: 'thenewboston',
-	    liveBroadcastContent: 'none'
-	  }
-	}, {
-	  userRank: 5,
-	  kind: 'youtube#searchResult',
-	  etag: 'abQHWywil_AkNqdqji7_FqiK-u4/tS3xe6KXEJbntCAmn01SmEuSYxg',
-	  id: {
-	    kind: 'youtube#video',
-	    videoId: 'mFEoarLnnqM'
-	  },
-	  snippet: {
-	    publishedAt: '2014-08-08T21:31:58.000Z',
-	    channelId: 'UCKKQaFUwyPb6iC-42rFRz2Q',
-	    title: 'Film 2',
-	    description: 'A step by step video tutorial that takes you through the correct way of coding Facebook React views. Check out the rest of the tagtree library: http://tagtree.tv.',
-	    thumbnails: {
-	      default: {
-	        url: 'https://i.ytimg.com/vi/mFEoarLnnqM/default.jpg',
-	        width: 120,
-	        height: 90
-	      },
-	      medium: {
-	        url: 'https://i.ytimg.com/vi/mFEoarLnnqM/mqdefault.jpg',
-	        width: 320,
-	        height: 180
-	      },
-	      high: {
-	        url: 'https://i.ytimg.com/vi/mFEoarLnnqM/hqdefault.jpg',
-	        width: 480,
-	        height: 360
-	      }
-	    },
-	    channelTitle: '',
-	    liveBroadcastContent: 'none'
-	  }
-	}, {
-	  userRank: 0,
-	  kind: 'youtube#searchResult',
-	  etag: 'abQHWywil_AkNqdqji7_FqiK-u4/FZYrgJg7qfkv0yfImJPujBKBmLk',
-	  id: {
-	    kind: 'youtube#video',
-	    videoId: '0ByoQm-vnYw'
-	  },
-	  snippet: {
-	    publishedAt: '2015-12-08T20:51:18.000Z',
-	    channelId: 'UClLXKYEEM8OBBx85DOa6-cg',
-	    title: 'Film 3',
-	    description: 'Get the full course here: http://devslopes.com/react In this video you will learn how to setup your project for React development and you will build a simple React ...',
-	    thumbnails: {
-	      default: {
-	        url: 'https://i.ytimg.com/vi/0ByoQm-vnYw/default.jpg',
-	        width: 120,
-	        height: 90
-	      },
-	      medium: {
-	        url: 'https://i.ytimg.com/vi/0ByoQm-vnYw/mqdefault.jpg',
-	        width: 320,
-	        height: 180
-	      },
-	      high: {
-	        url: 'https://i.ytimg.com/vi/0ByoQm-vnYw/hqdefault.jpg',
-	        width: 480,
-	        height: 360
-	      }
-	    },
-	    channelTitle: '',
-	    liveBroadcastContent: 'none'
-	  }
-	}, {
-	  userRank: 4,
-	  kind: 'youtube#searchResult',
-	  etag: 'abQHWywil_AkNqdqji7_FqiK-u4/nSaavPWVkTWpn2p-ClwNj7xszf8',
-	  id: {
-	    kind: 'youtube#video',
-	    videoId: 'o5E894TmHJg'
-	  },
-	  snippet: {
-	    publishedAt: '2015-03-09T08:19:59.000Z',
-	    channelId: 'UCMYct3vtNaMwZAA3_DNsWMw',
-	    title: 'Film 4',
-	    description: 'Hey! Write something in the comments, even if it\'s critical. I\'d love to hear feedback! (also, please thumbs-up if you like the vid, and I\'ll make more). Personally I ...',
-	    thumbnails: {
-	      default: {
-	        url: 'https://i.ytimg.com/vi/o5E894TmHJg/default.jpg',
-	        width: 120,
-	        height: 90
-	      },
-	      medium: {
-	        url: 'https://i.ytimg.com/vi/o5E894TmHJg/mqdefault.jpg',
-	        width: 320,
-	        height: 180
-	      },
-	      high: {
-	        url: 'https://i.ytimg.com/vi/o5E894TmHJg/hqdefault.jpg',
-	        width: 480,
-	        height: 360
-	      }
-	    },
-	    channelTitle: 'bengrunfeld',
-	    liveBroadcastContent: 'none'
-	  }
-	}, {
-	  userRank: 1,
-	  kind: 'youtube#searchResult',
-	  etag: 'abQHWywil_AkNqdqji7_FqiK-u4/3E7u1VZ18KYyfLIA6RgI2w-7nRI',
-	  id: {
-	    kind: 'youtube#video',
-	    videoId: 'Pd6Ub7Ju2RM'
-	  },
-	  snippet: {
-	    publishedAt: '2015-02-13T18:50:38.000Z',
-	    channelId: 'UCr5lOCcjZzNprLrhxO0WZQw',
-	    title: 'Film 5',
-	    description: 'Brought to you by Formidable Labs and SeattleJS, Colin Megill walks us through Facebook\'s React framework in part one of this three-part series. The workshop ...',
-	    thumbnails: {
-	      default: {
-	        url: 'https://i.ytimg.com/vi/Pd6Ub7Ju2RM/default.jpg',
-	        width: 120,
-	        height: 90
-	      },
-	      medium: {
-	        url: 'https://i.ytimg.com/vi/Pd6Ub7Ju2RM/mqdefault.jpg',
-	        width: 320,
-	        height: 180
-	      },
-	      high: {
-	        url: 'https://i.ytimg.com/vi/Pd6Ub7Ju2RM/hqdefault.jpg',
-	        width: 480,
-	        height: 360
-	      }
-	    },
-	    channelTitle: '',
-	    liveBroadcastContent: 'none'
-	  }
-	}];
-	
-	exports.default = exampleVideoData;
-
-/***/ },
-/* 189 */
-/*!*****************************************!*\
-  !*** ./components/exampleFriendData.js ***!
-  \*****************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-	
-	var _exampleVideoData = __webpack_require__(/*! ./exampleVideoData */ 188);
-	
-	var _exampleVideoData2 = _interopRequireDefault(_exampleVideoData);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var exampleFriendData = [{
-		firstname: 'Jasmine',
-		lastname: 'Mina',
-		username: 'jMina',
-		films: _exampleVideoData2.default,
-		friends: [{ firstname: 'Nick',
-			lastname: 'Cobbett',
-			username: 'nickC',
-			films: _exampleVideoData2.default
-		}, { firstname: 'Sai',
-			lastname: 'Vickna',
-			username: 'saiClops',
-			films: _exampleVideoData2.default
-		}, { firstname: 'Jimothy',
-			lastname: 'Zhang',
-			username: 'jayZ',
-			films: _exampleVideoData2.default
-		}]
-	}, {
-		firstname: 'Nick',
-		lastname: 'Cobbett',
-		username: 'nickC',
-		films: _exampleVideoData2.default,
-		friends: [{ firstname: 'Jasmine',
-			lastname: 'Mina',
-			username: 'jMina',
-			films: _exampleVideoData2.default
-		}, { firstname: 'Sai',
-			lastname: 'Vickna',
-			username: 'saiClops',
-			films: _exampleVideoData2.default
-		}, { firstname: 'Jimothy',
-			lastname: 'Zhang',
-			username: 'jayZ',
-			films: _exampleVideoData2.default
-		}]
-	}, {
-		firstname: 'Sai',
-		lastname: 'Vickna',
-		username: 'saiClops',
-		films: _exampleVideoData2.default,
-		friends: [{ firstname: 'Jasmine',
-			lastname: 'Mina',
-			username: 'jMina',
-			films: _exampleVideoData2.default
-		}, { firstname: 'Nick',
-			lastname: 'Cobbett',
-			username: 'nickC',
-			films: _exampleVideoData2.default
-		}, { firstname: 'Jimothy',
-			lastname: 'Zhang',
-			username: 'jayZ',
-			films: _exampleVideoData2.default
-		}]
-	}, {
-		firstname: 'Jimothy',
-		lastname: 'Zhang',
-		username: 'jayZ',
-		films: _exampleVideoData2.default,
-		friends: [{ firstname: 'Jasmine',
-			lastname: 'Mina',
-			username: 'jMina',
-			films: _exampleVideoData2.default
-		}, { firstname: 'Nick',
-			lastname: 'Cobbett',
-			username: 'nickC',
-			films: _exampleVideoData2.default
-		}, { firstname: 'Sai',
-			lastname: 'Vickna',
-			username: 'saiClops',
-			films: _exampleVideoData2.default
-		}]
-	}];
-	
-	exports.default = exampleFriendData;
-
-/***/ },
-/* 190 */
 /*!**************************!*\
   !*** ./~/axios/index.js ***!
   \**************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(/*! ./lib/axios */ 191);
+	module.exports = __webpack_require__(/*! ./lib/axios */ 180);
 
 /***/ },
-/* 191 */
+/* 180 */
 /*!******************************!*\
   !*** ./~/axios/lib/axios.js ***!
   \******************************/
@@ -23304,10 +22254,10 @@
 
 	'use strict';
 	
-	var utils = __webpack_require__(/*! ./utils */ 192);
-	var bind = __webpack_require__(/*! ./helpers/bind */ 193);
-	var Axios = __webpack_require__(/*! ./core/Axios */ 194);
-	var defaults = __webpack_require__(/*! ./defaults */ 195);
+	var utils = __webpack_require__(/*! ./utils */ 181);
+	var bind = __webpack_require__(/*! ./helpers/bind */ 182);
+	var Axios = __webpack_require__(/*! ./core/Axios */ 183);
+	var defaults = __webpack_require__(/*! ./defaults */ 184);
 	
 	/**
 	 * Create an instance of Axios
@@ -23340,15 +22290,15 @@
 	};
 	
 	// Expose Cancel & CancelToken
-	axios.Cancel = __webpack_require__(/*! ./cancel/Cancel */ 212);
-	axios.CancelToken = __webpack_require__(/*! ./cancel/CancelToken */ 213);
-	axios.isCancel = __webpack_require__(/*! ./cancel/isCancel */ 209);
+	axios.Cancel = __webpack_require__(/*! ./cancel/Cancel */ 201);
+	axios.CancelToken = __webpack_require__(/*! ./cancel/CancelToken */ 202);
+	axios.isCancel = __webpack_require__(/*! ./cancel/isCancel */ 198);
 	
 	// Expose all/spread
 	axios.all = function all(promises) {
 	  return Promise.all(promises);
 	};
-	axios.spread = __webpack_require__(/*! ./helpers/spread */ 214);
+	axios.spread = __webpack_require__(/*! ./helpers/spread */ 203);
 	
 	module.exports = axios;
 	
@@ -23357,7 +22307,7 @@
 
 
 /***/ },
-/* 192 */
+/* 181 */
 /*!******************************!*\
   !*** ./~/axios/lib/utils.js ***!
   \******************************/
@@ -23365,7 +22315,7 @@
 
 	'use strict';
 	
-	var bind = __webpack_require__(/*! ./helpers/bind */ 193);
+	var bind = __webpack_require__(/*! ./helpers/bind */ 182);
 	
 	/*global toString:true*/
 	
@@ -23665,7 +22615,7 @@
 
 
 /***/ },
-/* 193 */
+/* 182 */
 /*!*************************************!*\
   !*** ./~/axios/lib/helpers/bind.js ***!
   \*************************************/
@@ -23685,7 +22635,7 @@
 
 
 /***/ },
-/* 194 */
+/* 183 */
 /*!***********************************!*\
   !*** ./~/axios/lib/core/Axios.js ***!
   \***********************************/
@@ -23693,12 +22643,12 @@
 
 	'use strict';
 	
-	var defaults = __webpack_require__(/*! ./../defaults */ 195);
-	var utils = __webpack_require__(/*! ./../utils */ 192);
-	var InterceptorManager = __webpack_require__(/*! ./InterceptorManager */ 206);
-	var dispatchRequest = __webpack_require__(/*! ./dispatchRequest */ 207);
-	var isAbsoluteURL = __webpack_require__(/*! ./../helpers/isAbsoluteURL */ 210);
-	var combineURLs = __webpack_require__(/*! ./../helpers/combineURLs */ 211);
+	var defaults = __webpack_require__(/*! ./../defaults */ 184);
+	var utils = __webpack_require__(/*! ./../utils */ 181);
+	var InterceptorManager = __webpack_require__(/*! ./InterceptorManager */ 195);
+	var dispatchRequest = __webpack_require__(/*! ./dispatchRequest */ 196);
+	var isAbsoluteURL = __webpack_require__(/*! ./../helpers/isAbsoluteURL */ 199);
+	var combineURLs = __webpack_require__(/*! ./../helpers/combineURLs */ 200);
 	
 	/**
 	 * Create a new instance of Axios
@@ -23779,7 +22729,7 @@
 
 
 /***/ },
-/* 195 */
+/* 184 */
 /*!*********************************!*\
   !*** ./~/axios/lib/defaults.js ***!
   \*********************************/
@@ -23787,8 +22737,8 @@
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
 	
-	var utils = __webpack_require__(/*! ./utils */ 192);
-	var normalizeHeaderName = __webpack_require__(/*! ./helpers/normalizeHeaderName */ 196);
+	var utils = __webpack_require__(/*! ./utils */ 181);
+	var normalizeHeaderName = __webpack_require__(/*! ./helpers/normalizeHeaderName */ 185);
 	
 	var PROTECTION_PREFIX = /^\)\]\}',?\n/;
 	var DEFAULT_CONTENT_TYPE = {
@@ -23805,10 +22755,10 @@
 	  var adapter;
 	  if (typeof XMLHttpRequest !== 'undefined') {
 	    // For browsers use XHR adapter
-	    adapter = __webpack_require__(/*! ./adapters/xhr */ 197);
+	    adapter = __webpack_require__(/*! ./adapters/xhr */ 186);
 	  } else if (typeof process !== 'undefined') {
 	    // For node use HTTP adapter
-	    adapter = __webpack_require__(/*! ./adapters/http */ 197);
+	    adapter = __webpack_require__(/*! ./adapters/http */ 186);
 	  }
 	  return adapter;
 	}
@@ -23882,7 +22832,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../process/browser.js */ 3)))
 
 /***/ },
-/* 196 */
+/* 185 */
 /*!****************************************************!*\
   !*** ./~/axios/lib/helpers/normalizeHeaderName.js ***!
   \****************************************************/
@@ -23890,7 +22840,7 @@
 
 	'use strict';
 	
-	var utils = __webpack_require__(/*! ../utils */ 192);
+	var utils = __webpack_require__(/*! ../utils */ 181);
 	
 	module.exports = function normalizeHeaderName(headers, normalizedName) {
 	  utils.forEach(headers, function processHeader(value, name) {
@@ -23903,7 +22853,7 @@
 
 
 /***/ },
-/* 197 */
+/* 186 */
 /*!*************************************!*\
   !*** ./~/axios/lib/adapters/xhr.js ***!
   \*************************************/
@@ -23911,13 +22861,13 @@
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
 	
-	var utils = __webpack_require__(/*! ./../utils */ 192);
-	var settle = __webpack_require__(/*! ./../core/settle */ 198);
-	var buildURL = __webpack_require__(/*! ./../helpers/buildURL */ 201);
-	var parseHeaders = __webpack_require__(/*! ./../helpers/parseHeaders */ 202);
-	var isURLSameOrigin = __webpack_require__(/*! ./../helpers/isURLSameOrigin */ 203);
-	var createError = __webpack_require__(/*! ../core/createError */ 199);
-	var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(/*! ./../helpers/btoa */ 204);
+	var utils = __webpack_require__(/*! ./../utils */ 181);
+	var settle = __webpack_require__(/*! ./../core/settle */ 187);
+	var buildURL = __webpack_require__(/*! ./../helpers/buildURL */ 190);
+	var parseHeaders = __webpack_require__(/*! ./../helpers/parseHeaders */ 191);
+	var isURLSameOrigin = __webpack_require__(/*! ./../helpers/isURLSameOrigin */ 192);
+	var createError = __webpack_require__(/*! ../core/createError */ 188);
+	var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(/*! ./../helpers/btoa */ 193);
 	
 	module.exports = function xhrAdapter(config) {
 	  return new Promise(function dispatchXhrRequest(resolve, reject) {
@@ -24013,7 +22963,7 @@
 	    // This is only done if running in a standard browser environment.
 	    // Specifically not if we're in a web worker, or react-native.
 	    if (utils.isStandardBrowserEnv()) {
-	      var cookies = __webpack_require__(/*! ./../helpers/cookies */ 205);
+	      var cookies = __webpack_require__(/*! ./../helpers/cookies */ 194);
 	
 	      // Add xsrf header
 	      var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
@@ -24090,7 +23040,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../../process/browser.js */ 3)))
 
 /***/ },
-/* 198 */
+/* 187 */
 /*!************************************!*\
   !*** ./~/axios/lib/core/settle.js ***!
   \************************************/
@@ -24098,7 +23048,7 @@
 
 	'use strict';
 	
-	var createError = __webpack_require__(/*! ./createError */ 199);
+	var createError = __webpack_require__(/*! ./createError */ 188);
 	
 	/**
 	 * Resolve or reject a Promise based on response status.
@@ -24124,7 +23074,7 @@
 
 
 /***/ },
-/* 199 */
+/* 188 */
 /*!*****************************************!*\
   !*** ./~/axios/lib/core/createError.js ***!
   \*****************************************/
@@ -24132,7 +23082,7 @@
 
 	'use strict';
 	
-	var enhanceError = __webpack_require__(/*! ./enhanceError */ 200);
+	var enhanceError = __webpack_require__(/*! ./enhanceError */ 189);
 	
 	/**
 	 * Create an Error with the specified message, config, error code, and response.
@@ -24150,7 +23100,7 @@
 
 
 /***/ },
-/* 200 */
+/* 189 */
 /*!******************************************!*\
   !*** ./~/axios/lib/core/enhanceError.js ***!
   \******************************************/
@@ -24178,7 +23128,7 @@
 
 
 /***/ },
-/* 201 */
+/* 190 */
 /*!*****************************************!*\
   !*** ./~/axios/lib/helpers/buildURL.js ***!
   \*****************************************/
@@ -24186,7 +23136,7 @@
 
 	'use strict';
 	
-	var utils = __webpack_require__(/*! ./../utils */ 192);
+	var utils = __webpack_require__(/*! ./../utils */ 181);
 	
 	function encode(val) {
 	  return encodeURIComponent(val).
@@ -24255,7 +23205,7 @@
 
 
 /***/ },
-/* 202 */
+/* 191 */
 /*!*********************************************!*\
   !*** ./~/axios/lib/helpers/parseHeaders.js ***!
   \*********************************************/
@@ -24263,7 +23213,7 @@
 
 	'use strict';
 	
-	var utils = __webpack_require__(/*! ./../utils */ 192);
+	var utils = __webpack_require__(/*! ./../utils */ 181);
 	
 	/**
 	 * Parse headers into an object
@@ -24301,7 +23251,7 @@
 
 
 /***/ },
-/* 203 */
+/* 192 */
 /*!************************************************!*\
   !*** ./~/axios/lib/helpers/isURLSameOrigin.js ***!
   \************************************************/
@@ -24309,7 +23259,7 @@
 
 	'use strict';
 	
-	var utils = __webpack_require__(/*! ./../utils */ 192);
+	var utils = __webpack_require__(/*! ./../utils */ 181);
 	
 	module.exports = (
 	  utils.isStandardBrowserEnv() ?
@@ -24378,7 +23328,7 @@
 
 
 /***/ },
-/* 204 */
+/* 193 */
 /*!*************************************!*\
   !*** ./~/axios/lib/helpers/btoa.js ***!
   \*************************************/
@@ -24423,7 +23373,7 @@
 
 
 /***/ },
-/* 205 */
+/* 194 */
 /*!****************************************!*\
   !*** ./~/axios/lib/helpers/cookies.js ***!
   \****************************************/
@@ -24431,7 +23381,7 @@
 
 	'use strict';
 	
-	var utils = __webpack_require__(/*! ./../utils */ 192);
+	var utils = __webpack_require__(/*! ./../utils */ 181);
 	
 	module.exports = (
 	  utils.isStandardBrowserEnv() ?
@@ -24485,7 +23435,7 @@
 
 
 /***/ },
-/* 206 */
+/* 195 */
 /*!************************************************!*\
   !*** ./~/axios/lib/core/InterceptorManager.js ***!
   \************************************************/
@@ -24493,7 +23443,7 @@
 
 	'use strict';
 	
-	var utils = __webpack_require__(/*! ./../utils */ 192);
+	var utils = __webpack_require__(/*! ./../utils */ 181);
 	
 	function InterceptorManager() {
 	  this.handlers = [];
@@ -24546,7 +23496,7 @@
 
 
 /***/ },
-/* 207 */
+/* 196 */
 /*!*********************************************!*\
   !*** ./~/axios/lib/core/dispatchRequest.js ***!
   \*********************************************/
@@ -24554,10 +23504,10 @@
 
 	'use strict';
 	
-	var utils = __webpack_require__(/*! ./../utils */ 192);
-	var transformData = __webpack_require__(/*! ./transformData */ 208);
-	var isCancel = __webpack_require__(/*! ../cancel/isCancel */ 209);
-	var defaults = __webpack_require__(/*! ../defaults */ 195);
+	var utils = __webpack_require__(/*! ./../utils */ 181);
+	var transformData = __webpack_require__(/*! ./transformData */ 197);
+	var isCancel = __webpack_require__(/*! ../cancel/isCancel */ 198);
+	var defaults = __webpack_require__(/*! ../defaults */ 184);
 	
 	/**
 	 * Throws a `Cancel` if cancellation has been requested.
@@ -24634,7 +23584,7 @@
 
 
 /***/ },
-/* 208 */
+/* 197 */
 /*!*******************************************!*\
   !*** ./~/axios/lib/core/transformData.js ***!
   \*******************************************/
@@ -24642,7 +23592,7 @@
 
 	'use strict';
 	
-	var utils = __webpack_require__(/*! ./../utils */ 192);
+	var utils = __webpack_require__(/*! ./../utils */ 181);
 	
 	/**
 	 * Transform the data for a request or a response
@@ -24663,7 +23613,7 @@
 
 
 /***/ },
-/* 209 */
+/* 198 */
 /*!****************************************!*\
   !*** ./~/axios/lib/cancel/isCancel.js ***!
   \****************************************/
@@ -24677,7 +23627,7 @@
 
 
 /***/ },
-/* 210 */
+/* 199 */
 /*!**********************************************!*\
   !*** ./~/axios/lib/helpers/isAbsoluteURL.js ***!
   \**********************************************/
@@ -24700,7 +23650,7 @@
 
 
 /***/ },
-/* 211 */
+/* 200 */
 /*!********************************************!*\
   !*** ./~/axios/lib/helpers/combineURLs.js ***!
   \********************************************/
@@ -24721,7 +23671,7 @@
 
 
 /***/ },
-/* 212 */
+/* 201 */
 /*!**************************************!*\
   !*** ./~/axios/lib/cancel/Cancel.js ***!
   \**************************************/
@@ -24749,7 +23699,7 @@
 
 
 /***/ },
-/* 213 */
+/* 202 */
 /*!*******************************************!*\
   !*** ./~/axios/lib/cancel/CancelToken.js ***!
   \*******************************************/
@@ -24757,7 +23707,7 @@
 
 	'use strict';
 	
-	var Cancel = __webpack_require__(/*! ./Cancel */ 212);
+	var Cancel = __webpack_require__(/*! ./Cancel */ 201);
 	
 	/**
 	 * A `CancelToken` is an object that can be used to request cancellation of an operation.
@@ -24815,7 +23765,7 @@
 
 
 /***/ },
-/* 214 */
+/* 203 */
 /*!***************************************!*\
   !*** ./~/axios/lib/helpers/spread.js ***!
   \***************************************/
@@ -24851,6 +23801,1076 @@
 
 
 /***/ },
+/* 204 */
+/*!*******************************!*\
+  !*** ./components/SignUp.jsx ***!
+  \*******************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _axios = __webpack_require__(/*! axios */ 179);
+	
+	var _axios2 = _interopRequireDefault(_axios);
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _helpers = __webpack_require__(/*! ../lib/helpers */ 215);
+	
+	var _helpers2 = _interopRequireDefault(_helpers);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var SignUp = function (_React$Component) {
+		_inherits(SignUp, _React$Component);
+	
+		function SignUp(props) {
+			_classCallCheck(this, SignUp);
+	
+			var _this = _possibleConstructorReturn(this, (SignUp.__proto__ || Object.getPrototypeOf(SignUp)).call(this, props));
+	
+			_this.state = {
+				username: 'nickc',
+				password: 'pass',
+				firstname: 'nick',
+				lastname: 'cobbett',
+				DOB: '1985-04-18'
+			};
+	
+			_this.handleSignUpClick = _this.handleSignUpClick.bind(_this);
+			_this.handleLoginClick = _this.handleLoginClick.bind(_this);
+			_this.handleUsernameChange = _this.handleUsernameChange.bind(_this);
+			_this.handlePasswordChange = _this.handlePasswordChange.bind(_this);
+			_this.handleFirstnameChange = _this.handleFirstnameChange.bind(_this);
+			_this.handleLastnameChange = _this.handleLastnameChange.bind(_this);
+			_this.handleDobChange = _this.handleDobChange.bind(_this);
+			// this.signUpUser = helpers.signUpUser.bind(this);
+			// this.logInUser = helpers.logInUser.bind(this);
+			return _this;
+		}
+	
+		_createClass(SignUp, [{
+			key: 'handleUsernameChange',
+			value: function handleUsernameChange(e) {
+				this.setState({
+					username: e.target.value
+				});
+			}
+		}, {
+			key: 'handlePasswordChange',
+			value: function handlePasswordChange(e) {
+				this.setState({
+					password: e.target.value
+				});
+			}
+		}, {
+			key: 'handleFirstnameChange',
+			value: function handleFirstnameChange(e) {
+				this.setState({
+					firstname: e.target.value
+				});
+			}
+		}, {
+			key: 'handleLastnameChange',
+			value: function handleLastnameChange(e) {
+				this.setState({
+					lastname: e.target.value
+				});
+			}
+		}, {
+			key: 'handleDobChange',
+			value: function handleDobChange(e) {
+				this.setState({
+					dob: e.target.value
+				});
+			}
+		}, {
+			key: 'handleLoginClick',
+			value: function handleLoginClick(event) {
+				var _this2 = this;
+	
+				event.preventDefault();
+				var signinInputs = {
+					username: this.state.username,
+					password: this.state.password
+				};
+				_helpers2.default.logInUser(signinInputs).then(function (response) {
+					window.localStorage.setItem('filmedInToken', response.token);
+					console.log('set token');
+					_this2.props.handleLogInClick();
+				}).catch(function (err) {
+					console.log('error with login');
+				});
+			}
+		}, {
+			key: 'handleSignUpClick',
+			value: function handleSignUpClick(event) {
+				var _this3 = this;
+	
+				event.preventDefault();
+				var signupInputs = {
+					username: this.state.username,
+					password: this.state.password,
+					firstName: this.state.firstname,
+					lastName: this.state.lastname,
+					DOB: this.state.DOB
+				};
+	
+				_helpers2.default.signUpUser(signupInputs).then(function (response) {
+					window.localStorage.setItem('filmedInToken', response.token);
+					_this3.props.handleLogInClick(_this3.state.username);
+				}).catch(function (err) {
+					console.log('error with login');
+				});
+			}
+		}, {
+			key: 'render',
+			value: function render() {
+				return _react2.default.createElement(
+					'div',
+					{ className: 'signup' },
+					_react2.default.createElement(
+						'div',
+						{ className: 'navbar' },
+						_react2.default.createElement(
+							'h1',
+							null,
+							'FilmedIn'
+						),
+						_react2.default.createElement(
+							'form',
+							{ onSubmit: this.handleLoginClick },
+							_react2.default.createElement(
+								'ul',
+								null,
+								_react2.default.createElement(
+									'li',
+									null,
+									_react2.default.createElement(
+										'label',
+										null,
+										'Username:'
+									),
+									_react2.default.createElement('input', { type: 'text', value: this.state.username, onChange: this.handleUsernameChange, placeholder: 'your username' })
+								),
+								_react2.default.createElement(
+									'li',
+									null,
+									_react2.default.createElement(
+										'label',
+										null,
+										'Password:'
+									),
+									_react2.default.createElement('input', { type: 'password', value: this.state.password, onChange: this.handlePasswordChange, placeholder: 'your password' })
+								),
+								_react2.default.createElement(
+									'li',
+									null,
+									_react2.default.createElement(
+										'button',
+										{ type: 'submit' },
+										'Login'
+									)
+								)
+							)
+						)
+					),
+					_react2.default.createElement(
+						'div',
+						{ className: 'signup' },
+						_react2.default.createElement(
+							'form',
+							{ onSubmit: this.handleSignUpClick },
+							_react2.default.createElement(
+								'ul',
+								null,
+								_react2.default.createElement(
+									'li',
+									null,
+									_react2.default.createElement(
+										'label',
+										null,
+										'First name:'
+									),
+									_react2.default.createElement('input', { type: 'text', value: this.state.firstname, onChange: this.handleFirstnameChange, placeholder: 'your first name' })
+								),
+								_react2.default.createElement(
+									'li',
+									null,
+									_react2.default.createElement(
+										'label',
+										null,
+										'Last name:'
+									),
+									_react2.default.createElement('input', { type: 'text', value: this.state.lastname, onChange: this.handleLastnameChange, placeholder: 'your last name' })
+								),
+								_react2.default.createElement(
+									'li',
+									null,
+									_react2.default.createElement(
+										'label',
+										null,
+										'Date of Birth:'
+									),
+									_react2.default.createElement('input', { type: 'text', value: this.state.DOB, onChange: this.handleDobChange, placeholder: 'yyyy-mm-dd' })
+								),
+								_react2.default.createElement(
+									'li',
+									null,
+									_react2.default.createElement(
+										'label',
+										null,
+										'Username:'
+									),
+									_react2.default.createElement('input', { type: 'text', value: this.state.username, onChange: this.handleUsernameChange, placeholder: 'your username' })
+								),
+								_react2.default.createElement(
+									'li',
+									null,
+									_react2.default.createElement(
+										'label',
+										null,
+										'Password:'
+									),
+									_react2.default.createElement('input', { type: 'password', value: this.state.password, onChange: this.handlePasswordChange, placeholder: 'your password' })
+								),
+								_react2.default.createElement(
+									'li',
+									null,
+									_react2.default.createElement(
+										'button',
+										{ type: 'submit' },
+										'Sign up!'
+									)
+								)
+							)
+						)
+					)
+				);
+			}
+		}]);
+	
+		return SignUp;
+	}(_react2.default.Component);
+	
+	exports.default = SignUp;
+
+/***/ },
+/* 205 */
+/*!*********************************!*\
+  !*** ./components/UserHome.jsx ***!
+  \*********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _NavBar = __webpack_require__(/*! ./NavBar */ 206);
+	
+	var _NavBar2 = _interopRequireDefault(_NavBar);
+	
+	var _FilmList = __webpack_require__(/*! ./FilmList */ 207);
+	
+	var _FilmList2 = _interopRequireDefault(_FilmList);
+	
+	var _UserList = __webpack_require__(/*! ./UserList */ 209);
+	
+	var _UserList2 = _interopRequireDefault(_UserList);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var UserHome = function UserHome(_ref) {
+		var handleFilmClick = _ref.handleFilmClick,
+		    handleHomeClick = _ref.handleHomeClick,
+		    handleUserClick = _ref.handleUserClick,
+		    handleLogOutClick = _ref.handleLogOutClick,
+		    firstName = _ref.firstName,
+		    lastName = _ref.lastName,
+		    allFilms = _ref.allFilms,
+		    allFriends = _ref.allFriends;
+		return _react2.default.createElement(
+			'div',
+			{ className: 'user-home' },
+			_react2.default.createElement(_NavBar2.default, {
+				handleHomeClick: handleHomeClick,
+				handleLogOutClick: handleLogOutClick
+			}),
+			_react2.default.createElement(
+				'h2',
+				null,
+				'Welcome ',
+				firstName,
+				' ',
+				lastName
+			),
+			_react2.default.createElement(
+				'div',
+				null,
+				_react2.default.createElement(
+					'h3',
+					null,
+					'List of user\'s ranked films'
+				),
+				_react2.default.createElement(_FilmList2.default, {
+					handleFilmClick: handleFilmClick,
+					allFilms: allFilms
+				})
+			),
+			_react2.default.createElement(
+				'div',
+				null,
+				_react2.default.createElement(
+					'h3',
+					null,
+					'List of user\'s friends'
+				),
+				_react2.default.createElement(_UserList2.default, {
+					handleLogOutClick: handleLogOutClick,
+					allFriends: allFriends
+				})
+			)
+		);
+	};
+	
+	exports.default = UserHome;
+
+/***/ },
+/* 206 */
+/*!*******************************!*\
+  !*** ./components/NavBar.jsx ***!
+  \*******************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var NavBar = function (_React$Component) {
+		_inherits(NavBar, _React$Component);
+	
+		function NavBar(props) {
+			_classCallCheck(this, NavBar);
+	
+			return _possibleConstructorReturn(this, (NavBar.__proto__ || Object.getPrototypeOf(NavBar)).call(this, props));
+		}
+	
+		_createClass(NavBar, [{
+			key: "render",
+			value: function render() {
+				return _react2.default.createElement(
+					"div",
+					{ className: "navbar" },
+					_react2.default.createElement(
+						"h1",
+						null,
+						"FilmedIn"
+					),
+					_react2.default.createElement(
+						"ul",
+						null,
+						_react2.default.createElement(
+							"li",
+							null,
+							_react2.default.createElement(
+								"a",
+								{ href: "#", onClick: this.props.handleHomeClick },
+								"Home"
+							)
+						),
+						_react2.default.createElement(
+							"li",
+							null,
+							_react2.default.createElement(
+								"form",
+								null,
+								_react2.default.createElement(
+									"label",
+									null,
+									"Search Film: "
+								),
+								_react2.default.createElement("input", { type: "text", placeholder: "Film Title" }),
+								_react2.default.createElement(
+									"button",
+									{ type: "submit" },
+									"Search"
+								)
+							)
+						),
+						_react2.default.createElement(
+							"li",
+							null,
+							_react2.default.createElement(
+								"form",
+								null,
+								_react2.default.createElement(
+									"label",
+									null,
+									"Search Users: "
+								),
+								_react2.default.createElement("input", { type: "text", placeholder: "Name" }),
+								_react2.default.createElement(
+									"button",
+									{ type: "submit" },
+									"Search"
+								)
+							)
+						),
+						_react2.default.createElement(
+							"li",
+							null,
+							_react2.default.createElement(
+								"a",
+								{ href: "#", onClick: this.props.handleLogOutClick },
+								"Logout"
+							)
+						)
+					)
+				);
+			}
+		}]);
+	
+		return NavBar;
+	}(_react2.default.Component);
+	
+	exports.default = NavBar;
+
+/***/ },
+/* 207 */
+/*!*********************************!*\
+  !*** ./components/FilmList.jsx ***!
+  \*********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _FilmEntry = __webpack_require__(/*! ./FilmEntry */ 208);
+	
+	var _FilmEntry2 = _interopRequireDefault(_FilmEntry);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var FilmList = function FilmList(_ref) {
+		var handleFilmClick = _ref.handleFilmClick,
+		    allFilms = _ref.allFilms;
+		return _react2.default.createElement(
+			'div',
+			{ className: 'film-list' },
+			console.log('allFilms: ', allFilms),
+			allFilms.map(function (film) {
+				return _react2.default.createElement(_FilmEntry2.default, {
+					handleFilmClick: handleFilmClick,
+					film: film
+				});
+			})
+		);
+	};
+	
+	exports.default = FilmList;
+
+/***/ },
+/* 208 */
+/*!**********************************!*\
+  !*** ./components/FilmEntry.jsx ***!
+  \**********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var FilmEntry = function FilmEntry(_ref) {
+	  var handleFilmClick = _ref.handleFilmClick,
+	      film = _ref.film;
+	  return _react2.default.createElement(
+	    "div",
+	    { className: "film-entry", onClick: function onClick() {
+	        return handleFilmClick(film);
+	      } },
+	    _react2.default.createElement(
+	      "div",
+	      null,
+	      _react2.default.createElement("img", { src: film.snippet.thumbnails.default.url, alt: "" })
+	    ),
+	    _react2.default.createElement(
+	      "div",
+	      null,
+	      film.snippet.title
+	    ),
+	    _react2.default.createElement(
+	      "div",
+	      null,
+	      film.snippet.description
+	    )
+	  );
+	};
+	
+	exports.default = FilmEntry;
+
+/***/ },
+/* 209 */
+/*!*********************************!*\
+  !*** ./components/UserList.jsx ***!
+  \*********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _UserEntry = __webpack_require__(/*! ./UserEntry */ 210);
+	
+	var _UserEntry2 = _interopRequireDefault(_UserEntry);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var UserList = function UserList(_ref) {
+		var handleUserClick = _ref.handleUserClick,
+		    allFriends = _ref.allFriends;
+		return _react2.default.createElement(
+			'div',
+			{ className: 'user-list' },
+			console.log('allFriends: ', allFriends),
+			allFriends.map(function (user) {
+				return _react2.default.createElement(_UserEntry2.default, {
+					handleUserClick: handleUserClick,
+					user: user
+				});
+			})
+		);
+	};
+	
+	exports.default = UserList;
+
+/***/ },
+/* 210 */
+/*!**********************************!*\
+  !*** ./components/UserEntry.jsx ***!
+  \**********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var UserEntry = function UserEntry(_ref) {
+	  var handleUserClick = _ref.handleUserClick,
+	      user = _ref.user;
+	  return _react2.default.createElement(
+	    "div",
+	    { className: "user-entry", onClick: function onClick() {
+	        return handleUserClick(user);
+	      } },
+	    _react2.default.createElement(
+	      "div",
+	      null,
+	      user.firstname,
+	      " ",
+	      user.lastname
+	    ),
+	    _react2.default.createElement(
+	      "div",
+	      null,
+	      "Username: ",
+	      user.username
+	    )
+	  );
+	};
+	
+	exports.default = UserEntry;
+
+/***/ },
+/* 211 */
+/*!************************************!*\
+  !*** ./components/FilmProfile.jsx ***!
+  \************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _NavBar = __webpack_require__(/*! ./NavBar */ 206);
+	
+	var _NavBar2 = _interopRequireDefault(_NavBar);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var FilmProfile = function FilmProfile(_ref) {
+		var film = _ref.film,
+		    handleHomeClick = _ref.handleHomeClick,
+		    handleLogOutClick = _ref.handleLogOutClick;
+		return _react2.default.createElement(
+			'div',
+			{ className: 'film-profile' },
+			_react2.default.createElement(_NavBar2.default, {
+				handleHomeClick: handleHomeClick,
+				handleLogOutClick: handleLogOutClick
+			}),
+			_react2.default.createElement(
+				'h1',
+				null,
+				film.snippet.title
+			),
+			_react2.default.createElement('img', { src: film.snippet.thumbnails.default.url, alt: '' }),
+			_react2.default.createElement(
+				'div',
+				null,
+				'Your ranking: ',
+				film.userRank
+			),
+			_react2.default.createElement('br', null),
+			_react2.default.createElement(
+				'div',
+				null,
+				'Film Description:',
+				_react2.default.createElement('br', null),
+				film.snippet.description
+			),
+			_react2.default.createElement('br', null),
+			_react2.default.createElement(
+				'div',
+				null,
+				'This will contain links to stream the film'
+			),
+			_react2.default.createElement('br', null),
+			_react2.default.createElement(
+				'div',
+				null,
+				'This will contain friends who have ranked the film'
+			)
+		);
+	};
+	
+	exports.default = FilmProfile;
+
+/***/ },
+/* 212 */
+/*!************************************!*\
+  !*** ./components/UserProfile.jsx ***!
+  \************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _NavBar = __webpack_require__(/*! ./NavBar */ 206);
+	
+	var _NavBar2 = _interopRequireDefault(_NavBar);
+	
+	var _FilmList = __webpack_require__(/*! ./FilmList */ 207);
+	
+	var _FilmList2 = _interopRequireDefault(_FilmList);
+	
+	var _UserList = __webpack_require__(/*! ./UserList */ 209);
+	
+	var _UserList2 = _interopRequireDefault(_UserList);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var UserProfile = function UserProfile(_ref) {
+		var user = _ref.user,
+		    handleHomeClick = _ref.handleHomeClick,
+		    handleFilmClick = _ref.handleFilmClick,
+		    handleUserClick = _ref.handleUserClick,
+		    handleLogOutClick = _ref.handleLogOutClick;
+		return _react2.default.createElement(
+			'div',
+			{ className: 'user-profile' },
+			_react2.default.createElement(_NavBar2.default, {
+				handleHomeClick: handleHomeClick,
+				handleLogOutClick: handleLogOutClick
+			}),
+			_react2.default.createElement(
+				'h1',
+				null,
+				user.firstname,
+				' ',
+				user.lastname
+			),
+			_react2.default.createElement(
+				'h3',
+				null,
+				'List of your ranked films'
+			),
+			_react2.default.createElement(_FilmList2.default, {
+				allFilms: user.films,
+				handleFilmClick: handleFilmClick
+			}),
+			_react2.default.createElement(
+				'h3',
+				null,
+				'List of your friends'
+			),
+			_react2.default.createElement(_UserList2.default, {
+				allFriends: user.friends,
+				handleUserClick: handleUserClick
+			})
+		);
+	};
+	
+	exports.default = UserProfile;
+
+/***/ },
+/* 213 */
+/*!****************************************!*\
+  !*** ./components/exampleVideoData.js ***!
+  \****************************************/
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	// import React from 'react';
+	// DO NOT EDIT THIS FILE
+	// This is an example response from the YouTube Search API
+	// when searching with the query 'react tutorial'
+	var exampleVideoData = [{
+	  userRank: 4,
+	  kind: 'youtube#searchResult',
+	  etag: 'abQHWywil_AkNqdqji7_FqiK-u4/Ykxo_CqKu8F8kcm-iNgL332gQTY',
+	  id: {
+	    kind: 'youtube#video',
+	    videoId: '4ZAEBxGipoA'
+	  },
+	  snippet: {
+	    publishedAt: '2015-08-02T20:52:58.000Z',
+	    channelId: 'UCJbPGzawDH1njbqV-D5HqKw',
+	    title: 'Film 1',
+	    description: 'My website - https://www.thenewboston.com/videos.php Have questions about the tutorial or React? Ask them here ...',
+	    thumbnails: {
+	      default: {
+	        url: 'https://i.ytimg.com/vi/4ZAEBxGipoA/default.jpg',
+	        width: 120,
+	        height: 90
+	      },
+	      medium: {
+	        url: 'https://i.ytimg.com/vi/4ZAEBxGipoA/mqdefault.jpg',
+	        width: 320,
+	        height: 180
+	      },
+	      high: {
+	        url: 'https://i.ytimg.com/vi/4ZAEBxGipoA/hqdefault.jpg',
+	        width: 480,
+	        height: 360
+	      }
+	    },
+	    channelTitle: 'thenewboston',
+	    liveBroadcastContent: 'none'
+	  }
+	}, {
+	  userRank: 5,
+	  kind: 'youtube#searchResult',
+	  etag: 'abQHWywil_AkNqdqji7_FqiK-u4/tS3xe6KXEJbntCAmn01SmEuSYxg',
+	  id: {
+	    kind: 'youtube#video',
+	    videoId: 'mFEoarLnnqM'
+	  },
+	  snippet: {
+	    publishedAt: '2014-08-08T21:31:58.000Z',
+	    channelId: 'UCKKQaFUwyPb6iC-42rFRz2Q',
+	    title: 'Film 2',
+	    description: 'A step by step video tutorial that takes you through the correct way of coding Facebook React views. Check out the rest of the tagtree library: http://tagtree.tv.',
+	    thumbnails: {
+	      default: {
+	        url: 'https://i.ytimg.com/vi/mFEoarLnnqM/default.jpg',
+	        width: 120,
+	        height: 90
+	      },
+	      medium: {
+	        url: 'https://i.ytimg.com/vi/mFEoarLnnqM/mqdefault.jpg',
+	        width: 320,
+	        height: 180
+	      },
+	      high: {
+	        url: 'https://i.ytimg.com/vi/mFEoarLnnqM/hqdefault.jpg',
+	        width: 480,
+	        height: 360
+	      }
+	    },
+	    channelTitle: '',
+	    liveBroadcastContent: 'none'
+	  }
+	}, {
+	  userRank: 0,
+	  kind: 'youtube#searchResult',
+	  etag: 'abQHWywil_AkNqdqji7_FqiK-u4/FZYrgJg7qfkv0yfImJPujBKBmLk',
+	  id: {
+	    kind: 'youtube#video',
+	    videoId: '0ByoQm-vnYw'
+	  },
+	  snippet: {
+	    publishedAt: '2015-12-08T20:51:18.000Z',
+	    channelId: 'UClLXKYEEM8OBBx85DOa6-cg',
+	    title: 'Film 3',
+	    description: 'Get the full course here: http://devslopes.com/react In this video you will learn how to setup your project for React development and you will build a simple React ...',
+	    thumbnails: {
+	      default: {
+	        url: 'https://i.ytimg.com/vi/0ByoQm-vnYw/default.jpg',
+	        width: 120,
+	        height: 90
+	      },
+	      medium: {
+	        url: 'https://i.ytimg.com/vi/0ByoQm-vnYw/mqdefault.jpg',
+	        width: 320,
+	        height: 180
+	      },
+	      high: {
+	        url: 'https://i.ytimg.com/vi/0ByoQm-vnYw/hqdefault.jpg',
+	        width: 480,
+	        height: 360
+	      }
+	    },
+	    channelTitle: '',
+	    liveBroadcastContent: 'none'
+	  }
+	}, {
+	  userRank: 4,
+	  kind: 'youtube#searchResult',
+	  etag: 'abQHWywil_AkNqdqji7_FqiK-u4/nSaavPWVkTWpn2p-ClwNj7xszf8',
+	  id: {
+	    kind: 'youtube#video',
+	    videoId: 'o5E894TmHJg'
+	  },
+	  snippet: {
+	    publishedAt: '2015-03-09T08:19:59.000Z',
+	    channelId: 'UCMYct3vtNaMwZAA3_DNsWMw',
+	    title: 'Film 4',
+	    description: 'Hey! Write something in the comments, even if it\'s critical. I\'d love to hear feedback! (also, please thumbs-up if you like the vid, and I\'ll make more). Personally I ...',
+	    thumbnails: {
+	      default: {
+	        url: 'https://i.ytimg.com/vi/o5E894TmHJg/default.jpg',
+	        width: 120,
+	        height: 90
+	      },
+	      medium: {
+	        url: 'https://i.ytimg.com/vi/o5E894TmHJg/mqdefault.jpg',
+	        width: 320,
+	        height: 180
+	      },
+	      high: {
+	        url: 'https://i.ytimg.com/vi/o5E894TmHJg/hqdefault.jpg',
+	        width: 480,
+	        height: 360
+	      }
+	    },
+	    channelTitle: 'bengrunfeld',
+	    liveBroadcastContent: 'none'
+	  }
+	}, {
+	  userRank: 1,
+	  kind: 'youtube#searchResult',
+	  etag: 'abQHWywil_AkNqdqji7_FqiK-u4/3E7u1VZ18KYyfLIA6RgI2w-7nRI',
+	  id: {
+	    kind: 'youtube#video',
+	    videoId: 'Pd6Ub7Ju2RM'
+	  },
+	  snippet: {
+	    publishedAt: '2015-02-13T18:50:38.000Z',
+	    channelId: 'UCr5lOCcjZzNprLrhxO0WZQw',
+	    title: 'Film 5',
+	    description: 'Brought to you by Formidable Labs and SeattleJS, Colin Megill walks us through Facebook\'s React framework in part one of this three-part series. The workshop ...',
+	    thumbnails: {
+	      default: {
+	        url: 'https://i.ytimg.com/vi/Pd6Ub7Ju2RM/default.jpg',
+	        width: 120,
+	        height: 90
+	      },
+	      medium: {
+	        url: 'https://i.ytimg.com/vi/Pd6Ub7Ju2RM/mqdefault.jpg',
+	        width: 320,
+	        height: 180
+	      },
+	      high: {
+	        url: 'https://i.ytimg.com/vi/Pd6Ub7Ju2RM/hqdefault.jpg',
+	        width: 480,
+	        height: 360
+	      }
+	    },
+	    channelTitle: '',
+	    liveBroadcastContent: 'none'
+	  }
+	}];
+	
+	exports.default = exampleVideoData;
+
+/***/ },
+/* 214 */
+/*!*****************************************!*\
+  !*** ./components/exampleFriendData.js ***!
+  \*****************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	
+	var _exampleVideoData = __webpack_require__(/*! ./exampleVideoData */ 213);
+	
+	var _exampleVideoData2 = _interopRequireDefault(_exampleVideoData);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var exampleFriendData = [{
+		firstname: 'Jasmine',
+		lastname: 'Mina',
+		username: 'jMina',
+		films: _exampleVideoData2.default,
+		friends: [{ firstname: 'Nick',
+			lastname: 'Cobbett',
+			username: 'nickC',
+			films: _exampleVideoData2.default
+		}, { firstname: 'Sai',
+			lastname: 'Vickna',
+			username: 'saiClops',
+			films: _exampleVideoData2.default
+		}, { firstname: 'Jimothy',
+			lastname: 'Zhang',
+			username: 'jayZ',
+			films: _exampleVideoData2.default
+		}]
+	}, {
+		firstname: 'Nick',
+		lastname: 'Cobbett',
+		username: 'nickC',
+		films: _exampleVideoData2.default,
+		friends: [{ firstname: 'Jasmine',
+			lastname: 'Mina',
+			username: 'jMina',
+			films: _exampleVideoData2.default
+		}, { firstname: 'Sai',
+			lastname: 'Vickna',
+			username: 'saiClops',
+			films: _exampleVideoData2.default
+		}, { firstname: 'Jimothy',
+			lastname: 'Zhang',
+			username: 'jayZ',
+			films: _exampleVideoData2.default
+		}]
+	}, {
+		firstname: 'Sai',
+		lastname: 'Vickna',
+		username: 'saiClops',
+		films: _exampleVideoData2.default,
+		friends: [{ firstname: 'Jasmine',
+			lastname: 'Mina',
+			username: 'jMina',
+			films: _exampleVideoData2.default
+		}, { firstname: 'Nick',
+			lastname: 'Cobbett',
+			username: 'nickC',
+			films: _exampleVideoData2.default
+		}, { firstname: 'Jimothy',
+			lastname: 'Zhang',
+			username: 'jayZ',
+			films: _exampleVideoData2.default
+		}]
+	}, {
+		firstname: 'Jimothy',
+		lastname: 'Zhang',
+		username: 'jayZ',
+		films: _exampleVideoData2.default,
+		friends: [{ firstname: 'Jasmine',
+			lastname: 'Mina',
+			username: 'jMina',
+			films: _exampleVideoData2.default
+		}, { firstname: 'Nick',
+			lastname: 'Cobbett',
+			username: 'nickC',
+			films: _exampleVideoData2.default
+		}, { firstname: 'Sai',
+			lastname: 'Vickna',
+			username: 'saiClops',
+			films: _exampleVideoData2.default
+		}]
+	}];
+	
+	exports.default = exampleFriendData;
+
+/***/ },
 /* 215 */
 /*!************************!*\
   !*** ./lib/helpers.js ***!
@@ -24863,7 +24883,7 @@
 	  value: true
 	});
 	
-	var _axios = __webpack_require__(/*! axios */ 190);
+	var _axios = __webpack_require__(/*! axios */ 179);
 	
 	var _axios2 = _interopRequireDefault(_axios);
 	
