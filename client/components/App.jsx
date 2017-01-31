@@ -12,7 +12,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      token: window.localStorage.getItem('filmedInToken'),
+      // token: window.localStorage.getItem('filmedInToken'),
     	isLoggedIn: false,
       firstName: '',
       lastName: '',
@@ -26,7 +26,7 @@ class App extends React.Component {
     this.handleFilmClick = this.handleFilmClick.bind(this)
     this.handleHomeClick = this.handleHomeClick.bind(this)
     this.handleUserClick = this.handleUserClick.bind(this)
-    this.logInUser = helpers.logInUser.bind(this)
+    // this.logInUser = helpers.logInUser.bind(this)
   }
 
   //keep as toggle because works for signout
@@ -64,7 +64,17 @@ class App extends React.Component {
   //get request for allFilms and allFriends
   componentDidMount() {
    // include token here
-   this.logInUser()
+    helpers.logInUser().then(response => {
+      console.log('response: ', response)
+      this.setState({
+        firstName: response.firstName,
+        lastName: response.lastName,
+        allFriends: response.friends,
+        allFilms: response.rating
+        // what should it be??
+      })
+      this.toggleLoggedIn();
+    })
   }
 
   render() {

@@ -22098,7 +22098,7 @@
 	    var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 	
 	    _this.state = {
-	      token: window.localStorage.getItem('filmedInToken'),
+	      // token: window.localStorage.getItem('filmedInToken'),
 	      isLoggedIn: false,
 	      firstName: '',
 	      lastName: '',
@@ -22112,7 +22112,7 @@
 	    _this.handleFilmClick = _this.handleFilmClick.bind(_this);
 	    _this.handleHomeClick = _this.handleHomeClick.bind(_this);
 	    _this.handleUserClick = _this.handleUserClick.bind(_this);
-	    _this.logInUser = _helpers2.default.logInUser.bind(_this);
+	    // this.logInUser = helpers.logInUser.bind(this)
 	    return _this;
 	  }
 	
@@ -22160,8 +22160,20 @@
 	  }, {
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
+	      var _this2 = this;
+	
 	      // include token here
-	      this.logInUser();
+	      _helpers2.default.logInUser().then(function (response) {
+	        console.log('response: ', response);
+	        _this2.setState({
+	          firstName: response.firstName,
+	          lastName: response.lastName,
+	          allFriends: response.friends,
+	          allFilms: response.rating
+	          // what should it be??
+	        });
+	        _this2.toggleLoggedIn();
+	      });
 	    }
 	  }, {
 	    key: 'render',
@@ -22254,7 +22266,7 @@
 				password: '',
 				firstname: '',
 				lastname: '',
-				dob: ''
+				DOB: ''
 			};
 	
 			_this.handleSignUpClick = _this.handleSignUpClick.bind(_this);
@@ -22264,8 +22276,8 @@
 			_this.handleFirstnameChange = _this.handleFirstnameChange.bind(_this);
 			_this.handleLastnameChange = _this.handleLastnameChange.bind(_this);
 			_this.handleDobChange = _this.handleDobChange.bind(_this);
-			_this.signUpUser = _helpers2.default.signUpUser.bind(_this);
-			_this.logInUser = _helpers2.default.logInUser.bind(_this);
+			// this.signUpUser = helpers.signUpUser.bind(this);
+			// this.logInUser = helpers.logInUser.bind(this);
 			return _this;
 		}
 	
@@ -22308,13 +22320,26 @@
 			key: 'handleLoginClick',
 			value: function handleLoginClick(event) {
 				event.preventDefault();
-				this.logInUser();
+				_helpers2.default.logInUser();
 			}
 		}, {
 			key: 'handleSignUpClick',
 			value: function handleSignUpClick(event) {
+				var _this2 = this;
+	
 				event.preventDefault();
-				this.signUpUser();
+				var signupInputs = {
+					username: this.state.username,
+					password: this.state.password,
+					firstName: this.state.firstname,
+					lastName: this.state.lastname,
+					DOB: this.state.DOB
+				};
+	
+				_helpers2.default.signUpUser(signupInputs).then(function (response) {
+					window.localStorage.setItem('filmedInToken', reponse.token);
+					_this2.props.toggleLoggedIn();
+				});
 			}
 		}, {
 			key: 'render',
@@ -24836,43 +24861,32 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
+	var getHeaders = function getHeaders() {
+	  var config = {
+	    headers: {
+	      'x-access-token': window.localStorage.getItem('filmedInToken'),
+	      'access-control-allow-origin': '*',
+	      'access-control-allow-methods': 'GET, POST, PUT, DELETE, OPTIONS',
+	      'access-control-allow-headers': '*',
+	      'access-control-max-age': 10
+	    }
+	  };
+	  return config;
+	};
+	
 	var helpers = {};
 	
 	helpers.logInUser = function () {
-	  var _this = this;
-	
-	  var config = {
-	    headers: { 'x-access-token': this.state.token }
-	  };
-	
-	  _axios2.default.get('https://filmedin.herokuapp.com/home', config).then(function (reponse) {
-	    console.log('response: ', response);
-	    _this.setState({
-	      firstName: response.firstName,
-	      lastName: response.lastName,
-	      allFriends: response.friends,
-	      allFilms: response.rating
-	      // what should it be??
-	    });
-	    _this.props.toggleLoggedIn();
-	  });
+	  return _axios2.default.get('https://filmedin.herokuapp.com/home', getHeaders());
 	};
 	
-	helpers.signUpUser = function () {
-	  var _this2 = this;
-	
-	  var signupInputs = {
-	    username: this.state.username,
-	    password: this.state.password,
-	    firstname: this.state.firstname,
-	    lastname: this.state.lastname,
-	    dob: this.state.dob
-	  };
-	  _axios2.default.post('https://filmedin.herokuapp.com/signup', signupInputs).then(function (response) {
-	    window.localStorage.setItem('FilmedInToken', reponse.token);
-	    _this2.props.toggleLoggedIn();
-	  });
+	helpers.signUpUser = function (signupInputs) {
+	  var config = getHeaders();
+	  config.data = signupInputs;
+	  return _axios2.default.post('https://filmedin.herokuapp.com/signup', config);
 	};
+	
+	helpers.getFilm = function () {};
 	
 	exports.default = helpers;
 

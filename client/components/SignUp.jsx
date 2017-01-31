@@ -12,7 +12,7 @@ class SignUp extends React.Component {
 			password: '',
 			firstname: '',
 			lastname: '',
-			dob: ''
+			DOB: ''
 		}
 
 		this.handleSignUpClick = this.handleSignUpClick.bind(this);
@@ -22,8 +22,8 @@ class SignUp extends React.Component {
 		this.handleFirstnameChange = this.handleFirstnameChange.bind(this);
 		this.handleLastnameChange = this.handleLastnameChange.bind(this);
 		this.handleDobChange = this.handleDobChange.bind(this);
-		this.signUpUser = helpers.signUpUser.bind(this);
-		this.logInUser = helpers.logInUser.bind(this);
+		// this.signUpUser = helpers.signUpUser.bind(this);
+		// this.logInUser = helpers.logInUser.bind(this);
 	}
 
 	handleUsernameChange(e) {
@@ -58,12 +58,23 @@ class SignUp extends React.Component {
 
 	handleLoginClick(event) {
 		event.preventDefault();
-		this.logInUser();
+		helpers.logInUser();
 	}
 
 	handleSignUpClick(event) {
 		event.preventDefault();
-		this.signUpUser()
+	  var signupInputs = {
+	    username: this.state.username,
+	    password: this.state.password,
+	    firstName: this.state.firstname,
+	    lastName: this.state.lastname,
+	    DOB: this.state.DOB
+	  }
+
+		helpers.signUpUser(signupInputs).then(response => {
+	    window.localStorage.setItem('filmedInToken', reponse.token)
+	    this.props.toggleLoggedIn();
+  	})
 	}
 
 	render() {
