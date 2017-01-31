@@ -8,11 +8,11 @@ class SignUp extends React.Component {
 		super(props);
 
 		this.state = {
-			username: '',
-			password: '',
-			firstname: '',
-			lastname: '',
-			DOB: ''
+			username: 'nickc',
+			password: 'pass',
+			firstname: 'nick',
+			lastname: 'cobbett',
+			DOB: '1985-04-18'
 		}
 
 		this.handleSignUpClick = this.handleSignUpClick.bind(this);
@@ -58,7 +58,15 @@ class SignUp extends React.Component {
 
 	handleLoginClick(event) {
 		event.preventDefault();
-		helpers.logInUser();
+		var signinInputs = {
+			username: this.state.username,
+			password: this.state.password
+		}
+		helpers.logInUser(signinInputs).then(response => {
+			window.localStorage.setItem('filmedInToken', response.token);
+			console.log('set token');
+			this.props.toggleLoggedIn();
+		});
 	}
 
 	handleSignUpClick(event) {
@@ -74,6 +82,8 @@ class SignUp extends React.Component {
 		helpers.signUpUser(signupInputs).then(response => {
 	    window.localStorage.setItem('filmedInToken', reponse.token)
 	    this.props.toggleLoggedIn();
+  	}).catch(err => {
+  		console.log('error with login')
   	})
 	}
 
@@ -117,7 +127,7 @@ class SignUp extends React.Component {
 						</li>
 						<li>
 							<label>Date of Birth:</label>
-							<input type="text" value={this.state.dob} onChange={this.handleDobChange} placeholder="mm/dd/yyyy" />
+							<input type="text" value={this.state.DOB} onChange={this.handleDobChange} placeholder="yyyy-mm-dd" />
 						</li>
 						<li>
 							<label>Username:</label>

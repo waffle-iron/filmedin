@@ -22262,11 +22262,11 @@
 			var _this = _possibleConstructorReturn(this, (SignUp.__proto__ || Object.getPrototypeOf(SignUp)).call(this, props));
 	
 			_this.state = {
-				username: '',
-				password: '',
-				firstname: '',
-				lastname: '',
-				DOB: ''
+				username: 'nickc',
+				password: 'pass',
+				firstname: 'nick',
+				lastname: 'cobbett',
+				DOB: '1985-04-18'
 			};
 	
 			_this.handleSignUpClick = _this.handleSignUpClick.bind(_this);
@@ -22319,13 +22319,23 @@
 		}, {
 			key: 'handleLoginClick',
 			value: function handleLoginClick(event) {
+				var _this2 = this;
+	
 				event.preventDefault();
-				_helpers2.default.logInUser();
+				var signinInputs = {
+					username: this.state.username,
+					password: this.state.password
+				};
+				_helpers2.default.logInUser(signinInputs).then(function (response) {
+					window.localStorage.setItem('filmedInToken', response.token);
+					console.log('set token');
+					_this2.props.toggleLoggedIn();
+				});
 			}
 		}, {
 			key: 'handleSignUpClick',
 			value: function handleSignUpClick(event) {
-				var _this2 = this;
+				var _this3 = this;
 	
 				event.preventDefault();
 				var signupInputs = {
@@ -22338,7 +22348,9 @@
 	
 				_helpers2.default.signUpUser(signupInputs).then(function (response) {
 					window.localStorage.setItem('filmedInToken', reponse.token);
-					_this2.props.toggleLoggedIn();
+					_this3.props.toggleLoggedIn();
+				}).catch(function (err) {
+					console.log('error with login');
 				});
 			}
 		}, {
@@ -22430,7 +22442,7 @@
 										null,
 										'Date of Birth:'
 									),
-									_react2.default.createElement('input', { type: 'text', value: this.state.dob, onChange: this.handleDobChange, placeholder: 'mm/dd/yyyy' })
+									_react2.default.createElement('input', { type: 'text', value: this.state.DOB, onChange: this.handleDobChange, placeholder: 'yyyy-mm-dd' })
 								),
 								_react2.default.createElement(
 									'li',
@@ -24862,28 +24874,41 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var getHeaders = function getHeaders() {
-	  var config = {
-	    headers: {
-	      'x-access-token': window.localStorage.getItem('filmedInToken'),
-	      'access-control-allow-origin': '*',
-	      'access-control-allow-methods': 'GET, POST, PUT, DELETE, OPTIONS',
-	      'access-control-allow-headers': '*',
-	      'access-control-max-age': 10
-	    }
+	  var headers = {
+	    'x-access-token': window.localStorage.getItem('filmedInToken'),
+	    'access-control-allow-origin': '*',
+	    'access-control-allow-methods': 'GET, POST, PUT, DELETE, OPTIONS',
+	    'access-control-allow-headers': '*',
+	    'access-control-max-age': 10
 	  };
-	  return config;
+	  return headers;
 	};
 	
 	var helpers = {};
 	
-	helpers.logInUser = function () {
-	  return _axios2.default.get('https://filmedin.herokuapp.com/home', getHeaders());
+	// helpers.logInUser = function() {
+	//   return axios.post('https://filmedin.herokuapp.com/home', getHeaders())
+	// }
+	helpers.logInUser = function (signinInputs) {
+	  //var config = getHeaders();
+	  return _axios2.default.request({
+	    url: 'https://filmedin.herokuapp.com/signin',
+	    method: 'POST',
+	    data: signinInputs
+	  });
 	};
-	
 	helpers.signUpUser = function (signupInputs) {
+	  console.log(signupInputs);
 	  var config = getHeaders();
 	  config.data = signupInputs;
-	  return _axios2.default.post('https://filmedin.herokuapp.com/signup', config);
+	  return _axios2.default.request({
+	    url: 'https://filmedin.herokuapp.com/signup',
+	    method: 'POST',
+	    // headers: getHeaders(),
+	    data: signupInputs
+	  }).catch(function (err) {
+	    console.log(err);
+	  });
 	};
 	
 	helpers.getFilm = function () {};
