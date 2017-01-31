@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React from 'react';
 
 class SignUp extends React.Component {
@@ -6,11 +7,11 @@ class SignUp extends React.Component {
 		super(props);
 
 		this.state = {
-			firstname: '',
-			lastname: '',
-			dob: '',
 			username: '',
 			password: '',
+			firstname: '',
+			lastname: '',
+			dob: ''
 		}
 
 		this.handleSignUpClick = this.handleSignUpClick.bind(this);
@@ -26,13 +27,13 @@ class SignUp extends React.Component {
 	handleUsernameChange(e) {
 		this.setState({
 			username: e.target.value
-		})		
+		})
 	}
 
 	handlePasswordChange(e) {
 		this.setState({
 			password: e.target.value
-		})		
+		})
 	}
 
 	handleFirstnameChange(e) {
@@ -55,23 +56,35 @@ class SignUp extends React.Component {
 
 	handleLoginClick(event) {
 		event.preventDefault();
-		this.props.toggleLoggedIn();
-		console.log('expecting username: ', this.state.username);
-		console.log('expecting password: ', this.state.password);
-		console.log('login click');
+		var loginInputs = {
+			username: this.state.username,
+			password: this.state.password
+		}
+
+		axios.post('https://filmedin.herokuapp.com/login', loginInputs).then(response => {
+			window.localStorage.setItem('FilmedInToken', reponse.token)
+			this.props.toggleLoggedIn();
+		})
+
+		//once token received then call this function
 	}
 
 	handleSignUpClick(event) {
 		event.preventDefault();
-		console.log('expecting firstname: ', this.state.firstname);
-		console.log('expecting lastname: ', this.state.lastname);
-		console.log('expecting dob: ', this.state.dob);
-		console.log('expecting username: ', this.state.username);
-		console.log('expecting password: ', this.state.password);
-		console.log('signup click');
+
+    var signupInputs = {
+    	username: this.state.username,
+    	password: this.state.password,
+    	firstname: this.state.firstname,
+    	lastname: this.state.lastname,
+    	dob: this.state.dob
+    }
+    axios.post('https://filmedin.herokuapp.com/signup', signupInputs).then(response => {
+    	window.localStorage.setItem('FilmedInToken', reponse.token)
+			this.props.toggleLoggedIn();
+
+    })
 	}
-
-
 
 	render() {
 		return (

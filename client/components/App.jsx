@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React from 'react';
 import SignUp from './SignUp';
 import UserHome from './UserHome';
@@ -10,6 +11,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      token: '',
     	isLoggedIn: false,
       allFilms: exampleVideoData,
       allFriends: exampleFriendData,
@@ -54,13 +56,21 @@ class App extends React.Component {
     })
   }
 
+  //get request for allFilms and allFriends
+  componentDidMount() {
+    //include token here
+    // var config = {
+    //   headers: {'x-access-token': 'Header-Value'}
+    // };
+    // axios.get('http://127.0.0.1:5000/home', config).then()
+  }
 
   render() {
-  	
+
 	  if (this.state.isLoggedIn) {
       if (this.state.view === 'showFilmView') {
         return (
-          <FilmProfile 
+          <FilmProfile
             handleHomeClick={this.handleHomeClick}
             handleUserClick={this.handleUserClick}
             toggleLoggedIn={this.toggleLoggedIn}
@@ -68,19 +78,19 @@ class App extends React.Component {
           />
         )
       } else if (this.state.view === 'showUserHomeView') {
-  	  	return ( 
-          <UserHome 
+  	  	return (
+          <UserHome
             handleHomeClick={this.handleHomeClick}
             handleFilmClick={this.handleFilmClick}
             handleUserClick={this.handleUserClick}
             toggleLoggedIn={this.toggleLoggedIn}
-            allFilms={this.state.allFilms} 
+            allFilms={this.state.allFilms}
             allFriends={this.state.allFriends}
-          /> 
+          />
         )
       } else if (this.state.view === 'showUserView') {
         return (
-          <UserProfile 
+          <UserProfile
             handleHomeClick={this.handleHomeClick}
             toggleLoggedIn={this.toggleLoggedIn}
             handleFilmClick={this.handleFilmClick}
