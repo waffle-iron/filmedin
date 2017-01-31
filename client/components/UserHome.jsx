@@ -12,12 +12,14 @@ var UserHome = ({handleFilmClick, handleHomeClick, handleUserClick, toggleLogged
 		/>
 				<h2>Welcome [user's first name]!</h2>
 				<div>
+					<h3>List of user's ranked films</h3>
 					<FilmList 
 						handleFilmClick={handleFilmClick}
 						allFilms={allFilms} 
 					/>
 				</div>
 				<div>
+					<h3>List of user's friends</h3>
 					<UserList
 						handleUserClick={handleUserClick}
 						allFriends={allFriends}

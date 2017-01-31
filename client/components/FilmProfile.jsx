@@ -15,15 +15,15 @@ var FilmProfile = ({film, handleHomeClick, toggleLoggedIn}) => (
 
 			{/*This is the user's rank*/}
 			<div>Your ranking: {film.userRank}</div>
-
+			<br />
 			{/*This is the film description:
 				Film year, Film genre, Film actors, Film description
 			*/}
 			<div>Film Description:<br />{film.snippet.description}</div>
-
+			<br />
 			{/*These are links to stream film*/}
 			<div>This will contain links to stream the film</div>
-
+			<br />
 			{/*These are friends who have ranked the film*/}
 			<div>This will contain friends who have ranked the film</div>
 

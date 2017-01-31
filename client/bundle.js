@@ -22471,6 +22471,11 @@
 			_react2.default.createElement(
 				'div',
 				null,
+				_react2.default.createElement(
+					'h3',
+					null,
+					'List of user\'s ranked films'
+				),
 				_react2.default.createElement(_FilmList2.default, {
 					handleFilmClick: handleFilmClick,
 					allFilms: allFilms
@@ -22479,6 +22484,11 @@
 			_react2.default.createElement(
 				'div',
 				null,
+				_react2.default.createElement(
+					'h3',
+					null,
+					'List of user\'s friends'
+				),
 				_react2.default.createElement(_UserList2.default, {
 					handleUserClick: handleUserClick,
 					allFriends: allFriends
@@ -22739,6 +22749,7 @@
 				'Your ranking: ',
 				film.userRank
 			),
+			_react2.default.createElement('br', null),
 			_react2.default.createElement(
 				'div',
 				null,
@@ -22746,11 +22757,13 @@
 				_react2.default.createElement('br', null),
 				film.snippet.description
 			),
+			_react2.default.createElement('br', null),
 			_react2.default.createElement(
 				'div',
 				null,
 				'This will contain links to stream the film'
 			),
+			_react2.default.createElement('br', null),
 			_react2.default.createElement(
 				'div',
 				null,
@@ -23178,10 +23191,20 @@
 				' ',
 				user.lastname
 			),
+			_react2.default.createElement(
+				'h3',
+				null,
+				'List of your ranked films'
+			),
 			_react2.default.createElement(_FilmList2.default, {
 				allFilms: user.films,
 				handleFilmClick: handleFilmClick
 			}),
+			_react2.default.createElement(
+				'h3',
+				null,
+				'List of your friends'
+			),
 			_react2.default.createElement(_UserList2.default, {
 				allFriends: user.friends,
 				handleUserClick: handleUserClick

@@ -13,12 +13,14 @@ var UserProfile = ({user, handleHomeClick, handleFilmClick, handleUserClick, tog
 			<h1>{user.firstname} {user.lastname}</h1>
 
 			{/*This is the user's film list*/}
+			<h3>List of your ranked films</h3>
 			<FilmList 
 				allFilms={user.films} 
 				handleFilmClick={handleFilmClick}
 			/>
 
 			{/*This is the user's friend list*/}
+			<h3>List of your friends</h3>
 			<UserList 
 				allFriends={user.friends}
 				handleUserClick={handleUserClick}
