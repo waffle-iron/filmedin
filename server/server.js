@@ -13,6 +13,7 @@ app.post('/signup', auth.signup);
 app.post('/friend', routeHelpers.addFriend);
 app.post('/rating', routeHelpers.addRating);
 
+app.get('/', routeHelpers.default);
 app.get('/home', routeHelpers.home);
 app.get('/profile/:id', routeHelpers.profile);
 app.get('/film/:id', routeHelpers.film);

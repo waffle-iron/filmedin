@@ -4,6 +4,9 @@ var gb = require('./guideBoxHelpers');
 var qs = require('querystring');
 
 module.exports = {
+  default: function(req, res, next) {
+    res.end();
+  },
   home: function (req, res, next) {
     auth.checkAuth(req, user => {
       if (user !== null) {

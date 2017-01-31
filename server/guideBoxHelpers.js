@@ -1,5 +1,5 @@
 var request = require('request');
-var apiKey = require('./env/config');
+// var apiKey = require('./env/config');
 
 // exports.headers = {
 //   'access-control-allow-origin': '*',
@@ -10,14 +10,14 @@ var apiKey = require('./env/config');
 module.exports = {
   get: function (id, cb) {
       var options = {
-        url: `http://api-public.guidebox.com/v2/movies/${id}?api_key=${apiKey.key}`
+        url: `http://api-public.guidebox.com/v2/movies/${id}?api_key=${process.env.API_KEY}`
         //headers: exports.headers
       };
       request.get(options, cb);
   },
   search: function (search, cb) {
       var options = {
-        url: `http://api-public.guidebox.com/v2/search?type=movie&field=title&query=${search}&api_key=${apiKey.key}`
+        url: `http://api-public.guidebox.com/v2/search?type=movie&field=title&query=${search}&api_key=${process.env.API_KEY}`
         //headers: exports.headers
       };
       request.get(options, cb);
