@@ -118,7 +118,7 @@ module.exports = {
   addRating: function (req, res, next) {
     auth.checkAuth(req, user  => {
       if (user !== null) {
-        db.profile.getByUserID(user.id, err, rows  => { 
+        db.profile.getByUserID(user.id, (err, rows)  => { 
           req.body.profileID = rows[0].id;
           db.rating.exists(req.body, (err, exists) => {
             if (exists.length > 0) {

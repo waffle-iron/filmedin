@@ -1,5 +1,5 @@
 import React from 'react';
-
+import Rating from 'react-rating';
 
 var FilmEntry = ({handleFilmClick, film}) => (
 	<div className="film-entry" onClick={() => handleFilmClick(film)}>

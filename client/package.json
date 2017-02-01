@@ -19,6 +19,7 @@
     "css-loader": "^0.26.1",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
+    "react-rating": "^0.6.5",
     "style-loader": "^0.13.1",
     "webpack": "^1.14.0"
   }

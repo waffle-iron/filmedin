@@ -36,6 +36,7 @@ class App extends React.Component {
     this.handleLogInClick = this.handleLogInClick.bind(this);
     this.handleLogOutClick = this.handleLogOutClick.bind(this);
     this.addFriend = this.addFriend.bind(this);
+    this.rateFilm = this.rateFilm.bind(this);
   }
 
   addFriend(friend) {
@@ -49,7 +50,12 @@ class App extends React.Component {
       view: 'showSearchUserView'
     })
   }
-
+  rateFilm(rating, filmid) {
+    
+    helpers.addRating(filmid, rating, '').then(response => {
+      console.log('rated');
+    })
+  }
   handleSearchFilmClick(searchFilm) {
     this.setState({
       searchFilm: searchFilm,
@@ -149,9 +155,18 @@ class App extends React.Component {
   }
 
   handleHomeClick() {
-    this.setState({
-      view: 'showUserHomeView',
+    helpers.getHome().then(response => {
+      this.setState({
+        firstName: response.data.firstName,
+        lastName: response.data.lastName,
+        allFriends: response.data.friends,
+        allFilms: response.data.ratings,
+        view: 'showUserHomeView'
+      })
     })
+    // this.setState({
+    //   view: 'showUserHomeView',
+    // })
   }
 
   render() {
@@ -170,6 +185,7 @@ class App extends React.Component {
             (this.state.view === 'showFilmView') ? (
                 <FilmProfile
                   film={this.state.clickedFilm}
+                  rateFilm={this.rateFilm}
                 />
             ) : (this.state.view === 'showUserHomeView') ? (
                 <UserHome
