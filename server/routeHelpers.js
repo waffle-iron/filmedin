@@ -152,7 +152,7 @@ module.exports = {
   searchFilm: function (req, res, next) {
     auth.checkAuth(req, user => {
       if (user !== null) {
-        gb.search(qs.parse(req.params.id), (err, body) => {
+        gb.search(req.params.id, (err, body) => {
           res.send(JSON.parse(body.body).results);
         });
       } else {

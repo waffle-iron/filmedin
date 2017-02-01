@@ -4,7 +4,7 @@ import FilmList from './FilmList';
 import UserList from './UserList';
 
 
-var UserHome = ({handleFilmClick, handleHomeClick, handleUserClick, handleLogOutClick, firstName, lastName, allFilms, allFriends}) => (
+var UserHome = ({handleFilmClick, handleUserClick, firstName, lastName, allFilms, allFriends}) => (
 	<div className="user-home">
 
 				<h2>Welcome {firstName} {lastName}</h2>

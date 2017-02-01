@@ -45,17 +45,10 @@ helpers.getFilm = function(id) {
 }
 
 helpers.searchProfile = function(search) {
-  console.log('search', search)
-  // return axios.request(getRequest('/search/profile/' + search));
-  // return axios.get('https://filmedin.herokuapp.com/profile/2',{
-  //   headers: {
-  //     'x-access-token': window.localStorage.getItem('filmedInToken')
-  //   }
-  // })
-  return axios.request(getRequest('/search/profile/' + search));
+  return axios.request(getRequest('/searchprofile/' + search));
 }
 helpers.searchFilm = function(search) {
-  return axios.request(getRequest('/search/film/' + search));
+  return axios.request(getRequest('/searchfilm/' + search));
 }
 helpers.addFriend = function(friendID) {
   return axios.request({

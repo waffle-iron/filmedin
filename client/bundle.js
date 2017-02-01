@@ -22473,65 +22473,76 @@
 	  }, {
 	    key: 'handleLogInClick',
 	    value: function handleLogInClick(username) {
-	      // helpers.getHome().then(response => {
-	      // console.log('response: ', response)
-	      var response = {};
-	      response.data = {
-	        id: 12345,
-	        firstName: 'bob',
-	        lastName: 'bobby',
-	        DOB: "1985-01-01",
-	        friends: [{
-	          ID: 1,
-	          firstName: 'joe',
-	          lastName: 'joey',
-	          DOB: "1985-01-01"
-	        }, {
-	          ID: 2,
-	          firstName: 'jim',
-	          lastName: 'jimmy',
-	          DOB: "1985-01-01"
-	        }, {
-	          ID: 3,
-	          firstName: 'steve',
-	          lastName: 'stevey',
-	          DOB: "1985-01-01"
-	        }],
-	        ratings: [{
-	          guideBox: 135934,
-	          rating: 1,
-	          review: 'it sucked',
-	          name: 'die hard',
-	          genre: 'love, romance',
-	          posterURL: 'https://upload.wikimedia.org/wikipedia/en/7/7e/Die_hard.jpg'
-	        }, {
-	          guideBox: 135934,
-	          rating: 3,
-	          review: 'it was so so',
-	          name: 'die hard',
-	          genre: 'love, romance',
-	          posterURL: 'https://upload.wikimedia.org/wikipedia/en/7/7e/Die_hard.jpg'
-	        }]
-	      };
+	      var _this2 = this;
 	
-	      this.setState({
-	        isLoggedIn: true,
-	        username: username,
-	        firstName: response.data.firstName,
-	        lastName: response.data.lastName,
-	        allFriends: response.data.friends,
-	        allFilms: response.data.ratings,
-	        view: 'showUserHomeView'
+	      _helpers2.default.getHome().then(function (response) {
+	        console.log('response: ', response);
+	        // helpers.getHome().then(response => {
+	        //   console.log(response);
+	        // });
+	        // var response = {};
+	        // response.data = {
+	        //   id: 12345,
+	        //   firstName: 'bob',
+	        //   lastName: 'bobby',
+	        //   DOB: "1985-01-01",
+	        //   friends: [{
+	        //     ID: 1,
+	        //     firstName: 'joe',
+	        //     lastName: 'joey',
+	        //     DOB: "1985-01-01"
+	        //   },
+	        //   {
+	        //     ID: 2,
+	        //     firstName: 'jim',
+	        //     lastName: 'jimmy',
+	        //     DOB: "1985-01-01"
+	        //   },
+	        //   {
+	        //     ID: 3,
+	        //     firstName: 'steve',
+	        //     lastName: 'stevey',
+	        //     DOB: "1985-01-01"
+	        //   }],
+	        //   ratings: [
+	        //     {
+	        //       guideBox: 135934,
+	        //       rating: 1,
+	        //       review: 'it sucked',
+	        //       name: 'die hard',
+	        //       genre: 'love, romance',
+	        //       posterURL: 'https://upload.wikimedia.org/wikipedia/en/7/7e/Die_hard.jpg'
+	        //     },
+	        //     {
+	        //       guideBox: 135934,
+	        //       rating: 3,
+	        //       review: 'it was so so',
+	        //       name: 'die hard',
+	        //       genre: 'love, romance',
+	        //       posterURL: 'https://upload.wikimedia.org/wikipedia/en/7/7e/Die_hard.jpg'
+	        //     }
+	        //   ]
+	        // }
+	
+	        _this2.setState({
+	          isLoggedIn: true,
+	          username: username,
+	          firstName: response.data.firstName,
+	          lastName: response.data.lastName,
+	          allFriends: response.data.friends,
+	          allFilms: response.data.ratings,
+	          view: 'showUserHomeView'
+	        });
 	      });
-	      // })
 	    }
 	  }, {
 	    key: 'handleUserClick',
 	    value: function handleUserClick(user) {
-	      var _this2 = this;
+	      var _this3 = this;
 	
-	      _helpers2.default.getProfile(user.ID).then(function (response) {
-	        _this2.setState({
+	      console.log(user);
+	      _helpers2.default.getProfile(user.id || user.ID).then(function (response) {
+	        _this3.setState({
 	          view: 'showUserView',
 	          clickedUser: response.data
 	        });
@@ -22540,10 +22551,10 @@
 	  }, {
 	    key: 'handleFilmClick',
 	    value: function handleFilmClick(film) {
-	      var _this3 = this;
+	      var _this4 = this;
 	
 	      _helpers2.default.getFilm(film.guideBox).then(function (response) {
-	        _this3.setState({
+	        _this4.setState({
 	          view: 'showFilmView',
 	          clickedFilm: response.data
 	        });
@@ -22556,122 +22567,44 @@
 	        view: 'showUserHomeView'
 	      });
 	    }
-	
-	    //get request for allFilms and allFriends
-	
-	  }, {
-	    key: 'componentDidMount',
-	    value: function componentDidMount() {
-	      // include token here
-	      // helpers.logInUser().then(response => {
-	      //   console.log('response: ', response)
-	      //   this.setState({
-	      //     firstName: response.firstName,
-	      //     lastName: response.lastName,
-	      //     allFriends: response.friends,
-	      //     allFilms: response.rating
-	      //     // what should it be??
-	      //   })
-	      //   this.toggleLoggedIn();
-	      // })
-	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	
-	      if (this.state.isLoggedIn) {
-	        if (this.state.view === 'showFilmView') {
-	          return _react2.default.createElement(
-	            'div',
-	            null,
-	            _react2.default.createElement(_NavBar2.default, {
-	              handleHomeClick: this.handleHomeClick,
-	              handleLogOutClick: this.handleLogOutClick,
-	              searchUser: this.handleSearchUserClick,
-	              searchFilm: this.handleSearchFilmClick
-	            }),
-	            _react2.default.createElement(_FilmProfile2.default, {
-	              handleHomeClick: this.handleHomeClick,
-	              handleUserClick: this.handleUserClick,
-	              handleLogOutClick: this.handleLogOutClick,
-	              film: this.state.clickedFilm
-	            })
-	          );
-	        } else if (this.state.view === 'showUserHomeView') {
-	          return _react2.default.createElement(
-	            'div',
-	            null,
-	            _react2.default.createElement(_NavBar2.default, {
-	              handleHomeClick: this.handleHomeClick,
-	              handleLogOutClick: this.handleLogOutClick,
-	              searchUser: this.handleSearchUserClick,
-	              searchFilm: this.handleSearchFilmClick
-	            }),
-	            _react2.default.createElement(_UserHome2.default, {
-	              firstName: this.state.firstName,
-	              lastName: this.state.lastName,
-	              allFilms: this.state.allFilms,
-	              allFriends: this.state.allFriends,
-	              handleHomeClick: this.handleHomeClick,
-	              handleFilmClick: this.handleFilmClick,
-	              handleUserClick: this.handleUserClick,
-	              handleLogOutClick: this.handleLogOutClick
-	            })
-	          );
-	        } else if (this.state.view === 'showUserView') {
-	          return _react2.default.createElement(
-	            'div',
-	            null,
-	            _react2.default.createElement(_NavBar2.default, {
-	              handleHomeClick: this.handleHomeClick,
-	              handleLogOutClick: this.handleLogOutClick,
-	              searchUser: this.handleSearchUserClick,
-	              searchFilm: this.handleSearchFilmClick
-	            }),
-	            _react2.default.createElement(_UserProfile2.default, {
-	              handleHomeClick: this.handleHomeClick,
-	              handleLogOutClick: this.handleLogOutClick,
-	              handleFilmClick: this.handleFilmClick,
-	              handleUserClick: this.handleUserClick,
-	              firstName: this.state.firstName,
-	              lastName: this.state.lastName,
-	              user: this.state.clickedUser
-	            })
-	          );
-	        } else if (this.state.view === 'showSearchFilmView') {
-	          console.log('inside showSearchFilmView');
-	          return _react2.default.createElement(
-	            'div',
-	            null,
-	            _react2.default.createElement(_NavBar2.default, {
-	              handleHomeClick: this.handleHomeClick,
-	              handleLogOutClick: this.handleLogOutClick,
-	              searchUser: this.handleSearchUserClick,
-	              searchFilm: this.handleSearchFilmClick
-	            }),
-	            _react2.default.createElement(_SearchFilm2.default, {
-	              search: this.state.searchFilm,
-	              handleFilmClick: this.handleFilmClick
-	            })
-	          );
-	        } else if (this.state.view === 'showSearchUserView') {
-	          return _react2.default.createElement(
-	            'div',
-	            null,
-	            _react2.default.createElement(_NavBar2.default, {
-	              handleHomeClick: this.handleHomeClick,
-	              handleLogOutClick: this.handleLogOutClick,
-	              searchUser: this.handleSearchUserClick,
-	              searchFilm: this.handleSearchFilmClick
-	            }),
-	            _react2.default.createElement(_SearchUser2.default, {
-	              search: this.state.searchUser,
-	              handleUserClick: this.handleUserClick
-	            })
-	          );
-	        }
-	      } else {
+	      if (!this.state.isLoggedIn) {
 	        return _react2.default.createElement(_SignUp2.default, { handleLogInClick: this.handleLogInClick });
+	      } else {
+	        return _react2.default.createElement(
+	          'div',
+	          null,
+	          _react2.default.createElement(_NavBar2.default, {
+	            handleHomeClick: this.handleHomeClick,
+	            handleLogOutClick: this.handleLogOutClick,
+	            searchUser: this.handleSearchUserClick,
+	            searchFilm: this.handleSearchFilmClick
+	          }),
+	          this.state.view === 'showFilmView' ? _react2.default.createElement(_FilmProfile2.default, {
+	            film: this.state.clickedFilm
+	          }) : this.state.view === 'showUserHomeView' ? _react2.default.createElement(_UserHome2.default, {
+	            firstName: this.state.firstName,
+	            lastName: this.state.lastName,
+	            allFilms: this.state.allFilms,
+	            allFriends: this.state.allFriends,
+	            handleFilmClick: this.handleFilmClick,
+	            handleUserClick: this.handleUserClick
+	          }) : this.state.view === 'showUserView' ? _react2.default.createElement(_UserProfile2.default, {
+	            handleFilmClick: this.handleFilmClick,
+	            handleUserClick: this.handleUserClick,
+	            firstName: this.state.firstName,
+	            lastName: this.state.lastName,
+	            user: this.state.clickedUser
+	          }) : this.state.view === 'showSearchFilmView' ? _react2.default.createElement(_SearchFilm2.default, {
+	            search: this.state.searchFilm,
+	            handleFilmClick: this.handleFilmClick
+	          }) : (this.state.view === 'showSearchUserView')(_react2.default.createElement(_SearchUser2.default, {
+	            search: this.state.searchUser,
+	            handleUserClick: this.handleUserClick
+	          }))
+	        );
 	      }
 	    }
 	  }]);
@@ -24582,17 +24515,10 @@
 	};
 	
 	helpers.searchProfile = function (search) {
-	  console.log('search', search);
-	  // return axios.request(getRequest('/search/profile/' + search));
-	  // return axios.get('https://filmedin.herokuapp.com/profile/2',{
-	  //   headers: {
-	  //     'x-access-token': window.localStorage.getItem('filmedInToken')
-	  //   }
-	  // })
-	  return _axios2.default.request(getRequest('/search/profile/' + search));
+	  return _axios2.default.request(getRequest('/searchprofile/' + search));
 	};
 	helpers.searchFilm = function (search) {
-	  return _axios2.default.request(getRequest('/search/film/' + search));
+	  return _axios2.default.request(getRequest('/searchfilm/' + search));
 	};
 	helpers.addFriend = function (friendID) {
 	  return _axios2.default.request({
@@ -24650,9 +24576,7 @@
 	
 	var UserHome = function UserHome(_ref) {
 		var handleFilmClick = _ref.handleFilmClick,
-		    handleHomeClick = _ref.handleHomeClick,
 		    handleUserClick = _ref.handleUserClick,
-		    handleLogOutClick = _ref.handleLogOutClick,
 		    firstName = _ref.firstName,
 		    lastName = _ref.lastName,
 		    allFilms = _ref.allFilms,
@@ -24761,7 +24685,8 @@
 				var _this2 = this;
 	
 				_helpers2.default.searchFilm(this.state.filmSearch).then(function (films) {
-					_this2.props.searchFilm(films);
+					console.log(films);
+					_this2.props.searchFilm(films.data);
 				}).catch(function (err) {
 					console.log('error with search film', err);
 				});
@@ -24773,7 +24698,7 @@
 	
 				_helpers2.default.searchProfile(this.state.userSearch).then(function (friends) {
 					console.log(friends);
-					_this3.props.searchUser(friends);
+					_this3.props.searchUser(friends.data);
 				}).catch(function (err) {
 					console.log('error with search user', err);
 				});
@@ -24805,7 +24730,7 @@
 							'li',
 							null,
 							_react2.default.createElement(
-								'form',
+								'div',
 								null,
 								_react2.default.createElement(
 									'label',
@@ -24815,7 +24740,7 @@
 								_react2.default.createElement('input', { type: 'text', placeholder: 'Film Title', onChange: this.changeFilm.bind(this), value: this.state.filmSearch }),
 								_react2.default.createElement(
 									'button',
-									{ type: 'submit', onClick: this.searchFilm.bind(this) },
+									{ onClick: this.searchFilm.bind(this) },
 									'Search'
 								)
 							)
@@ -24824,7 +24749,7 @@
 							'li',
 							null,
 							_react2.default.createElement(
-								'form',
+								'div',
 								null,
 								_react2.default.createElement(
 									'label',
@@ -24834,7 +24759,7 @@
 								_react2.default.createElement('input', { type: 'text', placeholder: 'Name', onChange: this.changeUser.bind(this), value: this.state.userSearch }),
 								_react2.default.createElement(
 									'button',
-									{ type: 'submit', onClick: this.searchUser.bind(this) },
+									{ onClick: this.searchUser.bind(this) },
 									'Search'
 								)
 							)
@@ -25066,9 +24991,7 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var FilmProfile = function FilmProfile(_ref) {
-		var film = _ref.film,
-		    handleHomeClick = _ref.handleHomeClick,
-		    handleLogOutClick = _ref.handleLogOutClick;
+		var film = _ref.film;
 		return _react2.default.createElement(
 			'div',
 			{ className: 'film-profile' },
@@ -25142,10 +25065,8 @@
 	
 	var UserProfile = function UserProfile(_ref) {
 		var user = _ref.user,
-		    handleHomeClick = _ref.handleHomeClick,
 		    handleFilmClick = _ref.handleFilmClick,
-		    handleUserClick = _ref.handleUserClick,
-		    handleLogOutClick = _ref.handleLogOutClick;
+		    handleUserClick = _ref.handleUserClick;
 		return _react2.default.createElement(
 			'div',
 			{ className: 'user-profile' },
