@@ -22057,27 +22057,27 @@
 	
 	var _SignUp2 = _interopRequireDefault(_SignUp);
 	
-	var _UserHome = __webpack_require__(/*! ./UserHome */ 205);
+	var _UserHome = __webpack_require__(/*! ./UserHome */ 206);
 	
 	var _UserHome2 = _interopRequireDefault(_UserHome);
 	
-	var _FilmProfile = __webpack_require__(/*! ./FilmProfile */ 211);
+	var _FilmProfile = __webpack_require__(/*! ./FilmProfile */ 212);
 	
 	var _FilmProfile2 = _interopRequireDefault(_FilmProfile);
 	
-	var _UserProfile = __webpack_require__(/*! ./UserProfile */ 212);
+	var _UserProfile = __webpack_require__(/*! ./UserProfile */ 213);
 	
 	var _UserProfile2 = _interopRequireDefault(_UserProfile);
 	
-	var _exampleVideoData = __webpack_require__(/*! ./exampleVideoData */ 213);
+	var _exampleVideoData = __webpack_require__(/*! ./exampleVideoData */ 214);
 	
 	var _exampleVideoData2 = _interopRequireDefault(_exampleVideoData);
 	
-	var _exampleFriendData = __webpack_require__(/*! ./exampleFriendData */ 214);
+	var _exampleFriendData = __webpack_require__(/*! ./exampleFriendData */ 215);
 	
 	var _exampleFriendData2 = _interopRequireDefault(_exampleFriendData);
 	
-	var _helpers = __webpack_require__(/*! ../lib/helpers */ 215);
+	var _helpers = __webpack_require__(/*! ../lib/helpers */ 205);
 	
 	var _helpers2 = _interopRequireDefault(_helpers);
 	
@@ -23823,7 +23823,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _helpers = __webpack_require__(/*! ../lib/helpers */ 215);
+	var _helpers = __webpack_require__(/*! ../lib/helpers */ 205);
 	
 	var _helpers2 = _interopRequireDefault(_helpers);
 	
@@ -24071,6 +24071,98 @@
 
 /***/ },
 /* 205 */
+/*!************************!*\
+  !*** ./lib/helpers.js ***!
+  \************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _axios = __webpack_require__(/*! axios */ 179);
+	
+	var _axios2 = _interopRequireDefault(_axios);
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var getRequest = function getRequest(url) {
+	  var request = {
+	    headers: {
+	      'x-access-token': window.localStorage.getItem('filmedInToken')
+	    },
+	    url: url,
+	    baseURL: 'https://filmedin.herokuapp.com/',
+	    method: 'GET'
+	  };
+	  return request;
+	};
+	
+	var helpers = {};
+	
+	helpers.logInUser = function (data) {
+	  return _axios2.default.request({
+	    url: 'https://filmedin.herokuapp.com/signin',
+	    method: 'POST',
+	    data: data
+	  });
+	};
+	helpers.signUpUser = function (data) {
+	  return _axios2.default.request({
+	    url: 'https://filmedin.herokuapp.com/signup',
+	    method: 'POST',
+	    data: data
+	  });
+	};
+	helpers.getHome = function () {
+	  return _axios2.default.request(getRequest('/home'));
+	};
+	helpers.getFeed = function () {
+	  return _axios2.default.request(getRequest('/feed'));
+	};
+	helpers.getProfile = function (id) {
+	  return _axios2.default.request(getRequest('/profile/' + id));
+	};
+	helpers.getFilm = function (id) {
+	  return _axios2.default.request(getRequest('/film/' + id));
+	};
+	helpers.searchProfile = function (search) {
+	  return _axios2.default.request(getRequest('/search/profile/' + search));
+	};
+	helpers.searchFilm = function (search) {
+	  return _axios2.default.request(getRequest('/search/film/' + search));
+	};
+	helpers.addFriend = function (friendID) {
+	  return _axios2.default.request({
+	    url: 'https://filmedin.herokuapp.com/addFriend',
+	    method: 'POST',
+	    data: {
+	      friendID: friendID
+	    }
+	  });
+	};
+	helpers.addRating = function (filmID, rating, review) {
+	  return _axios2.default.request({
+	    url: 'https://filmedin.herokuapp.com/addRating',
+	    method: 'POST',
+	    data: {
+	      filmID: filmID,
+	      rating: rating,
+	      review: review
+	    }
+	  });
+	};
+	
+	exports.default = helpers;
+
+/***/ },
+/* 206 */
 /*!*********************************!*\
   !*** ./components/UserHome.jsx ***!
   \*********************************/
@@ -24086,15 +24178,15 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _NavBar = __webpack_require__(/*! ./NavBar */ 206);
+	var _NavBar = __webpack_require__(/*! ./NavBar */ 207);
 	
 	var _NavBar2 = _interopRequireDefault(_NavBar);
 	
-	var _FilmList = __webpack_require__(/*! ./FilmList */ 207);
+	var _FilmList = __webpack_require__(/*! ./FilmList */ 208);
 	
 	var _FilmList2 = _interopRequireDefault(_FilmList);
 	
-	var _UserList = __webpack_require__(/*! ./UserList */ 209);
+	var _UserList = __webpack_require__(/*! ./UserList */ 210);
 	
 	var _UserList2 = _interopRequireDefault(_UserList);
 	
@@ -24156,13 +24248,13 @@
 	exports.default = UserHome;
 
 /***/ },
-/* 206 */
+/* 207 */
 /*!*******************************!*\
   !*** ./components/NavBar.jsx ***!
   \*******************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
 		value: true
@@ -24188,77 +24280,103 @@
 		function NavBar(props) {
 			_classCallCheck(this, NavBar);
 	
-			return _possibleConstructorReturn(this, (NavBar.__proto__ || Object.getPrototypeOf(NavBar)).call(this, props));
+			var _this = _possibleConstructorReturn(this, (NavBar.__proto__ || Object.getPrototypeOf(NavBar)).call(this, props));
+	
+			_this.state = {
+				userSearch: '',
+				filmSearch: ''
+			};
+			return _this;
 		}
 	
 		_createClass(NavBar, [{
-			key: "render",
+			key: 'changeUser',
+			value: function changeUser(e) {
+				this.setState(userSearch);
+			}
+		}, {
+			key: 'changeFilm',
+			value: function changeFilm(e) {
+				this.setState(filmSearch);
+			}
+		}, {
+			key: 'searchFilm',
+			value: function searchFilm() {
+				this.props.searchFilm(this.state.filmSearch);
+			}
+		}, {
+			key: 'searchUser',
+			value: function searchUser() {
+				this.props.searchUser(this.state.userSearch);
+			}
+		}, {
+			key: 'render',
 			value: function render() {
 				return _react2.default.createElement(
-					"div",
-					{ className: "navbar" },
+					'div',
+					{ className: 'navbar' },
 					_react2.default.createElement(
-						"h1",
+						'h1',
 						null,
-						"FilmedIn"
+						'FilmedIn'
 					),
 					_react2.default.createElement(
-						"ul",
+						'ul',
 						null,
 						_react2.default.createElement(
-							"li",
+							'li',
 							null,
 							_react2.default.createElement(
-								"a",
-								{ href: "#", onClick: this.props.handleHomeClick },
-								"Home"
+								'a',
+								{ href: '#', onClick: this.props.handleHomeClick },
+								'Home'
 							)
 						),
 						_react2.default.createElement(
-							"li",
+							'li',
 							null,
 							_react2.default.createElement(
-								"form",
+								'form',
 								null,
 								_react2.default.createElement(
-									"label",
+									'label',
 									null,
-									"Search Film: "
+									'Search Film: '
 								),
-								_react2.default.createElement("input", { type: "text", placeholder: "Film Title" }),
+								_react2.default.createElement('input', { type: 'text', placeholder: 'Film Title', onChange: this.changeFilm.bind(this), value: this.state.filmSearch }),
 								_react2.default.createElement(
-									"button",
-									{ type: "submit" },
-									"Search"
+									'button',
+									{ type: 'submit', onClick: this.searchFilm.bind(this) },
+									'Search'
 								)
 							)
 						),
 						_react2.default.createElement(
-							"li",
+							'li',
 							null,
 							_react2.default.createElement(
-								"form",
+								'form',
 								null,
 								_react2.default.createElement(
-									"label",
+									'label',
 									null,
-									"Search Users: "
+									'Search Users: '
 								),
-								_react2.default.createElement("input", { type: "text", placeholder: "Name" }),
+								_react2.default.createElement('input', { type: 'text', placeholder: 'Name', onChange: this.changeUser.bind(this), value: this.state.userSearch }),
 								_react2.default.createElement(
-									"button",
-									{ type: "submit" },
-									"Search"
+									'button',
+									{ type: 'submit', onClick: this.searchUser.bind(this) },
+									'Search'
 								)
 							)
 						),
 						_react2.default.createElement(
-							"li",
+							'li',
 							null,
 							_react2.default.createElement(
-								"a",
-								{ href: "#", onClick: this.props.handleLogOutClick },
-								"Logout"
+								'a',
+								{ href: '#', onClick: this.props.handleLogOutClick },
+								'Logout'
 							)
 						)
 					)
@@ -24272,7 +24390,7 @@
 	exports.default = NavBar;
 
 /***/ },
-/* 207 */
+/* 208 */
 /*!*********************************!*\
   !*** ./components/FilmList.jsx ***!
   \*********************************/
@@ -24288,7 +24406,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _FilmEntry = __webpack_require__(/*! ./FilmEntry */ 208);
+	var _FilmEntry = __webpack_require__(/*! ./FilmEntry */ 209);
 	
 	var _FilmEntry2 = _interopRequireDefault(_FilmEntry);
 	
@@ -24313,7 +24431,7 @@
 	exports.default = FilmList;
 
 /***/ },
-/* 208 */
+/* 209 */
 /*!**********************************!*\
   !*** ./components/FilmEntry.jsx ***!
   \**********************************/
@@ -24360,7 +24478,7 @@
 	exports.default = FilmEntry;
 
 /***/ },
-/* 209 */
+/* 210 */
 /*!*********************************!*\
   !*** ./components/UserList.jsx ***!
   \*********************************/
@@ -24376,7 +24494,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _UserEntry = __webpack_require__(/*! ./UserEntry */ 210);
+	var _UserEntry = __webpack_require__(/*! ./UserEntry */ 211);
 	
 	var _UserEntry2 = _interopRequireDefault(_UserEntry);
 	
@@ -24401,7 +24519,7 @@
 	exports.default = UserList;
 
 /***/ },
-/* 210 */
+/* 211 */
 /*!**********************************!*\
   !*** ./components/UserEntry.jsx ***!
   \**********************************/
@@ -24446,7 +24564,7 @@
 	exports.default = UserEntry;
 
 /***/ },
-/* 211 */
+/* 212 */
 /*!************************************!*\
   !*** ./components/FilmProfile.jsx ***!
   \************************************/
@@ -24462,7 +24580,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _NavBar = __webpack_require__(/*! ./NavBar */ 206);
+	var _NavBar = __webpack_require__(/*! ./NavBar */ 207);
 	
 	var _NavBar2 = _interopRequireDefault(_NavBar);
 	
@@ -24517,7 +24635,7 @@
 	exports.default = FilmProfile;
 
 /***/ },
-/* 212 */
+/* 213 */
 /*!************************************!*\
   !*** ./components/UserProfile.jsx ***!
   \************************************/
@@ -24533,15 +24651,15 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _NavBar = __webpack_require__(/*! ./NavBar */ 206);
+	var _NavBar = __webpack_require__(/*! ./NavBar */ 207);
 	
 	var _NavBar2 = _interopRequireDefault(_NavBar);
 	
-	var _FilmList = __webpack_require__(/*! ./FilmList */ 207);
+	var _FilmList = __webpack_require__(/*! ./FilmList */ 208);
 	
 	var _FilmList2 = _interopRequireDefault(_FilmList);
 	
-	var _UserList = __webpack_require__(/*! ./UserList */ 209);
+	var _UserList = __webpack_require__(/*! ./UserList */ 210);
 	
 	var _UserList2 = _interopRequireDefault(_UserList);
 	
@@ -24591,7 +24709,7 @@
 	exports.default = UserProfile;
 
 /***/ },
-/* 213 */
+/* 214 */
 /*!****************************************!*\
   !*** ./components/exampleVideoData.js ***!
   \****************************************/
@@ -24776,7 +24894,7 @@
 	exports.default = exampleVideoData;
 
 /***/ },
-/* 214 */
+/* 215 */
 /*!*****************************************!*\
   !*** ./components/exampleFriendData.js ***!
   \*****************************************/
@@ -24788,7 +24906,7 @@
 		value: true
 	});
 	
-	var _exampleVideoData = __webpack_require__(/*! ./exampleVideoData */ 213);
+	var _exampleVideoData = __webpack_require__(/*! ./exampleVideoData */ 214);
 	
 	var _exampleVideoData2 = _interopRequireDefault(_exampleVideoData);
 	
@@ -24869,98 +24987,6 @@
 	}];
 	
 	exports.default = exampleFriendData;
-
-/***/ },
-/* 215 */
-/*!************************!*\
-  !*** ./lib/helpers.js ***!
-  \************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _axios = __webpack_require__(/*! axios */ 179);
-	
-	var _axios2 = _interopRequireDefault(_axios);
-	
-	var _react = __webpack_require__(/*! react */ 1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var getRequest = function getRequest(url) {
-	  var request = {
-	    headers: {
-	      'x-access-token': window.localStorage.getItem('filmedInToken')
-	    },
-	    url: url,
-	    baseURL: 'https://filmedin.herokuapp.com/',
-	    method: 'GET'
-	  };
-	  return request;
-	};
-	
-	var helpers = {};
-	
-	helpers.logInUser = function (data) {
-	  return _axios2.default.request({
-	    url: 'https://filmedin.herokuapp.com/signin',
-	    method: 'POST',
-	    data: data
-	  });
-	};
-	helpers.signUpUser = function (data) {
-	  return _axios2.default.request({
-	    url: 'https://filmedin.herokuapp.com/signup',
-	    method: 'POST',
-	    data: data
-	  });
-	};
-	helpers.getHome = function () {
-	  return _axios2.default.request(getRequest('/home'));
-	};
-	helpers.getFeed = function () {
-	  return _axios2.default.request(getRequest('/feed'));
-	};
-	helpers.getProfile = function (id) {
-	  return _axios2.default.request(getRequest('/profile/' + id));
-	};
-	helpers.getFilm = function (id) {
-	  return _axios2.default.request(getRequest('/film/' + id));
-	};
-	helpers.searchProfile = function (search) {
-	  return _axios2.default.request(getRequest('/search/profile/' + search));
-	};
-	helpers.searchFilm = function (search) {
-	  return _axios2.default.request(getRequest('/search/film/' + search));
-	};
-	helpers.addFriend = function (friendID) {
-	  return _axios2.default.request({
-	    url: 'https://filmedin.herokuapp.com/addFriend',
-	    method: 'POST',
-	    data: {
-	      friendID: friendID
-	    }
-	  });
-	};
-	helpers.addRating = function (filmID, rating, review) {
-	  return _axios2.default.request({
-	    url: 'https://filmedin.herokuapp.com/addRating',
-	    method: 'POST',
-	    data: {
-	      filmID: filmID,
-	      rating: rating,
-	      review: review
-	    }
-	  });
-	};
-	
-	exports.default = helpers;
 
 /***/ }
 /******/ ]);
