@@ -1,7 +1,8 @@
 import React from 'react';
 import NavBar from './NavBar';
+import Rating from 'react-rating';
 
-var FilmProfile = ({film}) => (
+var FilmProfile = ({film, rateFilm}) => (
 		<div className="film-profile">
 			{/*This is the film title*/}
 			<h1>{film.name}</h1>
@@ -10,6 +11,7 @@ var FilmProfile = ({film}) => (
 			<img src={film.posterURL} alt="" />
 
 			{/*This is the user's rank*/}
+			<Rating intialRate={film.rating} onClick={(rate, e) => {rateFilm (rate, film.id)}}/>
 			<div>Your ranking: {film.rating}</div>
 			<br />
 			{/*This is the film description:
