@@ -5,10 +5,6 @@ import UserList from './UserList';
 
 var UserProfile = ({user, handleHomeClick, handleFilmClick, handleUserClick, handleLogOutClick}) => (
 		<div className="user-profile">
-			<NavBar
-				handleHomeClick={handleHomeClick}
-				handleLogOutClick={handleLogOutClick}
-			/>
 
 			<h1>{user.firstName} {user.lastName}</h1>
 

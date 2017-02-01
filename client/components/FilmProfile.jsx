@@ -3,10 +3,6 @@ import NavBar from './NavBar';
 
 var FilmProfile = ({film, handleHomeClick, handleLogOutClick}) => (
 		<div className="film-profile">
-			<NavBar
-				handleHomeClick={handleHomeClick}
-				handleLogOutClick={handleLogOutClick}
-			/>
 			{/*This is the film title*/}
 			<h1>{film.name}</h1>
 

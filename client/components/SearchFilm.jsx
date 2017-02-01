@@ -1,5 +1,7 @@
 import React from 'react';
 import helpers from '../lib/helpers';
+import FilmList from './FilmList';
+import axios from 'axios';
 
 class SearchFilm extends React.Component{
   constructor(props) {
@@ -8,9 +10,13 @@ class SearchFilm extends React.Component{
       films: []
     }
   }
-  componentWillMount () {
+  componentDidMount () {
+    console.log(this.props.search)
     helpers.searchFilm(this.props.search).then(films => {
+      console.log('films', films)
       this.setState({films: films});
+    }).catch(err => {
+      console.log('error with search film', err)
     })
   }
   render () {
@@ -22,3 +28,5 @@ class SearchFilm extends React.Component{
       )
   }
 }
+
+export default SearchFilm

@@ -4,7 +4,9 @@ import react from 'react';
 var getRequest = function (url) {
   var request = {
     headers: {
-      'x-access-token': window.localStorage.getItem('filmedInToken')
+      'x-access-token': window.localStorage.getItem('filmedInToken'),
+      'Content-Type': 'application/json; charset=utf-8',
+
     },
     url: url,
     baseURL: 'https://filmedin.herokuapp.com/',
@@ -41,8 +43,16 @@ helpers.getProfile = function (id) {
 helpers.getFilm = function(id) {
   return axios.request(getRequest('/film/' + id));
 }
+
 helpers.searchProfile = function(search) {
-  return axios.request(getRequest('/search/profile/' + search));
+  console.log('search', search)
+  // return axios.request(getRequest('/search/profile/' + search));
+  // return axios.get('https://filmedin.herokuapp.com/profile/2',{
+  //   headers: {
+  //     'x-access-token': window.localStorage.getItem('filmedInToken')
+  //   }
+  // })
+  return axios.request(getRequest('/profile' + search));
 }
 helpers.searchFilm = function(search) {
   return axios.request(getRequest('/search/film/' + search));

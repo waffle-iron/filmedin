@@ -7,6 +7,9 @@ import UserProfile from './UserProfile';
 import exampleVideoData from './exampleVideoData';
 import exampleFriendData from './exampleFriendData';
 import helpers from '../lib/helpers';
+import SearchUser from './SearchUser';
+import SearchFilm from './SearchFilm';
+import NavBar from './NavBar';
 
 class App extends React.Component {
   constructor(props) {
@@ -20,14 +23,36 @@ class App extends React.Component {
       allFriends: exampleFriendData,
       clickedFilm: {},
       clickedUser: {},
-      view: ''
+      view: '',
+      searchUser: '',
+      searchFilm: ''
     }
+
+    this.handleSearchUserClick = this.handleSearchUserClick.bind(this)
+    this.handleSearchFilmClick = this.handleSearchFilmClick.bind(this)
     this.handleFilmClick = this.handleFilmClick.bind(this)
     this.handleHomeClick = this.handleHomeClick.bind(this)
     this.handleUserClick = this.handleUserClick.bind(this)
     this.handleLogInClick = this.handleLogInClick.bind(this)
     this.handleLogOutClick = this.handleLogOutClick.bind(this)
   }
+
+  handleSearchUserClick(searchUser) {
+    console.log(searchUser)
+    this.setState({
+      searchUser: searchUser,
+      view: 'showSearchUserView'
+    })
+  }
+
+  handleSearchFilmClick(searchFilm) {
+    console.log(searchFilm)
+    this.setState({
+      searchFilm: searchFilm,
+      view: 'showSearchFilmView'
+    })
+  }
+
 
   handleLogOutClick() {
     window.localStorage.removeItem('filmedInToken');
@@ -142,15 +167,30 @@ class App extends React.Component {
 	  if (this.state.isLoggedIn) {
       if (this.state.view === 'showFilmView') {
         return (
+          <div>
+            <NavBar
+              handleHomeClick={this.handleHomeClick}
+              handleLogOutClick={this.handleLogOutClick}
+              searchUser={this.handleSearchUserClick}
+              searchFilm={this.handleSearchFilmClick}
+            />
           <FilmProfile
             handleHomeClick={this.handleHomeClick}
             handleUserClick={this.handleUserClick}
             handleLogOutClick={this.handleLogOutClick}
             film={this.state.clickedFilm}
           />
+        </div>
         )
       } else if (this.state.view === 'showUserHomeView') {
   	  	return (
+          <div>
+          <NavBar
+            handleHomeClick={this.handleHomeClick}
+            handleLogOutClick={this.handleLogOutClick}
+            searchUser={this.handleSearchUserClick}
+            searchFilm={this.handleSearchFilmClick}
+          />
           <UserHome
             firstName={this.state.firstName}
             lastName={this.state.lastName}
@@ -161,26 +201,63 @@ class App extends React.Component {
             handleUserClick={this.handleUserClick}
             handleLogOutClick={this.handleLogOutClick}
           />
+          </div>
         )
       } else if (this.state.view === 'showUserView') {
         return (
-          <UserProfile
-            handleHomeClick={this.handleHomeClick}
-            handleLogOutClick={this.handleLogOutClick}
-            handleFilmClick={this.handleFilmClick}
-            handleUserClick={this.handleUserClick}
-            firstName={this.state.firstName}
-            lastName={this.state.lastName}
-            user={this.state.clickedUser}
-          />
+          <div>
+            <NavBar
+              handleHomeClick={this.handleHomeClick}
+              handleLogOutClick={this.handleLogOutClick}
+              searchUser={this.handleSearchUserClick}
+              searchFilm={this.handleSearchFilmClick}
+            />
+            <UserProfile
+              handleHomeClick={this.handleHomeClick}
+              handleLogOutClick={this.handleLogOutClick}
+              handleFilmClick={this.handleFilmClick}
+              handleUserClick={this.handleUserClick}
+              firstName={this.state.firstName}
+              lastName={this.state.lastName}
+              user={this.state.clickedUser}
+            />
+          </div>
+        )
+      } else if (this.state.view === 'showSearchFilmView') {
+        console.log('inside showSearchFilmView')
+        return (
+          <div>
+            <NavBar
+              handleHomeClick={this.handleHomeClick}
+              handleLogOutClick={this.handleLogOutClick}
+              searchUser={this.handleSearchUserClick}
+              searchFilm={this.handleSearchFilmClick}
+            />
+            <SearchFilm
+              search={this.state.searchFilm}
+              handleFilmClick={this.handleFilmClick}
+            />
+          </div>
+        )
+    } else if (this.state.view === 'showSearchUserView') {
+        return (
+          <div>
+            <NavBar
+              handleHomeClick={this.handleHomeClick}
+              handleLogOutClick={this.handleLogOutClick}
+              searchUser={this.handleSearchUserClick}
+              searchFilm={this.handleSearchFilmClick}
+            />
+            <SearchUser
+              search={this.state.searchUser}
+              handleUserClick={this.handleUserClick}
+            />
+          </div>
         )
       }
-	  } else {
+    } else {
 	    return ( <SignUp handleLogInClick={this.handleLogInClick} /> )
 	  }
-
-
   }
 }
-
 export default App;
