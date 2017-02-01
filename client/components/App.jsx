@@ -28,15 +28,21 @@ class App extends React.Component {
       searchFilm: []
     }
 
-    this.handleSearchUserClick = this.handleSearchUserClick.bind(this)
-    this.handleSearchFilmClick = this.handleSearchFilmClick.bind(this)
-    this.handleFilmClick = this.handleFilmClick.bind(this)
-    this.handleHomeClick = this.handleHomeClick.bind(this)
-    this.handleUserClick = this.handleUserClick.bind(this)
-    this.handleLogInClick = this.handleLogInClick.bind(this)
-    this.handleLogOutClick = this.handleLogOutClick.bind(this)
+    this.handleSearchUserClick = this.handleSearchUserClick.bind(this);
+    this.handleSearchFilmClick = this.handleSearchFilmClick.bind(this);
+    this.handleFilmClick = this.handleFilmClick.bind(this);
+    this.handleHomeClick = this.handleHomeClick.bind(this);
+    this.handleUserClick = this.handleUserClick.bind(this);
+    this.handleLogInClick = this.handleLogInClick.bind(this);
+    this.handleLogOutClick = this.handleLogOutClick.bind(this);
+    this.addFriend = this.addFriend.bind(this);
   }
 
+  addFriend(friend) {
+    helpers.addFriend(friend.id).then(res => {
+      console.log('added');
+    });
+  }
   handleSearchUserClick(searchUser) {
     this.setState({
       searchUser: searchUser,
@@ -134,7 +140,7 @@ class App extends React.Component {
   }
 
   handleFilmClick(film) {
-    helpers.getFilm(film.guideBox).then(response => {
+    helpers.getFilm(film.guideBox || film.id).then(response => {
       this.setState({
         view: 'showFilmView',
         clickedFilm: response.data
@@ -187,10 +193,11 @@ class App extends React.Component {
                   search={this.state.searchFilm}
                   handleFilmClick={this.handleFilmClick}
                 />               
-            ) : (this.state.view === 'showSearchUserView') (
+            ) : (
                 <SearchUser
                   search={this.state.searchUser}
                   handleUserClick={this.handleUserClick}
+                  addFriend={this.addFriend}
                 />              
             )
           }

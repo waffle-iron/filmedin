@@ -45,6 +45,15 @@
 
 }
 
+.search-film-list {
+	padding: 5px 5px 5px 5px;
+	margin: 15px 15px 15px 15px;
+	border-style: solid;
+	border-width: 1px;
+	height: 1000px;
+	overflow: scroll;
+}
+
 .film-entry {
 	border-style: solid;
 	border-width: 1px;
@@ -69,6 +78,15 @@
 	height: 200px;
 	overflow: scroll;
 
+}
+
+.search-user-list {
+		padding: 5px 5px 5px 5px;
+	margin: 15px 15px 15px 15px;
+	border-style: solid;
+	border-width: 1px;
+	height: 1000px;
+	overflow: scroll;
 }
 
 .user-entry {
