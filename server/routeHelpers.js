@@ -141,7 +141,7 @@ module.exports = {
   searchUser: function (req, res, next) {
     auth.checkAuth(req, user => {
       if (user !== null) {
-        db.profile.search(req.params.search, (err, rows) => {
+        db.profile.search(req.params.id, (err, rows) => {
           res.send(rows);
         });
       } else {
@@ -152,7 +152,7 @@ module.exports = {
   searchFilm: function (req, res, next) {
     auth.checkAuth(req, user => {
       if (user !== null) {
-        gb.search(qs.parse(req.params.search), (err, body) => {
+        gb.search(qs.parse(req.params.id), (err, body) => {
           res.send(JSON.parse(body.body).results);
         });
       } else {
