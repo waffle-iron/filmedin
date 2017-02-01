@@ -10,12 +10,12 @@ var UserProfile = ({user, handleHomeClick, handleFilmClick, handleUserClick, han
 				handleLogOutClick={handleLogOutClick}
 			/>
 
-			<h1>{user.firstname} {user.lastname}</h1>
+			<h1>{user.firstName} {user.lastName}</h1>
 
 			{/*This is the user's film list*/}
 			<h3>List of your ranked films</h3>
 			<FilmList
-				allFilms={user.films}
+				allFilms={user.ratings}
 				handleFilmClick={handleFilmClick}
 			/>
 

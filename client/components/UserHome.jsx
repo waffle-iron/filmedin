@@ -21,7 +21,7 @@ var UserHome = ({handleFilmClick, handleHomeClick, handleUserClick, handleLogOut
 				<div>
 					<h3>List of user's friends</h3>
 					<UserList
-						handleLogOutClick={handleLogOutClick}
+						handleUserClick={handleUserClick}
 						allFriends={allFriends}
 					/>
 				</div>

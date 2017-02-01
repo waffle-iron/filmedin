@@ -4,9 +4,9 @@ import React from 'react';
 var UserEntry = ({handleUserClick, user}) => (
 	<div className="user-entry" onClick={() => handleUserClick(user)}>
     <div>
-      {user.firstname} {user.lastname}
+      {user.firstName} {user.lastName}
     </div>
-      <div>Username: {user.username}</div>
+      <div>DOB: {user.DOB}</div>
   </div>
 )
 
