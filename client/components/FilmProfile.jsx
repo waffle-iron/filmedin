@@ -1,7 +1,7 @@
 import React from 'react';
 import NavBar from './NavBar';
 
-var FilmProfile = ({film, handleHomeClick, handleLogOutClick}) => (
+var FilmProfile = ({film}) => (
 		<div className="film-profile">
 			{/*This is the film title*/}
 			<h1>{film.name}</h1>

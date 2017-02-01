@@ -3,7 +3,7 @@ import NavBar from './NavBar';
 import FilmList from './FilmList';
 import UserList from './UserList';
 
-var UserProfile = ({user, handleHomeClick, handleFilmClick, handleUserClick, handleLogOutClick}) => (
+var UserProfile = ({user, handleFilmClick, handleUserClick}) => (
 		<div className="user-profile">
 
 			<h1>{user.firstName} {user.lastName}</h1>

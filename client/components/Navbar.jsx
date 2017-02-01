@@ -17,7 +17,8 @@ class NavBar extends React.Component{
 	}
 	searchFilm() {
 		helpers.searchFilm(this.state.filmSearch).then(films => {
-      this.props.searchFilm(films);
+			console.log(films);
+      this.props.searchFilm(films.data);
     }).catch(err => {
       console.log('error with search film', err)
     })
@@ -26,7 +27,7 @@ class NavBar extends React.Component{
 	searchUser() {
 		helpers.searchProfile(this.state.userSearch).then(friends => {
 			console.log(friends);
-      this.props.searchUser(friends);
+      this.props.searchUser(friends.data);
     }).catch(err => {
       console.log('error with search user', err)
     })
@@ -43,18 +44,18 @@ class NavBar extends React.Component{
 						<a href="#" onClick={this.props.handleHomeClick}>Home</a>
 					</li>
 					<li>
-						<form>
+						<div>
 							<label>Search Film: </label>
 							<input type="text" placeholder="Film Title" onChange={this.changeFilm.bind(this)} value={this.state.filmSearch} />
-							<button type="submit" onClick={this.searchFilm.bind(this)}>Search</button>
-						</form>
+							<button onClick={this.searchFilm.bind(this)}>Search</button>
+						</div>
 					</li>
 					<li>
-						<form>
+						<div>
 							<label>Search Users: </label>
 							<input type="text" placeholder="Name" onChange={this.changeUser.bind(this)} value={this.state.userSearch}/>
-							<button type="submit" onClick={this.searchUser.bind(this)}>Search</button>
-						</form>
+							<button onClick={this.searchUser.bind(this)}>Search</button>
+						</div>
 					</li>
 					<li>
 						<a href="#" onClick={this.props.handleLogOutClick}>Logout</a>
