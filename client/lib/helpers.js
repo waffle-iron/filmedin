@@ -52,7 +52,7 @@ helpers.searchProfile = function(search) {
   //     'x-access-token': window.localStorage.getItem('filmedInToken')
   //   }
   // })
-  return axios.request(getRequest('/profile' + search));
+  return axios.request(getRequest('/search/profile/' + search));
 }
 helpers.searchFilm = function(search) {
   return axios.request(getRequest('/search/film/' + search));

@@ -24,8 +24,8 @@ class App extends React.Component {
       clickedFilm: {},
       clickedUser: {},
       view: '',
-      searchUser: '',
-      searchFilm: ''
+      searchUser: [],
+      searchFilm: []
     }
 
     this.handleSearchUserClick = this.handleSearchUserClick.bind(this)
@@ -38,7 +38,6 @@ class App extends React.Component {
   }
 
   handleSearchUserClick(searchUser) {
-    console.log(searchUser)
     this.setState({
       searchUser: searchUser,
       view: 'showSearchUserView'
@@ -46,7 +45,6 @@ class App extends React.Component {
   }
 
   handleSearchFilmClick(searchFilm) {
-    console.log(searchFilm)
     this.setState({
       searchFilm: searchFilm,
       view: 'showSearchFilmView'

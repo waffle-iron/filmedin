@@ -6,21 +6,11 @@ import axios from 'axios';
 class SearchUser extends React.Component{
   constructor(props) {
     super(props);
-    this.state = {
-      friends: []
-    }
-  }
-  componentDidMount () {
-    console.log('props.search: ',this.props.search)
-    helpers.searchProfile(this.props.search).then(friends => {
-      console.log('friends', friends)
-      this.setState({friends: friends});
-    })
   }
   render () {
     return (
       <UserList
-        allFriends={this.state.friends}
+        allFriends={this.props.search}
         handleUserClick={this.props.handleUserClick}
       />
       )

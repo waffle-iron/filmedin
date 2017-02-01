@@ -1,4 +1,5 @@
 import React from 'react';
+import helpers from '../lib/helpers'
 
 class NavBar extends React.Component{
 	constructor(props) {
@@ -15,10 +16,21 @@ class NavBar extends React.Component{
 		this.setState({filmSearch: e.target.value});
 	}
 	searchFilm() {
-		this.props.searchFilm(this.state.filmSearch);
+		helpers.searchFilm(this.state.filmSearch).then(films => {
+      this.props.searchFilm(films);
+    }).catch(err => {
+      console.log('error with search film', err)
+    })
+		
 	}
 	searchUser() {
-		this.props.searchUser(this.state.userSearch);
+		helpers.searchProfile(this.state.userSearch).then(friends => {
+			console.log(friends);
+      this.props.searchUser(friends);
+    }).catch(err => {
+      console.log('error with search user', err)
+    })
+		
 	}
 
 
