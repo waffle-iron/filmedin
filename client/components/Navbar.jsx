@@ -9,10 +9,10 @@ class NavBar extends React.Component{
 		}
 	}
 	changeUser (e) {
-		this.setState(userSearch: e.target.value);
+		this.setState({userSearch: e.target.value});
 	}
 	changeFilm (e) {
-		this.setState(filmSearch: e.target.value);
+		this.setState({filmSearch: e.target.value});
 	}
 	searchFilm() {
 		this.props.searchFilm(this.state.filmSearch);

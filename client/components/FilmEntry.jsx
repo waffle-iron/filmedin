@@ -4,10 +4,12 @@ import React from 'react';
 var FilmEntry = ({handleFilmClick, film}) => (
 	<div className="film-entry" onClick={() => handleFilmClick(film)}>
     <div>
-      <img src={film.snippet.thumbnails.default.url} alt="" />
+      <img src={film.posterURL} alt="" />
     </div>
-      <div>{film.snippet.title}</div>
-      <div>{film.snippet.description}</div>
+      <div>{film.name}</div>
+      <div>{film.genre}</div>
+      <div>{film.rating}</div>
+      <div>{film.review}</div>
   </div>
 )
 

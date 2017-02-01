@@ -1,5 +1,7 @@
 import React from 'react';
 import helpers from '../lib/helpers';
+import UserList from './UserList';
+import axios from 'axios';
 
 class SearchUser extends React.Component{
   constructor(props) {
@@ -8,8 +10,10 @@ class SearchUser extends React.Component{
       friends: []
     }
   }
-  componentWillMount () {
+  componentDidMount () {
+    console.log('props.search: ',this.props.search)
     helpers.searchProfile(this.props.search).then(friends => {
+      console.log('friends', friends)
       this.setState({friends: friends});
     })
   }
@@ -22,3 +26,5 @@ class SearchUser extends React.Component{
       )
   }
 }
+
+export default SearchUser

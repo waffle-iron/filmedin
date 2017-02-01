@@ -8,11 +8,11 @@ class SignUp extends React.Component {
 		super(props);
 
 		this.state = {
-			username: 'nickc',
-			password: 'pass',
-			firstname: 'nick',
-			lastname: 'cobbett',
-			DOB: '1985-04-18'
+			username: '',
+			password: '',
+			firstname: '',
+			lastname: '',
+			DOB: ''
 		}
 
 		this.handleSignUpClick = this.handleSignUpClick.bind(this);
@@ -63,11 +63,12 @@ class SignUp extends React.Component {
 			password: this.state.password
 		}
 		helpers.logInUser(signinInputs).then(response => {
-			window.localStorage.setItem('filmedInToken', response.token);
-			console.log('set token');
+			console.log('responselklkjlkj: ', response);
+			window.localStorage.setItem('filmedInToken', response.data.token);
+			console.log('token', response.data.token);
 			this.props.handleLogInClick();
 			}).catch(err => {
-				console.log('error with login')
+				console.log('error with login', err)
 			})
 	}
 

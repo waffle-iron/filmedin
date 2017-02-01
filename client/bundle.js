@@ -22081,6 +22081,18 @@
 	
 	var _helpers2 = _interopRequireDefault(_helpers);
 	
+	var _SearchUser = __webpack_require__(/*! ./SearchUser */ 216);
+	
+	var _SearchUser2 = _interopRequireDefault(_SearchUser);
+	
+	var _SearchFilm = __webpack_require__(/*! ./SearchFilm */ 217);
+	
+	var _SearchFilm2 = _interopRequireDefault(_SearchFilm);
+	
+	var _NavBar = __webpack_require__(/*! ./NavBar */ 207);
+	
+	var _NavBar2 = _interopRequireDefault(_NavBar);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -22098,7 +22110,7 @@
 	    var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 	
 	    _this.state = {
-	      // token: window.localStorage.getItem('filmedInToken'),
+	      profileID: '',
 	      isLoggedIn: false,
 	      firstName: '',
 	      lastName: '',
@@ -22106,33 +22118,40 @@
 	      allFriends: _exampleFriendData2.default,
 	      clickedFilm: {},
 	      clickedUser: {},
-	      view: ''
+	      view: '',
+	      searchUser: '',
+	      searchFilm: ''
 	    };
-	    // this.toggleLoggedIn = this.toggleLoggedIn.bind(this)
+	
+	    _this.handleSearchUserClick = _this.handleSearchUserClick.bind(_this);
+	    _this.handleSearchFilmClick = _this.handleSearchFilmClick.bind(_this);
 	    _this.handleFilmClick = _this.handleFilmClick.bind(_this);
 	    _this.handleHomeClick = _this.handleHomeClick.bind(_this);
 	    _this.handleUserClick = _this.handleUserClick.bind(_this);
 	    _this.handleLogInClick = _this.handleLogInClick.bind(_this);
 	    _this.handleLogOutClick = _this.handleLogOutClick.bind(_this);
-	    // this.logInUser = helpers.logInUser.bind(this)
 	    return _this;
 	  }
 	
-	  //keep as toggle because works for signout
-	  //how do i handle clearing of token on signout?
-	  // toggleLoggedIn() {
-	
-	  //   if (this.state.isLoggedIn) {
-	  //     window.localStorage.removeItem('filmedInToken');
-	  //   }
-	
-	  //   this.setState({
-	  //     isLoggedIn: !this.state.isLoggedIn,
-	  //     view: 'showUserHomeView'
-	  //   })
-	  // }
-	
 	  _createClass(App, [{
+	    key: 'handleSearchUserClick',
+	    value: function handleSearchUserClick(searchUser) {
+	      console.log(searchUser);
+	      this.setState({
+	        searchUser: searchUser,
+	        view: 'showSearchUserView'
+	      });
+	    }
+	  }, {
+	    key: 'handleSearchFilmClick',
+	    value: function handleSearchFilmClick(searchFilm) {
+	      console.log(searchFilm);
+	      this.setState({
+	        searchFilm: searchFilm,
+	        view: 'showSearchFilmView'
+	      });
+	    }
+	  }, {
 	    key: 'handleLogOutClick',
 	    value: function handleLogOutClick() {
 	      window.localStorage.removeItem('filmedInToken');
@@ -22144,25 +22163,80 @@
 	  }, {
 	    key: 'handleLogInClick',
 	    value: function handleLogInClick(username) {
+	      // helpers.getHome().then(response => {
+	      // console.log('response: ', response)
+	      var response = {};
+	      response.data = {
+	        id: 12345,
+	        firstName: 'bob',
+	        lastName: 'bobby',
+	        DOB: "1985-01-01",
+	        friends: [{
+	          ID: 1,
+	          firstName: 'joe',
+	          lastName: 'joey',
+	          DOB: "1985-01-01"
+	        }, {
+	          ID: 2,
+	          firstName: 'jim',
+	          lastName: 'jimmy',
+	          DOB: "1985-01-01"
+	        }, {
+	          ID: 3,
+	          firstName: 'steve',
+	          lastName: 'stevey',
+	          DOB: "1985-01-01"
+	        }],
+	        ratings: [{
+	          guideBox: 135934,
+	          rating: 1,
+	          review: 'it sucked',
+	          name: 'die hard',
+	          genre: 'love, romance',
+	          posterURL: 'https://upload.wikimedia.org/wikipedia/en/7/7e/Die_hard.jpg'
+	        }, {
+	          guideBox: 135934,
+	          rating: 3,
+	          review: 'it was so so',
+	          name: 'die hard',
+	          genre: 'love, romance',
+	          posterURL: 'https://upload.wikimedia.org/wikipedia/en/7/7e/Die_hard.jpg'
+	        }]
+	      };
+	
 	      this.setState({
 	        isLoggedIn: true,
+	        username: username,
+	        firstName: response.data.firstName,
+	        lastName: response.data.lastName,
+	        allFriends: response.data.friends,
+	        allFilms: response.data.ratings,
 	        view: 'showUserHomeView'
 	      });
+	      // })
 	    }
 	  }, {
 	    key: 'handleUserClick',
 	    value: function handleUserClick(user) {
-	      this.setState({
-	        view: 'showUserView',
-	        clickedUser: user
+	      var _this2 = this;
+	
+	      _helpers2.default.getProfile(user.ID).then(function (response) {
+	        _this2.setState({
+	          view: 'showUserView',
+	          clickedUser: response.data
+	        });
 	      });
 	    }
 	  }, {
 	    key: 'handleFilmClick',
 	    value: function handleFilmClick(film) {
-	      this.setState({
-	        view: 'showFilmView',
-	        clickedFilm: film
+	      var _this3 = this;
+	
+	      _helpers2.default.getFilm(film.guideBox).then(function (response) {
+	        _this3.setState({
+	          view: 'showFilmView',
+	          clickedFilm: response.data
+	        });
 	      });
 	    }
 	  }, {
@@ -22197,33 +22271,94 @@
 	
 	      if (this.state.isLoggedIn) {
 	        if (this.state.view === 'showFilmView') {
-	          return _react2.default.createElement(_FilmProfile2.default, {
-	            handleHomeClick: this.handleHomeClick,
-	            handleUserClick: this.handleUserClick,
-	            handleLogOutClick: this.handleLogOutClick,
-	            film: this.state.clickedFilm
-	          });
+	          return _react2.default.createElement(
+	            'div',
+	            null,
+	            _react2.default.createElement(_NavBar2.default, {
+	              handleHomeClick: this.handleHomeClick,
+	              handleLogOutClick: this.handleLogOutClick,
+	              searchUser: this.handleSearchUserClick,
+	              searchFilm: this.handleSearchFilmClick
+	            }),
+	            _react2.default.createElement(_FilmProfile2.default, {
+	              handleHomeClick: this.handleHomeClick,
+	              handleUserClick: this.handleUserClick,
+	              handleLogOutClick: this.handleLogOutClick,
+	              film: this.state.clickedFilm
+	            })
+	          );
 	        } else if (this.state.view === 'showUserHomeView') {
-	          return _react2.default.createElement(_UserHome2.default, {
-	            firstName: this.state.firstName,
-	            lastName: this.state.lastName,
-	            allFilms: this.state.allFilms,
-	            allFriends: this.state.allFriends,
-	            handleHomeClick: this.handleHomeClick,
-	            handleFilmClick: this.handleFilmClick,
-	            handleUserClick: this.handleUserClick,
-	            handleLogOutClick: this.handleLogOutClick
-	          });
+	          return _react2.default.createElement(
+	            'div',
+	            null,
+	            _react2.default.createElement(_NavBar2.default, {
+	              handleHomeClick: this.handleHomeClick,
+	              handleLogOutClick: this.handleLogOutClick,
+	              searchUser: this.handleSearchUserClick,
+	              searchFilm: this.handleSearchFilmClick
+	            }),
+	            _react2.default.createElement(_UserHome2.default, {
+	              firstName: this.state.firstName,
+	              lastName: this.state.lastName,
+	              allFilms: this.state.allFilms,
+	              allFriends: this.state.allFriends,
+	              handleHomeClick: this.handleHomeClick,
+	              handleFilmClick: this.handleFilmClick,
+	              handleUserClick: this.handleUserClick,
+	              handleLogOutClick: this.handleLogOutClick
+	            })
+	          );
 	        } else if (this.state.view === 'showUserView') {
-	          return _react2.default.createElement(_UserProfile2.default, {
-	            handleHomeClick: this.handleHomeClick,
-	            handleLogOutClick: this.handleLogOutClick,
-	            handleFilmClick: this.handleFilmClick,
-	            handleUserClick: this.handleUserClick,
-	            firstName: this.state.firstName,
-	            lastName: this.state.lastName,
-	            user: this.state.clickedUser
-	          });
+	          return _react2.default.createElement(
+	            'div',
+	            null,
+	            _react2.default.createElement(_NavBar2.default, {
+	              handleHomeClick: this.handleHomeClick,
+	              handleLogOutClick: this.handleLogOutClick,
+	              searchUser: this.handleSearchUserClick,
+	              searchFilm: this.handleSearchFilmClick
+	            }),
+	            _react2.default.createElement(_UserProfile2.default, {
+	              handleHomeClick: this.handleHomeClick,
+	              handleLogOutClick: this.handleLogOutClick,
+	              handleFilmClick: this.handleFilmClick,
+	              handleUserClick: this.handleUserClick,
+	              firstName: this.state.firstName,
+	              lastName: this.state.lastName,
+	              user: this.state.clickedUser
+	            })
+	          );
+	        } else if (this.state.view === 'showSearchFilmView') {
+	          console.log('inside showSearchFilmView');
+	          return _react2.default.createElement(
+	            'div',
+	            null,
+	            _react2.default.createElement(_NavBar2.default, {
+	              handleHomeClick: this.handleHomeClick,
+	              handleLogOutClick: this.handleLogOutClick,
+	              searchUser: this.handleSearchUserClick,
+	              searchFilm: this.handleSearchFilmClick
+	            }),
+	            _react2.default.createElement(_SearchFilm2.default, {
+	              search: this.state.searchFilm,
+	              handleFilmClick: this.handleFilmClick
+	            })
+	          );
+	        } else if (this.state.view === 'showSearchUserView') {
+	          return _react2.default.createElement(
+	            'div',
+	            null,
+	            _react2.default.createElement(_NavBar2.default, {
+	              handleHomeClick: this.handleHomeClick,
+	              handleLogOutClick: this.handleLogOutClick,
+	              searchUser: this.handleSearchUserClick,
+	              searchFilm: this.handleSearchFilmClick
+	            }),
+	            _react2.default.createElement(_SearchUser2.default, {
+	              search: this.state.searchUser,
+	              handleUserClick: this.handleUserClick
+	            })
+	          );
 	        }
 	      } else {
 	        return _react2.default.createElement(_SignUp2.default, { handleLogInClick: this.handleLogInClick });
@@ -23844,11 +23979,11 @@
 			var _this = _possibleConstructorReturn(this, (SignUp.__proto__ || Object.getPrototypeOf(SignUp)).call(this, props));
 	
 			_this.state = {
-				username: 'nickc',
-				password: 'pass',
-				firstname: 'nick',
-				lastname: 'cobbett',
-				DOB: '1985-04-18'
+				username: '',
+				password: '',
+				firstname: '',
+				lastname: '',
+				DOB: ''
 			};
 	
 			_this.handleSignUpClick = _this.handleSignUpClick.bind(_this);
@@ -23909,11 +24044,12 @@
 					password: this.state.password
 				};
 				_helpers2.default.logInUser(signinInputs).then(function (response) {
-					window.localStorage.setItem('filmedInToken', response.token);
-					console.log('set token');
+					console.log('responselklkjlkj: ', response);
+					window.localStorage.setItem('filmedInToken', response.data.token);
+					console.log('token', response.data.token);
 					_this2.props.handleLogInClick();
 				}).catch(function (err) {
-					console.log('error with login');
+					console.log('error with login', err);
 				});
 			}
 		}, {
@@ -24095,7 +24231,9 @@
 	var getRequest = function getRequest(url) {
 	  var request = {
 	    headers: {
-	      'x-access-token': window.localStorage.getItem('filmedInToken')
+	      'x-access-token': window.localStorage.getItem('filmedInToken'),
+	      'Content-Type': 'application/json; charset=utf-8'
+	
 	    },
 	    url: url,
 	    baseURL: 'https://filmedin.herokuapp.com/',
@@ -24132,8 +24270,16 @@
 	helpers.getFilm = function (id) {
 	  return _axios2.default.request(getRequest('/film/' + id));
 	};
+	
 	helpers.searchProfile = function (search) {
-	  return _axios2.default.request(getRequest('/search/profile/' + search));
+	  console.log('search', search);
+	  // return axios.request(getRequest('/search/profile/' + search));
+	  // return axios.get('https://filmedin.herokuapp.com/profile/2',{
+	  //   headers: {
+	  //     'x-access-token': window.localStorage.getItem('filmedInToken')
+	  //   }
+	  // })
+	  return _axios2.default.request(getRequest('/profile' + search));
 	};
 	helpers.searchFilm = function (search) {
 	  return _axios2.default.request(getRequest('/search/film/' + search));
@@ -24204,10 +24350,6 @@
 		return _react2.default.createElement(
 			'div',
 			{ className: 'user-home' },
-			_react2.default.createElement(_NavBar2.default, {
-				handleHomeClick: handleHomeClick,
-				handleLogOutClick: handleLogOutClick
-			}),
 			_react2.default.createElement(
 				'h2',
 				null,
@@ -24238,7 +24380,7 @@
 					'List of user\'s friends'
 				),
 				_react2.default.createElement(_UserList2.default, {
-					handleLogOutClick: handleLogOutClick,
+					handleUserClick: handleUserClick,
 					allFriends: allFriends
 				})
 			)
@@ -24292,12 +24434,12 @@
 		_createClass(NavBar, [{
 			key: 'changeUser',
 			value: function changeUser(e) {
-				this.setState(userSearch);
+				this.setState({ userSearch: e.target.value });
 			}
 		}, {
 			key: 'changeFilm',
 			value: function changeFilm(e) {
-				this.setState(filmSearch);
+				this.setState({ filmSearch: e.target.value });
 			}
 		}, {
 			key: 'searchFilm',
@@ -24460,17 +24602,27 @@
 	    _react2.default.createElement(
 	      "div",
 	      null,
-	      _react2.default.createElement("img", { src: film.snippet.thumbnails.default.url, alt: "" })
+	      _react2.default.createElement("img", { src: film.posterURL, alt: "" })
 	    ),
 	    _react2.default.createElement(
 	      "div",
 	      null,
-	      film.snippet.title
+	      film.name
 	    ),
 	    _react2.default.createElement(
 	      "div",
 	      null,
-	      film.snippet.description
+	      film.genre
+	    ),
+	    _react2.default.createElement(
+	      "div",
+	      null,
+	      film.rating
+	    ),
+	    _react2.default.createElement(
+	      "div",
+	      null,
+	      film.review
 	    )
 	  );
 	};
@@ -24548,15 +24700,15 @@
 	    _react2.default.createElement(
 	      "div",
 	      null,
-	      user.firstname,
+	      user.firstName,
 	      " ",
-	      user.lastname
+	      user.lastName
 	    ),
 	    _react2.default.createElement(
 	      "div",
 	      null,
-	      "Username: ",
-	      user.username
+	      "DOB: ",
+	      user.DOB
 	    )
 	  );
 	};
@@ -24593,29 +24745,25 @@
 		return _react2.default.createElement(
 			'div',
 			{ className: 'film-profile' },
-			_react2.default.createElement(_NavBar2.default, {
-				handleHomeClick: handleHomeClick,
-				handleLogOutClick: handleLogOutClick
-			}),
 			_react2.default.createElement(
 				'h1',
 				null,
-				film.snippet.title
+				film.name
 			),
-			_react2.default.createElement('img', { src: film.snippet.thumbnails.default.url, alt: '' }),
+			_react2.default.createElement('img', { src: film.posterURL, alt: '' }),
 			_react2.default.createElement(
 				'div',
 				null,
 				'Your ranking: ',
-				film.userRank
+				film.rating
 			),
 			_react2.default.createElement('br', null),
 			_react2.default.createElement(
 				'div',
 				null,
-				'Film Description:',
+				'Film Genre:',
 				_react2.default.createElement('br', null),
-				film.snippet.description
+				film.genre
 			),
 			_react2.default.createElement('br', null),
 			_react2.default.createElement(
@@ -24674,16 +24822,12 @@
 		return _react2.default.createElement(
 			'div',
 			{ className: 'user-profile' },
-			_react2.default.createElement(_NavBar2.default, {
-				handleHomeClick: handleHomeClick,
-				handleLogOutClick: handleLogOutClick
-			}),
 			_react2.default.createElement(
 				'h1',
 				null,
-				user.firstname,
+				user.firstName,
 				' ',
-				user.lastname
+				user.lastName
 			),
 			_react2.default.createElement(
 				'h3',
@@ -24691,7 +24835,7 @@
 				'List of your ranked films'
 			),
 			_react2.default.createElement(_FilmList2.default, {
-				allFilms: user.films,
+				allFilms: user.ratings,
 				handleFilmClick: handleFilmClick
 			}),
 			_react2.default.createElement(
@@ -24987,6 +25131,166 @@
 	}];
 	
 	exports.default = exampleFriendData;
+
+/***/ },
+/* 216 */
+/*!***********************************!*\
+  !*** ./components/SearchUser.jsx ***!
+  \***********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _helpers = __webpack_require__(/*! ../lib/helpers */ 205);
+	
+	var _helpers2 = _interopRequireDefault(_helpers);
+	
+	var _UserList = __webpack_require__(/*! ./UserList */ 210);
+	
+	var _UserList2 = _interopRequireDefault(_UserList);
+	
+	var _axios = __webpack_require__(/*! axios */ 179);
+	
+	var _axios2 = _interopRequireDefault(_axios);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var SearchUser = function (_React$Component) {
+	  _inherits(SearchUser, _React$Component);
+	
+	  function SearchUser(props) {
+	    _classCallCheck(this, SearchUser);
+	
+	    var _this = _possibleConstructorReturn(this, (SearchUser.__proto__ || Object.getPrototypeOf(SearchUser)).call(this, props));
+	
+	    _this.state = {
+	      friends: []
+	    };
+	    return _this;
+	  }
+	
+	  _createClass(SearchUser, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      var _this2 = this;
+	
+	      console.log('props.search: ', this.props.search);
+	      _helpers2.default.searchProfile(this.props.search).then(function (friends) {
+	        console.log('friends', friends);
+	        _this2.setState({ friends: friends });
+	      });
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(_UserList2.default, {
+	        allFriends: this.state.friends,
+	        handleUserClick: this.props.handleUserClick
+	      });
+	    }
+	  }]);
+	
+	  return SearchUser;
+	}(_react2.default.Component);
+	
+	exports.default = SearchUser;
+
+/***/ },
+/* 217 */
+/*!***********************************!*\
+  !*** ./components/SearchFilm.jsx ***!
+  \***********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _helpers = __webpack_require__(/*! ../lib/helpers */ 205);
+	
+	var _helpers2 = _interopRequireDefault(_helpers);
+	
+	var _FilmList = __webpack_require__(/*! ./FilmList */ 208);
+	
+	var _FilmList2 = _interopRequireDefault(_FilmList);
+	
+	var _axios = __webpack_require__(/*! axios */ 179);
+	
+	var _axios2 = _interopRequireDefault(_axios);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var SearchFilm = function (_React$Component) {
+	  _inherits(SearchFilm, _React$Component);
+	
+	  function SearchFilm(props) {
+	    _classCallCheck(this, SearchFilm);
+	
+	    var _this = _possibleConstructorReturn(this, (SearchFilm.__proto__ || Object.getPrototypeOf(SearchFilm)).call(this, props));
+	
+	    _this.state = {
+	      films: []
+	    };
+	    return _this;
+	  }
+	
+	  _createClass(SearchFilm, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      var _this2 = this;
+	
+	      console.log(this.props.search);
+	      _helpers2.default.searchFilm(this.props.search).then(function (films) {
+	        console.log('films', films);
+	        _this2.setState({ films: films });
+	      }).catch(function (err) {
+	        console.log('error with search film', err);
+	      });
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(_FilmList2.default, {
+	        allFilms: this.state.films,
+	        handleFilmClick: this.props.handleFilmClick
+	      });
+	    }
+	  }]);
+	
+	  return SearchFilm;
+	}(_react2.default.Component);
+	
+	exports.default = SearchFilm;
 
 /***/ }
 /******/ ]);

@@ -3,23 +3,19 @@ import NavBar from './NavBar';
 
 var FilmProfile = ({film, handleHomeClick, handleLogOutClick}) => (
 		<div className="film-profile">
-			<NavBar
-				handleHomeClick={handleHomeClick}
-				handleLogOutClick={handleLogOutClick}
-			/>
 			{/*This is the film title*/}
-			<h1>{film.snippet.title}</h1>
+			<h1>{film.name}</h1>
 
 			{/*This is the film image*/}
-			<img src={film.snippet.thumbnails.default.url} alt="" />
+			<img src={film.posterURL} alt="" />
 
 			{/*This is the user's rank*/}
-			<div>Your ranking: {film.userRank}</div>
+			<div>Your ranking: {film.rating}</div>
 			<br />
 			{/*This is the film description:
 				Film year, Film genre, Film actors, Film description
 			*/}
-			<div>Film Description:<br />{film.snippet.description}</div>
+			<div>Film Genre:<br />{film.genre}</div>
 			<br />
 			{/*These are links to stream film*/}
 			<div>This will contain links to stream the film</div>
