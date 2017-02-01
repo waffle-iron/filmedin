@@ -22442,10 +22442,18 @@
 	    _this.handleUserClick = _this.handleUserClick.bind(_this);
 	    _this.handleLogInClick = _this.handleLogInClick.bind(_this);
 	    _this.handleLogOutClick = _this.handleLogOutClick.bind(_this);
+	    _this.addFriend = _this.addFriend.bind(_this);
 	    return _this;
 	  }
 	
 	  _createClass(App, [{
+	    key: 'addFriend',
+	    value: function addFriend(friend) {
+	      _helpers2.default.addFriend(friend.id).then(function (res) {
+	        console.log('added');
+	      });
+	    }
+	  }, {
 	    key: 'handleSearchUserClick',
 	    value: function handleSearchUserClick(searchUser) {
 	      this.setState({
@@ -22553,7 +22561,7 @@
 	    value: function handleFilmClick(film) {
 	      var _this4 = this;
 	
-	      _helpers2.default.getFilm(film.guideBox).then(function (response) {
+	      _helpers2.default.getFilm(film.guideBox || film.id).then(function (response) {
 	        _this4.setState({
 	          view: 'showFilmView',
 	          clickedFilm: response.data
@@ -22600,10 +22608,11 @@
 	          }) : this.state.view === 'showSearchFilmView' ? _react2.default.createElement(_SearchFilm2.default, {
 	            search: this.state.searchFilm,
 	            handleFilmClick: this.handleFilmClick
-	          }) : (this.state.view === 'showSearchUserView')(_react2.default.createElement(_SearchUser2.default, {
+	          }) : _react2.default.createElement(_SearchUser2.default, {
 	            search: this.state.searchUser,
-	            handleUserClick: this.handleUserClick
-	          }))
+	            handleUserClick: this.handleUserClick,
+	            addFriend: this.addFriend
+	          })
 	        );
 	      }
 	    }
@@ -24522,8 +24531,12 @@
 	};
 	helpers.addFriend = function (friendID) {
 	  return _axios2.default.request({
-	    url: 'https://filmedin.herokuapp.com/addFriend',
+	    url: 'https://filmedin.herokuapp.com/friend',
 	    method: 'POST',
+	    headers: {
+	      'x-access-token': window.localStorage.getItem('filmedInToken'),
+	      'Content-Type': 'application/json; charset=utf-8'
+	    },
 	    data: {
 	      friendID: friendID
 	    }
@@ -24531,8 +24544,12 @@
 	};
 	helpers.addRating = function (filmID, rating, review) {
 	  return _axios2.default.request({
-	    url: 'https://filmedin.herokuapp.com/addRating',
+	    url: 'https://filmedin.herokuapp.com/rating',
 	    method: 'POST',
+	    headers: {
+	      'x-access-token': window.localStorage.getItem('filmedInToken'),
+	      'Content-Type': 'application/json; charset=utf-8'
+	    },
 	    data: {
 	      filmID: filmID,
 	      rating: rating,
@@ -24598,7 +24615,7 @@
 				_react2.default.createElement(
 					'h3',
 					null,
-					'List of user\'s ranked films'
+					'List of your ranked films'
 				),
 				_react2.default.createElement(_FilmList2.default, {
 					handleFilmClick: handleFilmClick,
@@ -24611,7 +24628,7 @@
 				_react2.default.createElement(
 					'h3',
 					null,
-					'List of user\'s friends'
+					'List of your friends'
 				),
 				_react2.default.createElement(_UserList2.default, {
 					handleUserClick: handleUserClick,
@@ -25080,7 +25097,9 @@
 			_react2.default.createElement(
 				'h3',
 				null,
-				'List of your ranked films'
+				'List of ',
+				user.firstName,
+				'\'s ranked films'
 			),
 			_react2.default.createElement(_FilmList2.default, {
 				allFilms: user.ratings,
@@ -25089,7 +25108,9 @@
 			_react2.default.createElement(
 				'h3',
 				null,
-				'List of your friends'
+				'List of ',
+				user.firstName,
+				'\'s friends'
 			),
 			_react2.default.createElement(_UserList2.default, {
 				allFriends: user.friends,
@@ -25403,9 +25424,9 @@
 	
 	var _helpers2 = _interopRequireDefault(_helpers);
 	
-	var _UserList = __webpack_require__(/*! ./UserList */ 215);
+	var _SearchUserList = __webpack_require__(/*! ./SearchUserList */ 225);
 	
-	var _UserList2 = _interopRequireDefault(_UserList);
+	var _SearchUserList2 = _interopRequireDefault(_SearchUserList);
 	
 	var _axios = __webpack_require__(/*! axios */ 184);
 	
@@ -25431,9 +25452,10 @@
 	  _createClass(SearchUser, [{
 	    key: 'render',
 	    value: function render() {
-	      return _react2.default.createElement(_UserList2.default, {
+	      return _react2.default.createElement(_SearchUserList2.default, {
 	        allFriends: this.props.search,
-	        handleUserClick: this.props.handleUserClick
+	        handleUserClick: this.props.handleUserClick,
+	        addFriend: this.props.addFriend
 	      });
 	    }
 	  }]);
@@ -25466,9 +25488,9 @@
 	
 	var _helpers2 = _interopRequireDefault(_helpers);
 	
-	var _FilmList = __webpack_require__(/*! ./FilmList */ 213);
+	var _SearchFilmList = __webpack_require__(/*! ./SearchFilmList */ 223);
 	
-	var _FilmList2 = _interopRequireDefault(_FilmList);
+	var _SearchFilmList2 = _interopRequireDefault(_SearchFilmList);
 	
 	var _axios = __webpack_require__(/*! axios */ 184);
 	
@@ -25507,7 +25529,7 @@
 	  _createClass(SearchFilm, [{
 	    key: 'render',
 	    value: function render() {
-	      return _react2.default.createElement(_FilmList2.default, {
+	      return _react2.default.createElement(_SearchFilmList2.default, {
 	        allFilms: this.props.search,
 	        handleFilmClick: this.props.handleFilmClick
 	      });
@@ -25518,6 +25540,196 @@
 	}(_react2.default.Component);
 	
 	exports.default = SearchFilm;
+
+/***/ },
+/* 223 */
+/*!***************************************!*\
+  !*** ./components/SearchFilmList.jsx ***!
+  \***************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _SearchFilmEntry = __webpack_require__(/*! ./SearchFilmEntry */ 224);
+	
+	var _SearchFilmEntry2 = _interopRequireDefault(_SearchFilmEntry);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var SearchFilmList = function SearchFilmList(_ref) {
+	  var handleFilmClick = _ref.handleFilmClick,
+	      allFilms = _ref.allFilms;
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'search-film-list' },
+	    allFilms.map(function (film) {
+	      return _react2.default.createElement(_SearchFilmEntry2.default, {
+	        handleFilmClick: handleFilmClick,
+	        film: film
+	      });
+	    })
+	  );
+	};
+	
+	exports.default = SearchFilmList;
+
+/***/ },
+/* 224 */
+/*!****************************************!*\
+  !*** ./components/SearchFilmEntry.jsx ***!
+  \****************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var SearchFilmEntry = function SearchFilmEntry(_ref) {
+	  var handleFilmClick = _ref.handleFilmClick,
+	      film = _ref.film;
+	  return _react2.default.createElement(
+	    "div",
+	    { className: "film-entry", onClick: function onClick() {
+	        return handleFilmClick(film);
+	      } },
+	    _react2.default.createElement(
+	      "span",
+	      null,
+	      _react2.default.createElement("img", { src: film.poster_120x171, alt: "" })
+	    ),
+	    _react2.default.createElement(
+	      "span",
+	      null,
+	      _react2.default.createElement(
+	        "div",
+	        null,
+	        film.title
+	      ),
+	      _react2.default.createElement(
+	        "div",
+	        null,
+	        film.release_date
+	      )
+	    )
+	  );
+	};
+	
+	exports.default = SearchFilmEntry;
+
+/***/ },
+/* 225 */
+/*!***************************************!*\
+  !*** ./components/SearchUserList.jsx ***!
+  \***************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _SearchUserEntry = __webpack_require__(/*! ./SearchUserEntry */ 226);
+	
+	var _SearchUserEntry2 = _interopRequireDefault(_SearchUserEntry);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var SearchUserList = function SearchUserList(_ref) {
+	  var handleUserClick = _ref.handleUserClick,
+	      allFriends = _ref.allFriends,
+	      addFriend = _ref.addFriend;
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'search-user-list' },
+	    allFriends.map(function (user) {
+	      return _react2.default.createElement(_SearchUserEntry2.default, {
+	        handleUserClick: handleUserClick,
+	        addFriend: addFriend,
+	        user: user
+	      });
+	    })
+	  );
+	};
+	
+	exports.default = SearchUserList;
+
+/***/ },
+/* 226 */
+/*!****************************************!*\
+  !*** ./components/SearchUserEntry.jsx ***!
+  \****************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var SearchUserEntry = function SearchUserEntry(_ref) {
+	  var handleUserClick = _ref.handleUserClick,
+	      addFriend = _ref.addFriend,
+	      user = _ref.user;
+	  return _react2.default.createElement(
+	    "div",
+	    { className: "user-entry" },
+	    _react2.default.createElement(
+	      "div",
+	      { onClick: function onClick() {
+	          return handleUserClick(user);
+	        } },
+	      user.firstName,
+	      " ",
+	      user.lastName
+	    ),
+	    _react2.default.createElement(
+	      "div",
+	      null,
+	      "DOB: ",
+	      user.DOB
+	    ),
+	    _react2.default.createElement(
+	      "div",
+	      null,
+	      _react2.default.createElement(
+	        "button",
+	        { onClick: function onClick() {
+	            return addFriend(user);
+	          } },
+	        "Add"
+	      )
+	    )
+	  );
+	};
+	
+	exports.default = SearchUserEntry;
 
 /***/ }
 /******/ ]);

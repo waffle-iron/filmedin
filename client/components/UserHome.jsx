@@ -9,14 +9,14 @@ var UserHome = ({handleFilmClick, handleUserClick, firstName, lastName, allFilms
 
 				<h2>Welcome {firstName} {lastName}</h2>
 				<div>
-					<h3>List of user's ranked films</h3>
+					<h3>List of your ranked films</h3>
 					<FilmList
 						handleFilmClick={handleFilmClick}
 						allFilms={allFilms}
 					/>
 				</div>
 				<div>
-					<h3>List of user's friends</h3>
+					<h3>List of your friends</h3>
 					<UserList
 						handleUserClick={handleUserClick}
 						allFriends={allFriends}

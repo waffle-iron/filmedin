@@ -1,6 +1,6 @@
 import React from 'react';
 import helpers from '../lib/helpers';
-import UserList from './UserList';
+import SearchUserList from './SearchUserList';
 import axios from 'axios';
 
 class SearchUser extends React.Component{
@@ -9,9 +9,10 @@ class SearchUser extends React.Component{
   }
   render () {
     return (
-      <UserList
+      <SearchUserList
         allFriends={this.props.search}
         handleUserClick={this.props.handleUserClick}
+        addFriend={this.props.addFriend}
       />
       )
   }

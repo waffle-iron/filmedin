@@ -52,8 +52,12 @@ helpers.searchFilm = function(search) {
 }
 helpers.addFriend = function(friendID) {
   return axios.request({
-    url: 'https://filmedin.herokuapp.com/addFriend',
+    url: 'https://filmedin.herokuapp.com/friend',
     method: 'POST',
+    headers: {
+      'x-access-token': window.localStorage.getItem('filmedInToken'),
+      'Content-Type': 'application/json; charset=utf-8',
+    },
     data: {
       friendID: friendID
     }
@@ -61,8 +65,12 @@ helpers.addFriend = function(friendID) {
 }
 helpers.addRating = function(filmID, rating, review) {
   return axios.request({
-    url: 'https://filmedin.herokuapp.com/addRating',
+    url: 'https://filmedin.herokuapp.com/rating',
     method: 'POST',
+    headers: {
+      'x-access-token': window.localStorage.getItem('filmedInToken'),
+      'Content-Type': 'application/json; charset=utf-8',
+    },
     data: {
       filmID: filmID,
       rating: rating,

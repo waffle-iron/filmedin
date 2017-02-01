@@ -1,6 +1,6 @@
 import React from 'react';
 import helpers from '../lib/helpers';
-import FilmList from './FilmList';
+import SearchFilmList from './SearchFilmList';
 import axios from 'axios';
 
 class SearchFilm extends React.Component{
@@ -21,7 +21,7 @@ class SearchFilm extends React.Component{
   // }
   render () {
     return (
-      <FilmList
+      <SearchFilmList
         allFilms={this.props.search}
         handleFilmClick={this.props.handleFilmClick}
       />
