@@ -22136,6 +22136,15 @@
 	  }
 	
 	  _createClass(App, [{
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
+	      if (window.localStorage.getItem('filmedInToken')) {
+	        this.setState({ isLoggedIn: true });
+	        this.handleHomeClick();
+	        console.log('test');
+	      }
+	    }
+	  }, {
 	    key: 'addFriend',
 	    value: function addFriend(friend) {
 	      _helpers2.default.addFriend(friend.id).then(function (res) {
@@ -22254,30 +22263,34 @@
 	            searchUser: this.handleSearchUserClick,
 	            searchFilm: this.handleSearchFilmClick
 	          }),
-	          this.state.view === 'showFilmView' ? _react2.default.createElement(_FilmProfile2.default, {
-	            film: this.state.clickedFilm,
-	            rateFilm: this.rateFilm
-	          }) : this.state.view === 'showUserHomeView' ? _react2.default.createElement(_UserHome2.default, {
-	            firstName: this.state.firstName,
-	            lastName: this.state.lastName,
-	            allFilms: this.state.allFilms,
-	            allFriends: this.state.allFriends,
-	            handleFilmClick: this.handleFilmClick,
-	            handleUserClick: this.handleUserClick
-	          }) : this.state.view === 'showUserView' ? _react2.default.createElement(_UserProfile2.default, {
-	            handleFilmClick: this.handleFilmClick,
-	            handleUserClick: this.handleUserClick,
-	            firstName: this.state.firstName,
-	            lastName: this.state.lastName,
-	            user: this.state.clickedUser
-	          }) : this.state.view === 'showSearchFilmView' ? _react2.default.createElement(_SearchFilm2.default, {
-	            search: this.state.searchFilm,
-	            handleFilmClick: this.handleFilmClick
-	          }) : _react2.default.createElement(_SearchUser2.default, {
-	            search: this.state.searchUser,
-	            handleUserClick: this.handleUserClick,
-	            addFriend: this.addFriend
-	          })
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'bodyContent' },
+	            this.state.view === 'showFilmView' ? _react2.default.createElement(_FilmProfile2.default, {
+	              film: this.state.clickedFilm,
+	              rateFilm: this.rateFilm
+	            }) : this.state.view === 'showUserHomeView' ? _react2.default.createElement(_UserHome2.default, {
+	              firstName: this.state.firstName,
+	              lastName: this.state.lastName,
+	              allFilms: this.state.allFilms,
+	              allFriends: this.state.allFriends,
+	              handleFilmClick: this.handleFilmClick,
+	              handleUserClick: this.handleUserClick
+	            }) : this.state.view === 'showUserView' ? _react2.default.createElement(_UserProfile2.default, {
+	              handleFilmClick: this.handleFilmClick,
+	              handleUserClick: this.handleUserClick,
+	              firstName: this.state.firstName,
+	              lastName: this.state.lastName,
+	              user: this.state.clickedUser
+	            }) : this.state.view === 'showSearchFilmView' ? _react2.default.createElement(_SearchFilm2.default, {
+	              search: this.state.searchFilm,
+	              handleFilmClick: this.handleFilmClick
+	            }) : _react2.default.createElement(_SearchUser2.default, {
+	              search: this.state.searchUser,
+	              handleUserClick: this.handleUserClick,
+	              addFriend: this.addFriend
+	            })
+	          )
 	        );
 	      }
 	    }
@@ -24347,7 +24360,7 @@
 	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
-		value: true
+	  value: true
 	});
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -24368,135 +24381,209 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var NavBar = function (_React$Component) {
-		_inherits(NavBar, _React$Component);
+	var FilmedInNavBar = function (_React$Component) {
+	  _inherits(FilmedInNavBar, _React$Component);
 	
-		function NavBar(props) {
-			_classCallCheck(this, NavBar);
+	  function FilmedInNavBar(props) {
+	    _classCallCheck(this, FilmedInNavBar);
 	
-			var _this = _possibleConstructorReturn(this, (NavBar.__proto__ || Object.getPrototypeOf(NavBar)).call(this, props));
+	    var _this = _possibleConstructorReturn(this, (FilmedInNavBar.__proto__ || Object.getPrototypeOf(FilmedInNavBar)).call(this, props));
 	
-			_this.state = {
-				userSearch: '',
-				filmSearch: ''
-			};
-			return _this;
-		}
+	    _this.state = {
+	      userSearch: '',
+	      filmSearch: ''
+	    };
+	    return _this;
+	  }
 	
-		_createClass(NavBar, [{
-			key: 'changeUser',
-			value: function changeUser(e) {
-				this.setState({ userSearch: e.target.value });
-			}
-		}, {
-			key: 'changeFilm',
-			value: function changeFilm(e) {
-				this.setState({ filmSearch: e.target.value });
-			}
-		}, {
-			key: 'searchFilm',
-			value: function searchFilm() {
-				var _this2 = this;
+	  _createClass(FilmedInNavBar, [{
+	    key: 'changeUser',
+	    value: function changeUser(e) {
+	      this.setState({ userSearch: e.target.value });
+	    }
+	  }, {
+	    key: 'changeFilm',
+	    value: function changeFilm(e) {
+	      this.setState({ filmSearch: e.target.value });
+	    }
+	  }, {
+	    key: 'searchFilm',
+	    value: function searchFilm() {
+	      var _this2 = this;
 	
-				_helpers2.default.searchFilm(this.state.filmSearch).then(function (films) {
-					console.log(films);
-					_this2.props.searchFilm(films.data);
-					_this2.setState({
-						filmSearch: ''
-					});
-				}).catch(function (err) {
-					console.log('error with search film', err);
-				});
-			}
-		}, {
-			key: 'searchUser',
-			value: function searchUser() {
-				var _this3 = this;
+	      _helpers2.default.searchFilm(this.state.filmSearch).then(function (films) {
+	        console.log(films);
+	        _this2.props.searchFilm(films.data);
+	        _this2.setState({
+	          filmSearch: ''
+	        });
+	      }).catch(function (err) {
+	        console.log('error with search film', err);
+	      });
+	    }
+	  }, {
+	    key: 'searchUser',
+	    value: function searchUser() {
+	      var _this3 = this;
 	
-				_helpers2.default.searchProfile(this.state.userSearch).then(function (friends) {
-					console.log(friends);
-					_this3.props.searchUser(friends.data);
-					_this3.setState({
-						userSearch: ''
-					});
-				}).catch(function (err) {
-					console.log('error with search user', err);
-				});
-			}
-		}, {
-			key: 'render',
-			value: function render() {
-				return _react2.default.createElement(
-					'div',
-					{ className: 'navbar' },
-					_react2.default.createElement(
-						'ul',
-						null,
-						_react2.default.createElement(
-							'li',
-							null,
-							_react2.default.createElement(
-								'a',
-								{ href: '#', onClick: this.props.handleHomeClick },
-								'Home'
-							)
-						),
-						_react2.default.createElement(
-							'li',
-							null,
-							_react2.default.createElement(
-								'div',
-								null,
-								_react2.default.createElement(
-									'label',
-									null,
-									'Search Film: '
-								),
-								_react2.default.createElement('input', { type: 'text', placeholder: 'Film Title', onChange: this.changeFilm.bind(this), value: this.state.filmSearch }),
-								_react2.default.createElement(
-									'button',
-									{ onClick: this.searchFilm.bind(this) },
-									'Search'
-								)
-							)
-						),
-						_react2.default.createElement(
-							'li',
-							null,
-							_react2.default.createElement(
-								'div',
-								null,
-								_react2.default.createElement(
-									'label',
-									null,
-									'Search Users: '
-								),
-								_react2.default.createElement('input', { type: 'text', placeholder: 'Name', onChange: this.changeUser.bind(this), value: this.state.userSearch }),
-								_react2.default.createElement(
-									'button',
-									{ onClick: this.searchUser.bind(this) },
-									'Search'
-								)
-							)
-						),
-						_react2.default.createElement(
-							'li',
-							null,
-							_react2.default.createElement(
-								'a',
-								{ href: '#', onClick: this.props.handleLogOutClick },
-								'Logout'
-							)
-						)
-					)
-				);
-			}
-		}]);
+	      _helpers2.default.searchProfile(this.state.userSearch).then(function (friends) {
+	        console.log(friends);
+	        _this3.props.searchUser(friends.data);
+	        _this3.setState({
+	          userSearch: ''
+	        });
+	      }).catch(function (err) {
+	        console.log('error with search user', err);
+	      });
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'navbar' },
+	        _react2.default.createElement(
+	          'ul',
+	          null,
+	          _react2.default.createElement(
+	            'li',
+	            null,
+	            _react2.default.createElement(
+	              'a',
+	              { href: '#', onClick: this.props.handleHomeClick },
+	              'Home'
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'li',
+	            null,
+	            _react2.default.createElement(
+	              'div',
+	              null,
+	              _react2.default.createElement(
+	                'label',
+	                null,
+	                'Search Film: '
+	              ),
+	              _react2.default.createElement('input', { type: 'text', placeholder: 'Film Title', onChange: this.changeFilm.bind(this), value: this.state.filmSearch }),
+	              _react2.default.createElement(
+	                'button',
+	                { onClick: this.searchFilm.bind(this) },
+	                'Search'
+	              )
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'li',
+	            null,
+	            _react2.default.createElement(
+	              'div',
+	              null,
+	              _react2.default.createElement(
+	                'label',
+	                null,
+	                'Search Users: '
+	              ),
+	              _react2.default.createElement('input', { type: 'text', placeholder: 'Name', onChange: this.changeUser.bind(this), value: this.state.userSearch }),
+	              _react2.default.createElement(
+	                'button',
+	                { onClick: this.searchUser.bind(this) },
+	                'Search'
+	              )
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'li',
+	            null,
+	            _react2.default.createElement(
+	              'a',
+	              { href: '#', onClick: this.props.handleLogOutClick },
+	              'Logout'
+	            )
+	          )
+	        )
+	      );
+	    }
+	  }]);
 	
-		return NavBar;
+	  return FilmedInNavBar;
 	}(_react2.default.Component);
 	
-	exports.default = NavBar;
+	exports.default = FilmedInNavBar;
+	
+	//<div className="form-group" href="#" onClick={this.props.handleHomeClick}>Home</div>          
+	// <div className="user-login">
+	//     <div className="navbar-collapse collapse" id="navbar-main">
+	//         <form className="navbar-form navbar-right" role="search">
+	//             <div className={"form-group user-search " + this.state.loginMsg}>
+	//               <label>Invalid Login</label>
+	//             </div>
+	//             <div className="form-group user-search">
+	//                 <input type="text" className="form-control" value={this.state.username} onChange={this.handleUsernameChange} name="username" placeholder="Username"/>
+	//             </div>
+	//             <div className="form-group user-search">
+	//                 <input type="password" className="form-control" value={this.state.password} onChange={this.handlePasswordChange} name="password" placeholder="Password"/>
+	//             </div>
+	//             <button type="submit" onClick={this.handleLoginClick} className="btn btn-default">Sign In</button>
+	//         </form>
+	//     </div>
+	// </div>
+	
+	
+	// <div className="navbar">
+	//           <ul>
+	//             <li>
+	//               <a href="#" onClick={this.props.handleHomeClick}>Home</a>
+	//             </li>
+	//             <li>
+	//               <div>
+	//                 <label>Search Film: </label>
+	//                 <input type="text" placeholder="Film Title" onChange={this.changeFilm.bind(this)} value={this.state.filmSearch} />
+	//                 <button onClick={this.searchFilm.bind(this)}>Search</button>
+	//               </div>
+	//             </li>
+	//             <li>
+	//               <div>
+	//                 <label>Search Users: </label>
+	//                 <input type="text" placeholder="Name" onChange={this.changeUser.bind(this)} value={this.state.userSearch}/>
+	//                 <button onClick={this.searchUser.bind(this)}>Search</button>
+	//               </div>
+	//             </li>
+	//             <li>
+	//               <a href="#" onClick={this.props.handleLogOutClick}>Logout</a>
+	//             </li>
+	
+	
+	//           </ul>
+	//         </div>
+	
+	
+	// <div className="navbar">
+	//   <ul>
+	//     <li>
+	//       <a href="#" onClick={this.props.handleHomeClick}>Home</a>
+	//     </li>
+	//     <li>
+	//       <div>
+	//         <label>Search Film: </label>
+	//         <input type="text" placeholder="Film Title" onChange={this.changeFilm.bind(this)} value={this.state.filmSearch} />
+	//         <button onClick={this.searchFilm.bind(this)}>Search</button>
+	//       </div>
+	//     </li>
+	//     <li>
+	//       <div>
+	//         <label>Search Users: </label>
+	//         <input type="text" placeholder="Name" onChange={this.changeUser.bind(this)} value={this.state.userSearch}/>
+	//         <button onClick={this.searchUser.bind(this)}>Search</button>
+	//       </div>
+	//     </li>
+	//     <li>
+	//       <a href="#" onClick={this.props.handleLogOutClick}>Logout</a>
+	//     </li>
+	
+	
+	//   </ul>
+	// </div>
 
 /***/ },
 /* 208 */

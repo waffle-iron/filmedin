@@ -1,5 +1,6 @@
 #app {
-	width: 800px;
+	/*width: 800px;*/
+	width: 100%;
 }
 .logo-home {
 	top:8px;
@@ -8,6 +9,9 @@
 	width: 50px;
 	height: 50px;
 	z-index: 1;
+}
+.logout {
+	float: right;
 }
 .login-bar {
 	background-color: #563D7C;
@@ -84,8 +88,11 @@
 }
 .navbar {
 	display: inline-block;
+	width: 100%;
 }
-
+.bodyContent {
+	margin-top: 80px;
+}
 .navbar ul {
 	list-style-type: none;
 	margin: 0;
@@ -186,3 +193,24 @@
 	background-color: #555;
 	color: white;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

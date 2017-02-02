@@ -38,7 +38,13 @@ class App extends React.Component {
     this.addFriend = this.addFriend.bind(this);
     this.rateFilm = this.rateFilm.bind(this);
   }
-
+  componentWillMount () {
+    if (window.localStorage.getItem('filmedInToken')) {
+      this.setState({isLoggedIn:true});
+      this.handleHomeClick();
+      console.log('test');
+    }
+  }
   addFriend(friend) {
     helpers.addFriend(friend.id).then(res => {
       console.log('added');
@@ -139,6 +145,7 @@ class App extends React.Component {
             searchUser={this.handleSearchUserClick}
             searchFilm={this.handleSearchFilmClick}
           />
+          <div className="bodyContent">
           {
             (this.state.view === 'showFilmView') ? (
                 <FilmProfile
@@ -175,6 +182,7 @@ class App extends React.Component {
                 />              
             )
           }
+          </div>
         </div>
       );
     }
