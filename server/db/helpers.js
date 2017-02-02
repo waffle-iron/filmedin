@@ -54,6 +54,9 @@ var dbObj =  {
     },
     friendGet: function(id, filmID, cb) {
       db.query(`SELECT r.rating, r.review, r.profileID, p.firstName, p.lastName FROM rating r INNER JOIN profile p on r.profileID = p.id INNER JOIN friends ON p.id = friends.friendID and friends.primaryID = ${id} where r.filmID = ${filmID}`, cb);
+    },
+    myGet: function(id, filmID, cb) {
+      db.query(`SELECT r.rating, r.review FROM rating r where r.profileID = ${id} and r.filmID = ${filmID}`, cb);
     }
   },
 

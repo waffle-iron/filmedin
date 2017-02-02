@@ -80,7 +80,14 @@ module.exports = {
                   console.log('film -> profile.friendGet', err);
                 }
                 film.friendRatings = ratings;
-                res.send(JSON.stringify(film));    
+                db.rating.myGet(profile.id, film.id, (err, myRatings => {
+                  if (err) {
+                    console.log('film -> profile.myGet', err);
+                  }
+                  film.myRating = (myRatings.length !== 0) ? myRatings[0] : {};
+                  res.send(JSON.stringify(film));
+                }));
+                    
               })
             });
           } else {
@@ -119,6 +126,7 @@ module.exports = {
                 } 
                 film.id = rows.insertId;
                 film.friendRatings = [];
+                film.myRating = {};
                 res.send(JSON.stringify(film));
               })
             });
