@@ -52,7 +52,7 @@ class SignUp extends React.Component {
 
 	handleDobChange(e) {
 		this.setState({
-			dob: e.target.value
+			DOB: e.target.value
 		})
 	}
 
@@ -63,7 +63,6 @@ class SignUp extends React.Component {
 			password: this.state.password
 		}
 		helpers.logInUser(signinInputs).then(response => {
-			console.log('responselklkjlkj: ', response);
 			window.localStorage.setItem('filmedInToken', response.data.token);
 			console.log('token', response.data.token);
 			this.props.handleLogInClick();
@@ -94,9 +93,6 @@ class SignUp extends React.Component {
 		return (
 			<div className="signup">
 
-				{/* this h1 tag is the webApp title, it will include the logo later */}
-
-				{/*this is the navbar for the signup page*/}
 				<div className="navbar">
 					<h1>FilmedIn</h1>
 					<form onSubmit={this.handleLoginClick}>

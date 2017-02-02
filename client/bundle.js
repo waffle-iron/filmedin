@@ -22373,19 +22373,19 @@
 	
 	var _UserHome2 = _interopRequireDefault(_UserHome);
 	
-	var _FilmProfile = __webpack_require__(/*! ./FilmProfile */ 217);
+	var _FilmProfile = __webpack_require__(/*! ./FilmProfile */ 218);
 	
 	var _FilmProfile2 = _interopRequireDefault(_FilmProfile);
 	
-	var _UserProfile = __webpack_require__(/*! ./UserProfile */ 218);
+	var _UserProfile = __webpack_require__(/*! ./UserProfile */ 219);
 	
 	var _UserProfile2 = _interopRequireDefault(_UserProfile);
 	
-	var _exampleVideoData = __webpack_require__(/*! ./exampleVideoData */ 219);
+	var _exampleVideoData = __webpack_require__(/*! ./exampleVideoData */ 220);
 	
 	var _exampleVideoData2 = _interopRequireDefault(_exampleVideoData);
 	
-	var _exampleFriendData = __webpack_require__(/*! ./exampleFriendData */ 220);
+	var _exampleFriendData = __webpack_require__(/*! ./exampleFriendData */ 221);
 	
 	var _exampleFriendData2 = _interopRequireDefault(_exampleFriendData);
 	
@@ -22393,11 +22393,11 @@
 	
 	var _helpers2 = _interopRequireDefault(_helpers);
 	
-	var _SearchUser = __webpack_require__(/*! ./SearchUser */ 221);
+	var _SearchUser = __webpack_require__(/*! ./SearchUser */ 222);
 	
 	var _SearchUser2 = _interopRequireDefault(_SearchUser);
 	
-	var _SearchFilm = __webpack_require__(/*! ./SearchFilm */ 224);
+	var _SearchFilm = __webpack_require__(/*! ./SearchFilm */ 225);
 	
 	var _SearchFilm2 = _interopRequireDefault(_SearchFilm);
 	
@@ -22494,52 +22494,6 @@
 	
 	      _helpers2.default.getHome().then(function (response) {
 	        console.log('response: ', response);
-	        // helpers.getHome().then(response => {
-	        //   console.log(response);
-	        // });
-	        // var response = {};
-	        // response.data = {
-	        //   id: 12345,
-	        //   firstName: 'bob',
-	        //   lastName: 'bobby',
-	        //   DOB: "1985-01-01",
-	        //   friends: [{
-	        //     ID: 1,
-	        //     firstName: 'joe',
-	        //     lastName: 'joey',
-	        //     DOB: "1985-01-01"
-	        //   },
-	        //   {
-	        //     ID: 2,
-	        //     firstName: 'jim',
-	        //     lastName: 'jimmy',
-	        //     DOB: "1985-01-01"
-	        //   },
-	        //   {
-	        //     ID: 3,
-	        //     firstName: 'steve',
-	        //     lastName: 'stevey',
-	        //     DOB: "1985-01-01"
-	        //   }],
-	        //   ratings: [
-	        //     {
-	        //       guideBox: 135934,
-	        //       rating: 1,
-	        //       review: 'it sucked',
-	        //       name: 'die hard',
-	        //       genre: 'love, romance',
-	        //       posterURL: 'https://upload.wikimedia.org/wikipedia/en/7/7e/Die_hard.jpg'
-	        //     },
-	        //     {
-	        //       guideBox: 135934,
-	        //       rating: 3,
-	        //       review: 'it was so so',
-	        //       name: 'die hard',
-	        //       genre: 'love, romance',
-	        //       posterURL: 'https://upload.wikimedia.org/wikipedia/en/7/7e/Die_hard.jpg'
-	        //     }
-	        //   ]
-	        // }
 	
 	        _this2.setState({
 	          isLoggedIn: true,
@@ -22599,7 +22553,9 @@
 	    key: 'render',
 	    value: function render() {
 	      if (!this.state.isLoggedIn) {
-	        return _react2.default.createElement(_SignUp2.default, { handleLogInClick: this.handleLogInClick });
+	        return _react2.default.createElement(_SignUp2.default, {
+	          handleLogInClick: this.handleLogInClick
+	        });
 	      } else {
 	        return _react2.default.createElement(
 	          'div',
@@ -24303,7 +24259,7 @@
 			key: 'handleDobChange',
 			value: function handleDobChange(e) {
 				this.setState({
-					dob: e.target.value
+					DOB: e.target.value
 				});
 			}
 		}, {
@@ -24317,7 +24273,6 @@
 					password: this.state.password
 				};
 				_helpers2.default.logInUser(signinInputs).then(function (response) {
-					console.log('responselklkjlkj: ', response);
 					window.localStorage.setItem('filmedInToken', response.data.token);
 					console.log('token', response.data.token);
 					_this2.props.handleLogInClick();
@@ -24579,6 +24534,12 @@
 	  });
 	};
 	
+	helpers.castList = function (string) {
+	  return string.split(';').map(function (pair) {
+	    return pair.split(':');
+	  });
+	};
+	
 	exports.default = helpers;
 
 /***/ },
@@ -24606,7 +24567,7 @@
 	
 	var _FilmList2 = _interopRequireDefault(_FilmList);
 	
-	var _UserList = __webpack_require__(/*! ./UserList */ 215);
+	var _UserList = __webpack_require__(/*! ./UserList */ 216);
 	
 	var _UserList2 = _interopRequireDefault(_UserList);
 	
@@ -24725,6 +24686,9 @@
 				_helpers2.default.searchFilm(this.state.filmSearch).then(function (films) {
 					console.log(films);
 					_this2.props.searchFilm(films.data);
+					_this2.setState({
+						filmSearch: ''
+					});
 				}).catch(function (err) {
 					console.log('error with search film', err);
 				});
@@ -24737,6 +24701,9 @@
 				_helpers2.default.searchProfile(this.state.userSearch).then(function (friends) {
 					console.log(friends);
 					_this3.props.searchUser(friends.data);
+					_this3.setState({
+						userSearch: ''
+					});
 				}).catch(function (err) {
 					console.log('error with search user', err);
 				});
@@ -24879,7 +24846,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _reactRating = __webpack_require__(/*! react-rating */ 227);
+	var _reactRating = __webpack_require__(/*! react-rating */ 215);
 	
 	var _reactRating2 = _interopRequireDefault(_reactRating);
 	
@@ -24893,6 +24860,7 @@
 	    { className: 'film-entry', onClick: function onClick() {
 	        return handleFilmClick(film);
 	      } },
+	    console.log('film: ', film),
 	    _react2.default.createElement(
 	      'div',
 	      null,
@@ -24925,847 +24893,6 @@
 
 /***/ },
 /* 215 */
-/*!*********************************!*\
-  !*** ./components/UserList.jsx ***!
-  \*********************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-	
-	var _react = __webpack_require__(/*! react */ 1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _UserEntry = __webpack_require__(/*! ./UserEntry */ 216);
-	
-	var _UserEntry2 = _interopRequireDefault(_UserEntry);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var UserList = function UserList(_ref) {
-		var handleUserClick = _ref.handleUserClick,
-		    allFriends = _ref.allFriends;
-		return _react2.default.createElement(
-			'div',
-			{ className: 'user-list' },
-			console.log('allFriends: ', allFriends),
-			allFriends.map(function (user) {
-				return _react2.default.createElement(_UserEntry2.default, {
-					handleUserClick: handleUserClick,
-					user: user
-				});
-			})
-		);
-	};
-	
-	exports.default = UserList;
-
-/***/ },
-/* 216 */
-/*!**********************************!*\
-  !*** ./components/UserEntry.jsx ***!
-  \**********************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _react = __webpack_require__(/*! react */ 1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var UserEntry = function UserEntry(_ref) {
-	  var handleUserClick = _ref.handleUserClick,
-	      user = _ref.user;
-	  return _react2.default.createElement(
-	    "div",
-	    { className: "user-entry", onClick: function onClick() {
-	        return handleUserClick(user);
-	      } },
-	    _react2.default.createElement(
-	      "div",
-	      null,
-	      user.firstName,
-	      " ",
-	      user.lastName
-	    ),
-	    _react2.default.createElement(
-	      "div",
-	      null,
-	      "DOB: ",
-	      user.DOB
-	    )
-	  );
-	};
-	
-	exports.default = UserEntry;
-
-/***/ },
-/* 217 */
-/*!************************************!*\
-  !*** ./components/FilmProfile.jsx ***!
-  \************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-	
-	var _react = __webpack_require__(/*! react */ 1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _NavBar = __webpack_require__(/*! ./NavBar */ 212);
-	
-	var _NavBar2 = _interopRequireDefault(_NavBar);
-	
-	var _reactRating = __webpack_require__(/*! react-rating */ 227);
-	
-	var _reactRating2 = _interopRequireDefault(_reactRating);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var FilmProfile = function FilmProfile(_ref) {
-		var film = _ref.film,
-		    rateFilm = _ref.rateFilm;
-		return _react2.default.createElement(
-			'div',
-			{ className: 'film-profile' },
-			_react2.default.createElement(
-				'h1',
-				null,
-				film.name
-			),
-			_react2.default.createElement('img', { src: film.posterURL, alt: '' }),
-			_react2.default.createElement(_reactRating2.default, { intialRate: film.rating, onClick: function onClick(rate, e) {
-					rateFilm(rate, film.id);
-				} }),
-			_react2.default.createElement(
-				'div',
-				null,
-				'Your ranking: ',
-				film.rating
-			),
-			_react2.default.createElement('br', null),
-			_react2.default.createElement(
-				'div',
-				null,
-				'Film Genre:',
-				_react2.default.createElement('br', null),
-				film.genre
-			),
-			_react2.default.createElement('br', null),
-			_react2.default.createElement(
-				'div',
-				null,
-				'This will contain links to stream the film'
-			),
-			_react2.default.createElement('br', null),
-			_react2.default.createElement(
-				'div',
-				null,
-				'This will contain friends who have ranked the film'
-			)
-		);
-	};
-	
-	exports.default = FilmProfile;
-
-/***/ },
-/* 218 */
-/*!************************************!*\
-  !*** ./components/UserProfile.jsx ***!
-  \************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-	
-	var _react = __webpack_require__(/*! react */ 1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _NavBar = __webpack_require__(/*! ./NavBar */ 212);
-	
-	var _NavBar2 = _interopRequireDefault(_NavBar);
-	
-	var _FilmList = __webpack_require__(/*! ./FilmList */ 213);
-	
-	var _FilmList2 = _interopRequireDefault(_FilmList);
-	
-	var _UserList = __webpack_require__(/*! ./UserList */ 215);
-	
-	var _UserList2 = _interopRequireDefault(_UserList);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var UserProfile = function UserProfile(_ref) {
-		var user = _ref.user,
-		    handleFilmClick = _ref.handleFilmClick,
-		    handleUserClick = _ref.handleUserClick;
-		return _react2.default.createElement(
-			'div',
-			{ className: 'user-profile' },
-			_react2.default.createElement(
-				'h1',
-				null,
-				user.firstName,
-				' ',
-				user.lastName
-			),
-			_react2.default.createElement(
-				'h3',
-				null,
-				'List of ',
-				user.firstName,
-				'\'s ranked films'
-			),
-			_react2.default.createElement(_FilmList2.default, {
-				allFilms: user.ratings,
-				handleFilmClick: handleFilmClick
-			}),
-			_react2.default.createElement(
-				'h3',
-				null,
-				'List of ',
-				user.firstName,
-				'\'s friends'
-			),
-			_react2.default.createElement(_UserList2.default, {
-				allFriends: user.friends,
-				handleUserClick: handleUserClick
-			})
-		);
-	};
-	
-	exports.default = UserProfile;
-
-/***/ },
-/* 219 */
-/*!****************************************!*\
-  !*** ./components/exampleVideoData.js ***!
-  \****************************************/
-/***/ function(module, exports) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	// import React from 'react';
-	// DO NOT EDIT THIS FILE
-	// This is an example response from the YouTube Search API
-	// when searching with the query 'react tutorial'
-	var exampleVideoData = [{
-	  userRank: 4,
-	  kind: 'youtube#searchResult',
-	  etag: 'abQHWywil_AkNqdqji7_FqiK-u4/Ykxo_CqKu8F8kcm-iNgL332gQTY',
-	  id: {
-	    kind: 'youtube#video',
-	    videoId: '4ZAEBxGipoA'
-	  },
-	  snippet: {
-	    publishedAt: '2015-08-02T20:52:58.000Z',
-	    channelId: 'UCJbPGzawDH1njbqV-D5HqKw',
-	    title: 'Film 1',
-	    description: 'My website - https://www.thenewboston.com/videos.php Have questions about the tutorial or React? Ask them here ...',
-	    thumbnails: {
-	      default: {
-	        url: 'https://i.ytimg.com/vi/4ZAEBxGipoA/default.jpg',
-	        width: 120,
-	        height: 90
-	      },
-	      medium: {
-	        url: 'https://i.ytimg.com/vi/4ZAEBxGipoA/mqdefault.jpg',
-	        width: 320,
-	        height: 180
-	      },
-	      high: {
-	        url: 'https://i.ytimg.com/vi/4ZAEBxGipoA/hqdefault.jpg',
-	        width: 480,
-	        height: 360
-	      }
-	    },
-	    channelTitle: 'thenewboston',
-	    liveBroadcastContent: 'none'
-	  }
-	}, {
-	  userRank: 5,
-	  kind: 'youtube#searchResult',
-	  etag: 'abQHWywil_AkNqdqji7_FqiK-u4/tS3xe6KXEJbntCAmn01SmEuSYxg',
-	  id: {
-	    kind: 'youtube#video',
-	    videoId: 'mFEoarLnnqM'
-	  },
-	  snippet: {
-	    publishedAt: '2014-08-08T21:31:58.000Z',
-	    channelId: 'UCKKQaFUwyPb6iC-42rFRz2Q',
-	    title: 'Film 2',
-	    description: 'A step by step video tutorial that takes you through the correct way of coding Facebook React views. Check out the rest of the tagtree library: http://tagtree.tv.',
-	    thumbnails: {
-	      default: {
-	        url: 'https://i.ytimg.com/vi/mFEoarLnnqM/default.jpg',
-	        width: 120,
-	        height: 90
-	      },
-	      medium: {
-	        url: 'https://i.ytimg.com/vi/mFEoarLnnqM/mqdefault.jpg',
-	        width: 320,
-	        height: 180
-	      },
-	      high: {
-	        url: 'https://i.ytimg.com/vi/mFEoarLnnqM/hqdefault.jpg',
-	        width: 480,
-	        height: 360
-	      }
-	    },
-	    channelTitle: '',
-	    liveBroadcastContent: 'none'
-	  }
-	}, {
-	  userRank: 0,
-	  kind: 'youtube#searchResult',
-	  etag: 'abQHWywil_AkNqdqji7_FqiK-u4/FZYrgJg7qfkv0yfImJPujBKBmLk',
-	  id: {
-	    kind: 'youtube#video',
-	    videoId: '0ByoQm-vnYw'
-	  },
-	  snippet: {
-	    publishedAt: '2015-12-08T20:51:18.000Z',
-	    channelId: 'UClLXKYEEM8OBBx85DOa6-cg',
-	    title: 'Film 3',
-	    description: 'Get the full course here: http://devslopes.com/react In this video you will learn how to setup your project for React development and you will build a simple React ...',
-	    thumbnails: {
-	      default: {
-	        url: 'https://i.ytimg.com/vi/0ByoQm-vnYw/default.jpg',
-	        width: 120,
-	        height: 90
-	      },
-	      medium: {
-	        url: 'https://i.ytimg.com/vi/0ByoQm-vnYw/mqdefault.jpg',
-	        width: 320,
-	        height: 180
-	      },
-	      high: {
-	        url: 'https://i.ytimg.com/vi/0ByoQm-vnYw/hqdefault.jpg',
-	        width: 480,
-	        height: 360
-	      }
-	    },
-	    channelTitle: '',
-	    liveBroadcastContent: 'none'
-	  }
-	}, {
-	  userRank: 4,
-	  kind: 'youtube#searchResult',
-	  etag: 'abQHWywil_AkNqdqji7_FqiK-u4/nSaavPWVkTWpn2p-ClwNj7xszf8',
-	  id: {
-	    kind: 'youtube#video',
-	    videoId: 'o5E894TmHJg'
-	  },
-	  snippet: {
-	    publishedAt: '2015-03-09T08:19:59.000Z',
-	    channelId: 'UCMYct3vtNaMwZAA3_DNsWMw',
-	    title: 'Film 4',
-	    description: 'Hey! Write something in the comments, even if it\'s critical. I\'d love to hear feedback! (also, please thumbs-up if you like the vid, and I\'ll make more). Personally I ...',
-	    thumbnails: {
-	      default: {
-	        url: 'https://i.ytimg.com/vi/o5E894TmHJg/default.jpg',
-	        width: 120,
-	        height: 90
-	      },
-	      medium: {
-	        url: 'https://i.ytimg.com/vi/o5E894TmHJg/mqdefault.jpg',
-	        width: 320,
-	        height: 180
-	      },
-	      high: {
-	        url: 'https://i.ytimg.com/vi/o5E894TmHJg/hqdefault.jpg',
-	        width: 480,
-	        height: 360
-	      }
-	    },
-	    channelTitle: 'bengrunfeld',
-	    liveBroadcastContent: 'none'
-	  }
-	}, {
-	  userRank: 1,
-	  kind: 'youtube#searchResult',
-	  etag: 'abQHWywil_AkNqdqji7_FqiK-u4/3E7u1VZ18KYyfLIA6RgI2w-7nRI',
-	  id: {
-	    kind: 'youtube#video',
-	    videoId: 'Pd6Ub7Ju2RM'
-	  },
-	  snippet: {
-	    publishedAt: '2015-02-13T18:50:38.000Z',
-	    channelId: 'UCr5lOCcjZzNprLrhxO0WZQw',
-	    title: 'Film 5',
-	    description: 'Brought to you by Formidable Labs and SeattleJS, Colin Megill walks us through Facebook\'s React framework in part one of this three-part series. The workshop ...',
-	    thumbnails: {
-	      default: {
-	        url: 'https://i.ytimg.com/vi/Pd6Ub7Ju2RM/default.jpg',
-	        width: 120,
-	        height: 90
-	      },
-	      medium: {
-	        url: 'https://i.ytimg.com/vi/Pd6Ub7Ju2RM/mqdefault.jpg',
-	        width: 320,
-	        height: 180
-	      },
-	      high: {
-	        url: 'https://i.ytimg.com/vi/Pd6Ub7Ju2RM/hqdefault.jpg',
-	        width: 480,
-	        height: 360
-	      }
-	    },
-	    channelTitle: '',
-	    liveBroadcastContent: 'none'
-	  }
-	}];
-	
-	exports.default = exampleVideoData;
-
-/***/ },
-/* 220 */
-/*!*****************************************!*\
-  !*** ./components/exampleFriendData.js ***!
-  \*****************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-	
-	var _exampleVideoData = __webpack_require__(/*! ./exampleVideoData */ 219);
-	
-	var _exampleVideoData2 = _interopRequireDefault(_exampleVideoData);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var exampleFriendData = [{
-		firstname: 'Jasmine',
-		lastname: 'Mina',
-		username: 'jMina',
-		films: _exampleVideoData2.default,
-		friends: [{ firstname: 'Nick',
-			lastname: 'Cobbett',
-			username: 'nickC',
-			films: _exampleVideoData2.default
-		}, { firstname: 'Sai',
-			lastname: 'Vickna',
-			username: 'saiClops',
-			films: _exampleVideoData2.default
-		}, { firstname: 'Jimothy',
-			lastname: 'Zhang',
-			username: 'jayZ',
-			films: _exampleVideoData2.default
-		}]
-	}, {
-		firstname: 'Nick',
-		lastname: 'Cobbett',
-		username: 'nickC',
-		films: _exampleVideoData2.default,
-		friends: [{ firstname: 'Jasmine',
-			lastname: 'Mina',
-			username: 'jMina',
-			films: _exampleVideoData2.default
-		}, { firstname: 'Sai',
-			lastname: 'Vickna',
-			username: 'saiClops',
-			films: _exampleVideoData2.default
-		}, { firstname: 'Jimothy',
-			lastname: 'Zhang',
-			username: 'jayZ',
-			films: _exampleVideoData2.default
-		}]
-	}, {
-		firstname: 'Sai',
-		lastname: 'Vickna',
-		username: 'saiClops',
-		films: _exampleVideoData2.default,
-		friends: [{ firstname: 'Jasmine',
-			lastname: 'Mina',
-			username: 'jMina',
-			films: _exampleVideoData2.default
-		}, { firstname: 'Nick',
-			lastname: 'Cobbett',
-			username: 'nickC',
-			films: _exampleVideoData2.default
-		}, { firstname: 'Jimothy',
-			lastname: 'Zhang',
-			username: 'jayZ',
-			films: _exampleVideoData2.default
-		}]
-	}, {
-		firstname: 'Jimothy',
-		lastname: 'Zhang',
-		username: 'jayZ',
-		films: _exampleVideoData2.default,
-		friends: [{ firstname: 'Jasmine',
-			lastname: 'Mina',
-			username: 'jMina',
-			films: _exampleVideoData2.default
-		}, { firstname: 'Nick',
-			lastname: 'Cobbett',
-			username: 'nickC',
-			films: _exampleVideoData2.default
-		}, { firstname: 'Sai',
-			lastname: 'Vickna',
-			username: 'saiClops',
-			films: _exampleVideoData2.default
-		}]
-	}];
-	
-	exports.default = exampleFriendData;
-
-/***/ },
-/* 221 */
-/*!***********************************!*\
-  !*** ./components/SearchUser.jsx ***!
-  \***********************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	var _react = __webpack_require__(/*! react */ 1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _helpers = __webpack_require__(/*! ../lib/helpers */ 210);
-	
-	var _helpers2 = _interopRequireDefault(_helpers);
-	
-	var _SearchUserList = __webpack_require__(/*! ./SearchUserList */ 222);
-	
-	var _SearchUserList2 = _interopRequireDefault(_SearchUserList);
-	
-	var _axios = __webpack_require__(/*! axios */ 184);
-	
-	var _axios2 = _interopRequireDefault(_axios);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var SearchUser = function (_React$Component) {
-	  _inherits(SearchUser, _React$Component);
-	
-	  function SearchUser(props) {
-	    _classCallCheck(this, SearchUser);
-	
-	    return _possibleConstructorReturn(this, (SearchUser.__proto__ || Object.getPrototypeOf(SearchUser)).call(this, props));
-	  }
-	
-	  _createClass(SearchUser, [{
-	    key: 'render',
-	    value: function render() {
-	      return _react2.default.createElement(_SearchUserList2.default, {
-	        allFriends: this.props.search,
-	        handleUserClick: this.props.handleUserClick,
-	        addFriend: this.props.addFriend
-	      });
-	    }
-	  }]);
-	
-	  return SearchUser;
-	}(_react2.default.Component);
-	
-	exports.default = SearchUser;
-
-/***/ },
-/* 222 */
-/*!***************************************!*\
-  !*** ./components/SearchUserList.jsx ***!
-  \***************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _react = __webpack_require__(/*! react */ 1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _SearchUserEntry = __webpack_require__(/*! ./SearchUserEntry */ 223);
-	
-	var _SearchUserEntry2 = _interopRequireDefault(_SearchUserEntry);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var SearchUserList = function SearchUserList(_ref) {
-	  var handleUserClick = _ref.handleUserClick,
-	      allFriends = _ref.allFriends,
-	      addFriend = _ref.addFriend;
-	  return _react2.default.createElement(
-	    'div',
-	    { className: 'search-user-list' },
-	    allFriends.map(function (user) {
-	      return _react2.default.createElement(_SearchUserEntry2.default, {
-	        handleUserClick: handleUserClick,
-	        addFriend: addFriend,
-	        user: user
-	      });
-	    })
-	  );
-	};
-	
-	exports.default = SearchUserList;
-
-/***/ },
-/* 223 */
-/*!****************************************!*\
-  !*** ./components/SearchUserEntry.jsx ***!
-  \****************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _react = __webpack_require__(/*! react */ 1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var SearchUserEntry = function SearchUserEntry(_ref) {
-	  var handleUserClick = _ref.handleUserClick,
-	      addFriend = _ref.addFriend,
-	      user = _ref.user;
-	  return _react2.default.createElement(
-	    "div",
-	    { className: "user-entry" },
-	    _react2.default.createElement(
-	      "div",
-	      { onClick: function onClick() {
-	          return handleUserClick(user);
-	        } },
-	      user.firstName,
-	      " ",
-	      user.lastName
-	    ),
-	    _react2.default.createElement(
-	      "div",
-	      null,
-	      "DOB: ",
-	      user.DOB
-	    ),
-	    _react2.default.createElement(
-	      "div",
-	      null,
-	      _react2.default.createElement(
-	        "button",
-	        { onClick: function onClick() {
-	            return addFriend(user);
-	          } },
-	        "Add"
-	      )
-	    )
-	  );
-	};
-	
-	exports.default = SearchUserEntry;
-
-/***/ },
-/* 224 */
-/*!***********************************!*\
-  !*** ./components/SearchFilm.jsx ***!
-  \***********************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	var _react = __webpack_require__(/*! react */ 1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _helpers = __webpack_require__(/*! ../lib/helpers */ 210);
-	
-	var _helpers2 = _interopRequireDefault(_helpers);
-	
-	var _SearchFilmList = __webpack_require__(/*! ./SearchFilmList */ 225);
-	
-	var _SearchFilmList2 = _interopRequireDefault(_SearchFilmList);
-	
-	var _axios = __webpack_require__(/*! axios */ 184);
-	
-	var _axios2 = _interopRequireDefault(_axios);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var SearchFilm = function (_React$Component) {
-	  _inherits(SearchFilm, _React$Component);
-	
-	  function SearchFilm(props) {
-	    _classCallCheck(this, SearchFilm);
-	
-	    return _possibleConstructorReturn(this, (SearchFilm.__proto__ || Object.getPrototypeOf(SearchFilm)).call(this, props));
-	    // this.state = {
-	    //   films: []
-	    // }
-	  }
-	  // componentDidMount () {
-	  //   console.log(this.props.search)
-	  //   helpers.searchFilm(this.props.search).then(films => {
-	  //     console.log('films', films)
-	  //     this.setState({films: films});
-	  //   }).catch(err => {
-	  //     console.log('error with search film', err)
-	  //   })
-	  // }
-	
-	
-	  _createClass(SearchFilm, [{
-	    key: 'render',
-	    value: function render() {
-	      return _react2.default.createElement(_SearchFilmList2.default, {
-	        allFilms: this.props.search,
-	        handleFilmClick: this.props.handleFilmClick
-	      });
-	    }
-	  }]);
-	
-	  return SearchFilm;
-	}(_react2.default.Component);
-	
-	exports.default = SearchFilm;
-
-/***/ },
-/* 225 */
-/*!***************************************!*\
-  !*** ./components/SearchFilmList.jsx ***!
-  \***************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _react = __webpack_require__(/*! react */ 1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _SearchFilmEntry = __webpack_require__(/*! ./SearchFilmEntry */ 226);
-	
-	var _SearchFilmEntry2 = _interopRequireDefault(_SearchFilmEntry);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var SearchFilmList = function SearchFilmList(_ref) {
-	  var handleFilmClick = _ref.handleFilmClick,
-	      allFilms = _ref.allFilms;
-	  return _react2.default.createElement(
-	    'div',
-	    { className: 'search-film-list' },
-	    allFilms.map(function (film) {
-	      return _react2.default.createElement(_SearchFilmEntry2.default, {
-	        handleFilmClick: handleFilmClick,
-	        film: film
-	      });
-	    })
-	  );
-	};
-	
-	exports.default = SearchFilmList;
-
-/***/ },
-/* 226 */
-/*!****************************************!*\
-  !*** ./components/SearchFilmEntry.jsx ***!
-  \****************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _react = __webpack_require__(/*! react */ 1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var SearchFilmEntry = function SearchFilmEntry(_ref) {
-	  var handleFilmClick = _ref.handleFilmClick,
-	      film = _ref.film;
-	  return _react2.default.createElement(
-	    "div",
-	    { className: "film-entry", onClick: function onClick() {
-	        return handleFilmClick(film);
-	      } },
-	    _react2.default.createElement(
-	      "span",
-	      null,
-	      _react2.default.createElement("img", { src: film.poster_120x171, alt: "" })
-	    ),
-	    _react2.default.createElement(
-	      "span",
-	      null,
-	      _react2.default.createElement(
-	        "div",
-	        null,
-	        film.title
-	      ),
-	      _react2.default.createElement(
-	        "div",
-	        null,
-	        film.release_date
-	      )
-	    )
-	  );
-	};
-	
-	exports.default = SearchFilmEntry;
-
-/***/ },
-/* 227 */
 /*!********************************************!*\
   !*** ./~/react-rating/lib/react-rating.js ***!
   \********************************************/
@@ -26169,6 +25296,1027 @@
 	/******/ ])
 	});
 	;
+
+/***/ },
+/* 216 */
+/*!*********************************!*\
+  !*** ./components/UserList.jsx ***!
+  \*********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _UserEntry = __webpack_require__(/*! ./UserEntry */ 217);
+	
+	var _UserEntry2 = _interopRequireDefault(_UserEntry);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var UserList = function UserList(_ref) {
+		var handleUserClick = _ref.handleUserClick,
+		    allFriends = _ref.allFriends;
+		return _react2.default.createElement(
+			'div',
+			{ className: 'user-list' },
+			console.log('allFriends: ', allFriends),
+			allFriends.map(function (user) {
+				return _react2.default.createElement(_UserEntry2.default, {
+					handleUserClick: handleUserClick,
+					user: user
+				});
+			})
+		);
+	};
+	
+	exports.default = UserList;
+
+/***/ },
+/* 217 */
+/*!**********************************!*\
+  !*** ./components/UserEntry.jsx ***!
+  \**********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var UserEntry = function UserEntry(_ref) {
+	  var handleUserClick = _ref.handleUserClick,
+	      user = _ref.user;
+	  return _react2.default.createElement(
+	    "div",
+	    { className: "user-entry", onClick: function onClick() {
+	        return handleUserClick(user);
+	      } },
+	    _react2.default.createElement(
+	      "div",
+	      null,
+	      user.firstName,
+	      " ",
+	      user.lastName
+	    ),
+	    _react2.default.createElement(
+	      "div",
+	      null,
+	      "DOB: ",
+	      user.DOB
+	    )
+	  );
+	};
+	
+	exports.default = UserEntry;
+
+/***/ },
+/* 218 */
+/*!************************************!*\
+  !*** ./components/FilmProfile.jsx ***!
+  \************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _NavBar = __webpack_require__(/*! ./NavBar */ 212);
+	
+	var _NavBar2 = _interopRequireDefault(_NavBar);
+	
+	var _reactRating = __webpack_require__(/*! react-rating */ 215);
+	
+	var _reactRating2 = _interopRequireDefault(_reactRating);
+	
+	var _RatingList = __webpack_require__(/*! ./RatingList */ 228);
+	
+	var _RatingList2 = _interopRequireDefault(_RatingList);
+	
+	var _helpers = __webpack_require__(/*! ../lib/helpers */ 210);
+	
+	var _helpers2 = _interopRequireDefault(_helpers);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var FilmProfile = function FilmProfile(_ref) {
+		var film = _ref.film,
+		    rateFilm = _ref.rateFilm;
+		return _react2.default.createElement(
+			'div',
+			{ className: 'film-profile' },
+			console.log('film: ', film),
+			_react2.default.createElement(
+				'h1',
+				null,
+				film.name
+			),
+			_react2.default.createElement('br', null),
+			_react2.default.createElement('img', { src: film.posterURL, alt: '' }),
+			_react2.default.createElement('br', null),
+			_react2.default.createElement(
+				'a',
+				{ href: film.trailer, target: '_blank' },
+				'Watch trailer here'
+			),
+			_react2.default.createElement('br', null),
+			'Links to watch:',
+			film.netflix ? _react2.default.createElement(
+				'a',
+				{ href: film.netflix, target: '_blank' },
+				'Click here to watch on Netflix'
+			) : _react2.default.createElement('span', null),
+			film.hbo ? _react2.default.createElement(
+				'a',
+				{ href: film.hbo, target: '_blank' },
+				'Click here to watch on hbo'
+			) : _react2.default.createElement('span', null),
+			film.amazon ? _react2.default.createElement(
+				'a',
+				{ href: film.amazon, target: '_blank' },
+				'Click here to watch on amazon'
+			) : _react2.default.createElement('span', null),
+			film.itunes ? _react2.default.createElement(
+				'a',
+				{ href: film.itunes, target: '_blank' },
+				'Click here to watch on itunes'
+			) : _react2.default.createElement('span', null),
+			_react2.default.createElement(
+				'div',
+				null,
+				'Release Date: ',
+				film.releaseDate
+			),
+			_react2.default.createElement('br', null),
+			_react2.default.createElement(
+				'div',
+				null,
+				'Overview: ',
+				film.overview
+			),
+			_react2.default.createElement('br', null),
+			_react2.default.createElement(
+				'div',
+				null,
+				'Directors: ',
+				film.directors
+			),
+			_react2.default.createElement('br', null),
+			_react2.default.createElement(
+				'div',
+				null,
+				'Writers: ',
+				film.writers
+			),
+			_react2.default.createElement('br', null),
+			_react2.default.createElement(
+				'div',
+				null,
+				'Cast:',
+				_react2.default.createElement(
+					'ul',
+					{ className: 'actors-list' },
+					_helpers2.default.castList(film.actors).map(function (actorAndCharacter) {
+						_react2.default.createElement(
+							'li',
+							null,
+							'Character: ',
+							actorAndCharacter[1],
+							' Played By: ',
+							actorAndCharacter[0]
+						);
+					})
+				)
+			),
+			_react2.default.createElement('br', null),
+			_react2.default.createElement(
+				'div',
+				null,
+				_react2.default.createElement(
+					'a',
+					{ href: 'http://www.rottentomatoes.com/m/' + film.rt, target: '_blank' },
+					'Rotten Tomatoes'
+				)
+			),
+			_react2.default.createElement('br', null),
+			_react2.default.createElement(_reactRating2.default, { initialRate: film.myRating, onClick: function onClick(rate, e) {
+					rateFilm(rate, film.id);
+				} }),
+			_react2.default.createElement(
+				'div',
+				null,
+				'Your ranking: ',
+				film.myRating
+			),
+			_react2.default.createElement('br', null),
+			_react2.default.createElement(
+				'div',
+				null,
+				'Film Genre:',
+				_react2.default.createElement('br', null),
+				film.genre
+			),
+			_react2.default.createElement('br', null),
+			_react2.default.createElement(
+				'div',
+				null,
+				'This will contain links to stream the film'
+			),
+			_react2.default.createElement('br', null),
+			_react2.default.createElement(
+				'div',
+				null,
+				'This will contain friends who have ranked the film',
+				_react2.default.createElement(_RatingList2.default, {
+					allFriendsRatings: film.friendRatings
+				})
+			)
+		);
+	};
+	
+	exports.default = FilmProfile;
+	
+	//overview - description
+	//releaseDate
+	//directors - string comma deliminated 
+	//writers - ''
+	//actors - string, actorname:charactername;
+	//trailer - embed link
+	//rt - rotten tomatoes id rottentomatoes.com/m/<rt> - link to rotten toms page
+	//netflix - link to netflix stream, if empty no link
+	//hbo - ''
+	//amazon - ''
+	//itunes - '' - purchase, others for streaming
+	//friendsRatings - arr of obj
+
+/***/ },
+/* 219 */
+/*!************************************!*\
+  !*** ./components/UserProfile.jsx ***!
+  \************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _NavBar = __webpack_require__(/*! ./NavBar */ 212);
+	
+	var _NavBar2 = _interopRequireDefault(_NavBar);
+	
+	var _FilmList = __webpack_require__(/*! ./FilmList */ 213);
+	
+	var _FilmList2 = _interopRequireDefault(_FilmList);
+	
+	var _UserList = __webpack_require__(/*! ./UserList */ 216);
+	
+	var _UserList2 = _interopRequireDefault(_UserList);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var UserProfile = function UserProfile(_ref) {
+		var user = _ref.user,
+		    handleFilmClick = _ref.handleFilmClick,
+		    handleUserClick = _ref.handleUserClick;
+		return _react2.default.createElement(
+			'div',
+			{ className: 'user-profile' },
+			_react2.default.createElement(
+				'h1',
+				null,
+				user.firstName,
+				' ',
+				user.lastName
+			),
+			_react2.default.createElement(
+				'h3',
+				null,
+				'List of ',
+				user.firstName,
+				'\'s ranked films'
+			),
+			_react2.default.createElement(_FilmList2.default, {
+				allFilms: user.ratings,
+				handleFilmClick: handleFilmClick
+			}),
+			_react2.default.createElement(
+				'h3',
+				null,
+				'List of ',
+				user.firstName,
+				'\'s friends'
+			),
+			_react2.default.createElement(_UserList2.default, {
+				allFriends: user.friends,
+				handleUserClick: handleUserClick
+			})
+		);
+	};
+	
+	exports.default = UserProfile;
+
+/***/ },
+/* 220 */
+/*!****************************************!*\
+  !*** ./components/exampleVideoData.js ***!
+  \****************************************/
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	// import React from 'react';
+	// DO NOT EDIT THIS FILE
+	// This is an example response from the YouTube Search API
+	// when searching with the query 'react tutorial'
+	var exampleVideoData = [{
+	  userRank: 4,
+	  kind: 'youtube#searchResult',
+	  etag: 'abQHWywil_AkNqdqji7_FqiK-u4/Ykxo_CqKu8F8kcm-iNgL332gQTY',
+	  id: {
+	    kind: 'youtube#video',
+	    videoId: '4ZAEBxGipoA'
+	  },
+	  snippet: {
+	    publishedAt: '2015-08-02T20:52:58.000Z',
+	    channelId: 'UCJbPGzawDH1njbqV-D5HqKw',
+	    title: 'Film 1',
+	    description: 'My website - https://www.thenewboston.com/videos.php Have questions about the tutorial or React? Ask them here ...',
+	    thumbnails: {
+	      default: {
+	        url: 'https://i.ytimg.com/vi/4ZAEBxGipoA/default.jpg',
+	        width: 120,
+	        height: 90
+	      },
+	      medium: {
+	        url: 'https://i.ytimg.com/vi/4ZAEBxGipoA/mqdefault.jpg',
+	        width: 320,
+	        height: 180
+	      },
+	      high: {
+	        url: 'https://i.ytimg.com/vi/4ZAEBxGipoA/hqdefault.jpg',
+	        width: 480,
+	        height: 360
+	      }
+	    },
+	    channelTitle: 'thenewboston',
+	    liveBroadcastContent: 'none'
+	  }
+	}, {
+	  userRank: 5,
+	  kind: 'youtube#searchResult',
+	  etag: 'abQHWywil_AkNqdqji7_FqiK-u4/tS3xe6KXEJbntCAmn01SmEuSYxg',
+	  id: {
+	    kind: 'youtube#video',
+	    videoId: 'mFEoarLnnqM'
+	  },
+	  snippet: {
+	    publishedAt: '2014-08-08T21:31:58.000Z',
+	    channelId: 'UCKKQaFUwyPb6iC-42rFRz2Q',
+	    title: 'Film 2',
+	    description: 'A step by step video tutorial that takes you through the correct way of coding Facebook React views. Check out the rest of the tagtree library: http://tagtree.tv.',
+	    thumbnails: {
+	      default: {
+	        url: 'https://i.ytimg.com/vi/mFEoarLnnqM/default.jpg',
+	        width: 120,
+	        height: 90
+	      },
+	      medium: {
+	        url: 'https://i.ytimg.com/vi/mFEoarLnnqM/mqdefault.jpg',
+	        width: 320,
+	        height: 180
+	      },
+	      high: {
+	        url: 'https://i.ytimg.com/vi/mFEoarLnnqM/hqdefault.jpg',
+	        width: 480,
+	        height: 360
+	      }
+	    },
+	    channelTitle: '',
+	    liveBroadcastContent: 'none'
+	  }
+	}, {
+	  userRank: 0,
+	  kind: 'youtube#searchResult',
+	  etag: 'abQHWywil_AkNqdqji7_FqiK-u4/FZYrgJg7qfkv0yfImJPujBKBmLk',
+	  id: {
+	    kind: 'youtube#video',
+	    videoId: '0ByoQm-vnYw'
+	  },
+	  snippet: {
+	    publishedAt: '2015-12-08T20:51:18.000Z',
+	    channelId: 'UClLXKYEEM8OBBx85DOa6-cg',
+	    title: 'Film 3',
+	    description: 'Get the full course here: http://devslopes.com/react In this video you will learn how to setup your project for React development and you will build a simple React ...',
+	    thumbnails: {
+	      default: {
+	        url: 'https://i.ytimg.com/vi/0ByoQm-vnYw/default.jpg',
+	        width: 120,
+	        height: 90
+	      },
+	      medium: {
+	        url: 'https://i.ytimg.com/vi/0ByoQm-vnYw/mqdefault.jpg',
+	        width: 320,
+	        height: 180
+	      },
+	      high: {
+	        url: 'https://i.ytimg.com/vi/0ByoQm-vnYw/hqdefault.jpg',
+	        width: 480,
+	        height: 360
+	      }
+	    },
+	    channelTitle: '',
+	    liveBroadcastContent: 'none'
+	  }
+	}, {
+	  userRank: 4,
+	  kind: 'youtube#searchResult',
+	  etag: 'abQHWywil_AkNqdqji7_FqiK-u4/nSaavPWVkTWpn2p-ClwNj7xszf8',
+	  id: {
+	    kind: 'youtube#video',
+	    videoId: 'o5E894TmHJg'
+	  },
+	  snippet: {
+	    publishedAt: '2015-03-09T08:19:59.000Z',
+	    channelId: 'UCMYct3vtNaMwZAA3_DNsWMw',
+	    title: 'Film 4',
+	    description: 'Hey! Write something in the comments, even if it\'s critical. I\'d love to hear feedback! (also, please thumbs-up if you like the vid, and I\'ll make more). Personally I ...',
+	    thumbnails: {
+	      default: {
+	        url: 'https://i.ytimg.com/vi/o5E894TmHJg/default.jpg',
+	        width: 120,
+	        height: 90
+	      },
+	      medium: {
+	        url: 'https://i.ytimg.com/vi/o5E894TmHJg/mqdefault.jpg',
+	        width: 320,
+	        height: 180
+	      },
+	      high: {
+	        url: 'https://i.ytimg.com/vi/o5E894TmHJg/hqdefault.jpg',
+	        width: 480,
+	        height: 360
+	      }
+	    },
+	    channelTitle: 'bengrunfeld',
+	    liveBroadcastContent: 'none'
+	  }
+	}, {
+	  userRank: 1,
+	  kind: 'youtube#searchResult',
+	  etag: 'abQHWywil_AkNqdqji7_FqiK-u4/3E7u1VZ18KYyfLIA6RgI2w-7nRI',
+	  id: {
+	    kind: 'youtube#video',
+	    videoId: 'Pd6Ub7Ju2RM'
+	  },
+	  snippet: {
+	    publishedAt: '2015-02-13T18:50:38.000Z',
+	    channelId: 'UCr5lOCcjZzNprLrhxO0WZQw',
+	    title: 'Film 5',
+	    description: 'Brought to you by Formidable Labs and SeattleJS, Colin Megill walks us through Facebook\'s React framework in part one of this three-part series. The workshop ...',
+	    thumbnails: {
+	      default: {
+	        url: 'https://i.ytimg.com/vi/Pd6Ub7Ju2RM/default.jpg',
+	        width: 120,
+	        height: 90
+	      },
+	      medium: {
+	        url: 'https://i.ytimg.com/vi/Pd6Ub7Ju2RM/mqdefault.jpg',
+	        width: 320,
+	        height: 180
+	      },
+	      high: {
+	        url: 'https://i.ytimg.com/vi/Pd6Ub7Ju2RM/hqdefault.jpg',
+	        width: 480,
+	        height: 360
+	      }
+	    },
+	    channelTitle: '',
+	    liveBroadcastContent: 'none'
+	  }
+	}];
+	
+	exports.default = exampleVideoData;
+
+/***/ },
+/* 221 */
+/*!*****************************************!*\
+  !*** ./components/exampleFriendData.js ***!
+  \*****************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	
+	var _exampleVideoData = __webpack_require__(/*! ./exampleVideoData */ 220);
+	
+	var _exampleVideoData2 = _interopRequireDefault(_exampleVideoData);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var exampleFriendData = [{
+		firstname: 'Jasmine',
+		lastname: 'Mina',
+		username: 'jMina',
+		films: _exampleVideoData2.default,
+		friends: [{ firstname: 'Nick',
+			lastname: 'Cobbett',
+			username: 'nickC',
+			films: _exampleVideoData2.default
+		}, { firstname: 'Sai',
+			lastname: 'Vickna',
+			username: 'saiClops',
+			films: _exampleVideoData2.default
+		}, { firstname: 'Jimothy',
+			lastname: 'Zhang',
+			username: 'jayZ',
+			films: _exampleVideoData2.default
+		}]
+	}, {
+		firstname: 'Nick',
+		lastname: 'Cobbett',
+		username: 'nickC',
+		films: _exampleVideoData2.default,
+		friends: [{ firstname: 'Jasmine',
+			lastname: 'Mina',
+			username: 'jMina',
+			films: _exampleVideoData2.default
+		}, { firstname: 'Sai',
+			lastname: 'Vickna',
+			username: 'saiClops',
+			films: _exampleVideoData2.default
+		}, { firstname: 'Jimothy',
+			lastname: 'Zhang',
+			username: 'jayZ',
+			films: _exampleVideoData2.default
+		}]
+	}, {
+		firstname: 'Sai',
+		lastname: 'Vickna',
+		username: 'saiClops',
+		films: _exampleVideoData2.default,
+		friends: [{ firstname: 'Jasmine',
+			lastname: 'Mina',
+			username: 'jMina',
+			films: _exampleVideoData2.default
+		}, { firstname: 'Nick',
+			lastname: 'Cobbett',
+			username: 'nickC',
+			films: _exampleVideoData2.default
+		}, { firstname: 'Jimothy',
+			lastname: 'Zhang',
+			username: 'jayZ',
+			films: _exampleVideoData2.default
+		}]
+	}, {
+		firstname: 'Jimothy',
+		lastname: 'Zhang',
+		username: 'jayZ',
+		films: _exampleVideoData2.default,
+		friends: [{ firstname: 'Jasmine',
+			lastname: 'Mina',
+			username: 'jMina',
+			films: _exampleVideoData2.default
+		}, { firstname: 'Nick',
+			lastname: 'Cobbett',
+			username: 'nickC',
+			films: _exampleVideoData2.default
+		}, { firstname: 'Sai',
+			lastname: 'Vickna',
+			username: 'saiClops',
+			films: _exampleVideoData2.default
+		}]
+	}];
+	
+	exports.default = exampleFriendData;
+
+/***/ },
+/* 222 */
+/*!***********************************!*\
+  !*** ./components/SearchUser.jsx ***!
+  \***********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _helpers = __webpack_require__(/*! ../lib/helpers */ 210);
+	
+	var _helpers2 = _interopRequireDefault(_helpers);
+	
+	var _SearchUserList = __webpack_require__(/*! ./SearchUserList */ 223);
+	
+	var _SearchUserList2 = _interopRequireDefault(_SearchUserList);
+	
+	var _axios = __webpack_require__(/*! axios */ 184);
+	
+	var _axios2 = _interopRequireDefault(_axios);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var SearchUser = function (_React$Component) {
+	  _inherits(SearchUser, _React$Component);
+	
+	  function SearchUser(props) {
+	    _classCallCheck(this, SearchUser);
+	
+	    return _possibleConstructorReturn(this, (SearchUser.__proto__ || Object.getPrototypeOf(SearchUser)).call(this, props));
+	  }
+	
+	  _createClass(SearchUser, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(_SearchUserList2.default, {
+	        allFriends: this.props.search,
+	        handleUserClick: this.props.handleUserClick,
+	        addFriend: this.props.addFriend
+	      });
+	    }
+	  }]);
+	
+	  return SearchUser;
+	}(_react2.default.Component);
+	
+	exports.default = SearchUser;
+
+/***/ },
+/* 223 */
+/*!***************************************!*\
+  !*** ./components/SearchUserList.jsx ***!
+  \***************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _SearchUserEntry = __webpack_require__(/*! ./SearchUserEntry */ 224);
+	
+	var _SearchUserEntry2 = _interopRequireDefault(_SearchUserEntry);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var SearchUserList = function SearchUserList(_ref) {
+	  var handleUserClick = _ref.handleUserClick,
+	      allFriends = _ref.allFriends,
+	      addFriend = _ref.addFriend;
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'search-user-list' },
+	    allFriends.map(function (user) {
+	      return _react2.default.createElement(_SearchUserEntry2.default, {
+	        handleUserClick: handleUserClick,
+	        addFriend: addFriend,
+	        user: user
+	      });
+	    })
+	  );
+	};
+	
+	exports.default = SearchUserList;
+
+/***/ },
+/* 224 */
+/*!****************************************!*\
+  !*** ./components/SearchUserEntry.jsx ***!
+  \****************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var SearchUserEntry = function SearchUserEntry(_ref) {
+	  var handleUserClick = _ref.handleUserClick,
+	      addFriend = _ref.addFriend,
+	      user = _ref.user;
+	  return _react2.default.createElement(
+	    "div",
+	    { className: "user-entry" },
+	    _react2.default.createElement(
+	      "div",
+	      { onClick: function onClick() {
+	          return handleUserClick(user);
+	        } },
+	      user.firstName,
+	      " ",
+	      user.lastName
+	    ),
+	    _react2.default.createElement(
+	      "div",
+	      null,
+	      "DOB: ",
+	      user.DOB
+	    ),
+	    _react2.default.createElement(
+	      "div",
+	      null,
+	      _react2.default.createElement(
+	        "button",
+	        { onClick: function onClick() {
+	            return addFriend(user);
+	          } },
+	        "Add"
+	      )
+	    )
+	  );
+	};
+	
+	exports.default = SearchUserEntry;
+
+/***/ },
+/* 225 */
+/*!***********************************!*\
+  !*** ./components/SearchFilm.jsx ***!
+  \***********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _helpers = __webpack_require__(/*! ../lib/helpers */ 210);
+	
+	var _helpers2 = _interopRequireDefault(_helpers);
+	
+	var _SearchFilmList = __webpack_require__(/*! ./SearchFilmList */ 226);
+	
+	var _SearchFilmList2 = _interopRequireDefault(_SearchFilmList);
+	
+	var _axios = __webpack_require__(/*! axios */ 184);
+	
+	var _axios2 = _interopRequireDefault(_axios);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var SearchFilm = function (_React$Component) {
+	  _inherits(SearchFilm, _React$Component);
+	
+	  function SearchFilm(props) {
+	    _classCallCheck(this, SearchFilm);
+	
+	    return _possibleConstructorReturn(this, (SearchFilm.__proto__ || Object.getPrototypeOf(SearchFilm)).call(this, props));
+	    // this.state = {
+	    //   films: []
+	    // }
+	  }
+	  // componentDidMount () {
+	  //   console.log(this.props.search)
+	  //   helpers.searchFilm(this.props.search).then(films => {
+	  //     console.log('films', films)
+	  //     this.setState({films: films});
+	  //   }).catch(err => {
+	  //     console.log('error with search film', err)
+	  //   })
+	  // }
+	
+	
+	  _createClass(SearchFilm, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(_SearchFilmList2.default, {
+	        allFilms: this.props.search,
+	        handleFilmClick: this.props.handleFilmClick
+	      });
+	    }
+	  }]);
+	
+	  return SearchFilm;
+	}(_react2.default.Component);
+	
+	exports.default = SearchFilm;
+
+/***/ },
+/* 226 */
+/*!***************************************!*\
+  !*** ./components/SearchFilmList.jsx ***!
+  \***************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _SearchFilmEntry = __webpack_require__(/*! ./SearchFilmEntry */ 227);
+	
+	var _SearchFilmEntry2 = _interopRequireDefault(_SearchFilmEntry);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var SearchFilmList = function SearchFilmList(_ref) {
+	  var handleFilmClick = _ref.handleFilmClick,
+	      allFilms = _ref.allFilms;
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'search-film-list' },
+	    allFilms.map(function (film) {
+	      return _react2.default.createElement(_SearchFilmEntry2.default, {
+	        handleFilmClick: handleFilmClick,
+	        film: film
+	      });
+	    })
+	  );
+	};
+	
+	exports.default = SearchFilmList;
+
+/***/ },
+/* 227 */
+/*!****************************************!*\
+  !*** ./components/SearchFilmEntry.jsx ***!
+  \****************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var SearchFilmEntry = function SearchFilmEntry(_ref) {
+	  var handleFilmClick = _ref.handleFilmClick,
+	      film = _ref.film;
+	  return _react2.default.createElement(
+	    "div",
+	    { className: "film-entry", onClick: function onClick() {
+	        return handleFilmClick(film);
+	      } },
+	    _react2.default.createElement(
+	      "span",
+	      null,
+	      _react2.default.createElement("img", { src: film.poster_120x171, alt: "" })
+	    ),
+	    _react2.default.createElement(
+	      "span",
+	      null,
+	      _react2.default.createElement(
+	        "div",
+	        null,
+	        film.title
+	      ),
+	      _react2.default.createElement(
+	        "div",
+	        null,
+	        film.release_date
+	      )
+	    )
+	  );
+	};
+	
+	exports.default = SearchFilmEntry;
+
+/***/ },
+/* 228 */
+/*!***********************************!*\
+  !*** ./components/RatingList.jsx ***!
+  \***********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _RatingEntry = __webpack_require__(/*! ./RatingEntry */ 229);
+	
+	var _RatingEntry2 = _interopRequireDefault(_RatingEntry);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var RatingList = function RatingList(_ref) {
+	  var allFriendsRatings = _ref.allFriendsRatings;
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'rating-list' },
+	    allFriendsRatings.map(function (rating) {
+	      return _react2.default.createElement(_RatingEntry2.default, { rating: rating });
+	    })
+	  );
+	};
+	
+	exports.default = RatingList;
+
+/***/ },
+/* 229 */
+/*!************************************!*\
+  !*** ./components/RatingEntry.jsx ***!
+  \************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var RatingEntry = function RatingEntry(_ref) {
+	  var rating = _ref.rating;
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'rating-entry' },
+	    console.log('rating', rating),
+	    rating.firstName,
+	    rating.rating
+	  );
+	};
+	
+	exports.default = RatingEntry;
 
 /***/ }
 /******/ ]);

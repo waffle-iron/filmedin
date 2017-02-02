@@ -1,31 +1,98 @@
 import React from 'react';
 import NavBar from './NavBar';
 import Rating from 'react-rating';
+import RatingList from './RatingList';
+import helpers from '../lib/helpers';
 
 var FilmProfile = ({film, rateFilm}) => (
 		<div className="film-profile">
-			{/*This is the film title*/}
+		{console.log('film: ', film)}
 			<h1>{film.name}</h1>
-
-			{/*This is the film image*/}
-			<img src={film.posterURL} alt="" />
-
-			{/*This is the user's rank*/}
-			<Rating intialRate={film.rating} onClick={(rate, e) => {rateFilm (rate, film.id)}}/>
-			<div>Your ranking: {film.rating}</div>
 			<br />
-			{/*This is the film description:
-				Film year, Film genre, Film actors, Film description
-			*/}
+			<img src={film.posterURL} alt="" />
+			<br />
+			<a href={film.trailer} target="_blank">Watch trailer here</a>
+			<br />
+			Links to watch:
+			
+			{
+				(film.netflix) ? (
+						<a href={film.netflix} target="_blank">Click here to watch on Netflix</a>
+					) : (<span />)
+			}
+
+			{
+				(film.hbo) ? (
+						<a href={film.hbo} target="_blank">Click here to watch on hbo</a>
+					) : (<span />)
+			}
+
+			{
+				(film.amazon) ? (
+						<a href={film.amazon} target="_blank">Click here to watch on amazon</a>
+					) : (<span />)
+			}
+
+			{
+				(film.itunes) ? (
+						<a href={film.itunes} target="_blank">Click here to watch on itunes</a>
+					) : (<span />)
+			}
+
+			<div>Release Date: {film.releaseDate}</div>
+			<br />
+			<div>Overview: {film.overview}</div>
+			<br />
+			<div>Directors: {film.directors}</div>
+			<br />
+			<div>Writers: {film.writers}</div>
+			<br />
+			<div>Cast: 
+				<ul className="actors-list">
+					{
+						helpers.castList(film.actors).map(actorAndCharacter => {
+							<li>
+								Character: {actorAndCharacter[1]} Played By: {actorAndCharacter[0]}
+							</li>
+						})
+					}
+				</ul>
+			</div>
+			<br />
+			<div>
+				<a href={'http://www.rottentomatoes.com/m/' + film.rt} target="_blank">Rotten Tomatoes</a>
+			</div>
+
+			<br />
+
+
+			<Rating initialRate={film.myRating} onClick={(rate, e) => {rateFilm (rate, film.id)}}/>
+			<div>Your ranking: {film.myRating}</div>
+			<br />
 			<div>Film Genre:<br />{film.genre}</div>
 			<br />
-			{/*These are links to stream film*/}
 			<div>This will contain links to stream the film</div>
 			<br />
-			{/*These are friends who have ranked the film*/}
-			<div>This will contain friends who have ranked the film</div>
+			<div>This will contain friends who have ranked the film
+				<RatingList 
+					allFriendsRatings={film.friendRatings}
+				/>
+			</div>
 
 		</div>
 	)
 
 export default FilmProfile
+
+//overview - description
+//releaseDate
+//directors - string comma deliminated 
+//writers - ''
+//actors - string, actorname:charactername;
+//trailer - embed link
+//rt - rotten tomatoes id rottentomatoes.com/m/<rt> - link to rotten toms page
+//netflix - link to netflix stream, if empty no link
+//hbo - ''
+//amazon - ''
+//itunes - '' - purchase, others for streaming
+//friendsRatings - arr of obj

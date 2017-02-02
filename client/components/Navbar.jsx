@@ -19,6 +19,9 @@ class NavBar extends React.Component{
 		helpers.searchFilm(this.state.filmSearch).then(films => {
 			console.log(films);
       this.props.searchFilm(films.data);
+      this.setState({
+      	filmSearch: ''
+      })
     }).catch(err => {
       console.log('error with search film', err)
     })
@@ -28,6 +31,9 @@ class NavBar extends React.Component{
 		helpers.searchProfile(this.state.userSearch).then(friends => {
 			console.log(friends);
       this.props.searchUser(friends.data);
+      this.setState({
+      	userSearch: ''
+      })
     }).catch(err => {
       console.log('error with search user', err)
     })
