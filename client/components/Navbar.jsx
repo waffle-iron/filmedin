@@ -42,9 +42,8 @@ class NavBar extends React.Component{
 
 
 	render() {
-		return (
+		return (      
 			<div className="navbar">
-				<h1>FilmedIn</h1>
 				<ul>
 					<li>
 						<a href="#" onClick={this.props.handleHomeClick}>Home</a>
@@ -70,6 +69,7 @@ class NavBar extends React.Component{
 
 				</ul>
 			</div>
+      
 		)
 	}
 }
