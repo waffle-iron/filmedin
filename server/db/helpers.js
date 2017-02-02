@@ -62,7 +62,7 @@ var dbObj =  {
       db.query(`SELECT * FROM film where guideBox = ${id}`, cb);
     },
     post: function (film, cb) {
-      db.query(`INSERT INTO film (guideBox, name, overview, releaseDate, directors, writers, actors, posterURL, trailer, runtime, rt, netflix, hbo, amazon, itunes, genre) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, [film.guideBox, film.name, film.overview, film.releaseDate, film.directors, film.writers, film.actors, film.posterURL, film.trailer, film.runtime, film.rt, film.netflix, film.hbo, film.amazon, film.itunes, film.genre], cb);
+      db.query(`INSERT INTO film (guideBox, name, overview, releaseDate, directors, writers, actors, posterURL, trailer, runtime, rt, netflix, hbo, amazon, itunes, genre) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, [film.guideBox, film.name, film.overview, film.releaseDate, film.directors, film.writers, film.actors, film.posterURL, film.trailer, film.runtime, film.rt, film.netflix, film.hbo, film.amazon, film.itunes, film.genre], cb);
     }
   }
 }
