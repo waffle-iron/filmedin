@@ -1,7 +1,7 @@
 import React from 'react';
 import helpers from '../lib/helpers'
 
-class NavBar extends React.Component{
+class FilmedInNavBar extends React.Component{
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -43,35 +43,112 @@ class NavBar extends React.Component{
 
 	render() {
 		return (
-			<div className="navbar">
-				<h1>FilmedIn</h1>
-				<ul>
-					<li>
-						<a href="#" onClick={this.props.handleHomeClick}>Home</a>
-					</li>
-					<li>
-						<div>
-							<label>Search Film: </label>
-							<input type="text" placeholder="Film Title" onChange={this.changeFilm.bind(this)} value={this.state.filmSearch} />
-							<button onClick={this.searchFilm.bind(this)}>Search</button>
-						</div>
-					</li>
-					<li>
-						<div>
-							<label>Search Users: </label>
-							<input type="text" placeholder="Name" onChange={this.changeUser.bind(this)} value={this.state.userSearch}/>
-							<button onClick={this.searchUser.bind(this)}>Search</button>
-						</div>
-					</li>
-					<li>
-						<a href="#" onClick={this.props.handleLogOutClick}>Logout</a>
-					</li>
+
+        <div className="navbar">
+          <ul>
+            <li>
+              <a href="#" onClick={this.props.handleHomeClick}>Home</a>
+            </li>
+            <li>
+              <div>
+                <label>Search Film: </label>
+                <input type="text" placeholder="Film Title" onChange={this.changeFilm.bind(this)} value={this.state.filmSearch} />
+                <button onClick={this.searchFilm.bind(this)}>Search</button>
+              </div>
+            </li>
+            <li>
+              <div>
+                <label>Search Users: </label>
+                <input type="text" placeholder="Name" onChange={this.changeUser.bind(this)} value={this.state.userSearch}/>
+                <button onClick={this.searchUser.bind(this)}>Search</button>
+              </div>
+            </li>
+            <li>
+              <a href="#" onClick={this.props.handleLogOutClick}>Logout</a>
+            </li>
 
 
-				</ul>
-			</div>
-		)
+          </ul>
+        </div>
+        
+
+      )
 	}
 }
 
-export default NavBar;
+export default FilmedInNavBar;
+
+
+    //<div className="form-group" href="#" onClick={this.props.handleHomeClick}>Home</div>          
+              // <div className="user-login">
+              //     <div className="navbar-collapse collapse" id="navbar-main">
+              //         <form className="navbar-form navbar-right" role="search">
+              //             <div className={"form-group user-search " + this.state.loginMsg}>
+              //               <label>Invalid Login</label>
+              //             </div>
+              //             <div className="form-group user-search">
+              //                 <input type="text" className="form-control" value={this.state.username} onChange={this.handleUsernameChange} name="username" placeholder="Username"/>
+              //             </div>
+              //             <div className="form-group user-search">
+              //                 <input type="password" className="form-control" value={this.state.password} onChange={this.handlePasswordChange} name="password" placeholder="Password"/>
+              //             </div>
+              //             <button type="submit" onClick={this.handleLoginClick} className="btn btn-default">Sign In</button>
+              //         </form>
+              //     </div>
+              // </div>
+
+
+// <div className="navbar">
+//           <ul>
+//             <li>
+//               <a href="#" onClick={this.props.handleHomeClick}>Home</a>
+//             </li>
+//             <li>
+//               <div>
+//                 <label>Search Film: </label>
+//                 <input type="text" placeholder="Film Title" onChange={this.changeFilm.bind(this)} value={this.state.filmSearch} />
+//                 <button onClick={this.searchFilm.bind(this)}>Search</button>
+//               </div>
+//             </li>
+//             <li>
+//               <div>
+//                 <label>Search Users: </label>
+//                 <input type="text" placeholder="Name" onChange={this.changeUser.bind(this)} value={this.state.userSearch}/>
+//                 <button onClick={this.searchUser.bind(this)}>Search</button>
+//               </div>
+//             </li>
+//             <li>
+//               <a href="#" onClick={this.props.handleLogOutClick}>Logout</a>
+//             </li>
+
+
+//           </ul>
+//         </div>
+
+
+        // <div className="navbar">
+        //   <ul>
+        //     <li>
+        //       <a href="#" onClick={this.props.handleHomeClick}>Home</a>
+        //     </li>
+        //     <li>
+        //       <div>
+        //         <label>Search Film: </label>
+        //         <input type="text" placeholder="Film Title" onChange={this.changeFilm.bind(this)} value={this.state.filmSearch} />
+        //         <button onClick={this.searchFilm.bind(this)}>Search</button>
+        //       </div>
+        //     </li>
+        //     <li>
+        //       <div>
+        //         <label>Search Users: </label>
+        //         <input type="text" placeholder="Name" onChange={this.changeUser.bind(this)} value={this.state.userSearch}/>
+        //         <button onClick={this.searchUser.bind(this)}>Search</button>
+        //       </div>
+        //     </li>
+        //     <li>
+        //       <a href="#" onClick={this.props.handleLogOutClick}>Logout</a>
+        //     </li>
+
+
+        //   </ul>
+        // </div>

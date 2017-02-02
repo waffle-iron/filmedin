@@ -12,7 +12,8 @@ class SignUp extends React.Component {
 			password: '',
 			firstname: '',
 			lastname: '',
-			DOB: ''
+			DOB: '',
+			loginMsg: 'valid-login'
 		}
 
 		this.handleSignUpClick = this.handleSignUpClick.bind(this);
@@ -25,7 +26,9 @@ class SignUp extends React.Component {
 		// this.signUpUser = helpers.signUpUser.bind(this);
 		// this.logInUser = helpers.logInUser.bind(this);
 	}
-
+	componentWillMount () {
+		this.setState({loginMsg: 'valid-login'});
+	}
 	handleUsernameChange(e) {
 		this.setState({
 			username: e.target.value
@@ -64,9 +67,11 @@ class SignUp extends React.Component {
 		}
 		helpers.logInUser(signinInputs).then(response => {
 			window.localStorage.setItem('filmedInToken', response.data.token);
+			this.setState({loginMsg: 'valid-login'});
 			console.log('token', response.data.token);
-			this.props.handleLogInClick();
+			this.props.handleLogInClick(this.state.username);
 			}).catch(err => {
+				this.setState({loginMsg:'invalid-login'});
 				console.log('error with login', err)
 			})
 	}
@@ -82,71 +87,109 @@ class SignUp extends React.Component {
 	  }
 
 		helpers.signUpUser(signupInputs).then(response => {
-	    window.localStorage.setItem('filmedInToken', response.token)
+	    window.localStorage.setItem('filmedInToken', response.data.token)
 	    this.props.handleLogInClick(this.state.username);
   	}).catch(err => {
-  		console.log('error with login')
+  		console.log('error with signup')
   	})
 	}
 
 	render() {
 		return (
-			<div className="signup">
-
-				<div className="navbar">
-					<h1>FilmedIn</h1>
-					<form onSubmit={this.handleLoginClick}>
-						<ul>
-							<li>
-								<label>Username:</label>
-								<input type="text" value={this.state.username} onChange={this.handleUsernameChange} placeholder="your username" />
-							</li>
-							<li>
-								<label>Password:</label>
-								<input type="password" value={this.state.password} onChange={this.handlePasswordChange} placeholder="your password" />
-							</li>
-							<li>
-								<button type="submit">Login</button>
-							</li>
-						</ul>
-					</form>
+			<div>
+        <div className="navbar navbar-default navbar-fixed-top login-bar">
+            <div className="container login-bar-container">
+                <div className="navbar-header login-bar-header">
+                    <a className="navbar-brand" href="#">FilmedIn</a>
+                </div>
+                <div className="user-login">
+                    <div className="navbar-collapse collapse" id="navbar-main">
+                        <form className="navbar-form navbar-right" role="search">
+                        		<div className={"form-group user-search " + this.state.loginMsg}>
+                        			<label>Invalid Login</label>
+                        		</div>
+                            <div className="form-group user-search">
+                                <input type="text" className="form-control" value={this.state.username} onChange={this.handleUsernameChange} name="username" placeholder="Username"/>
+                            </div>
+                            <div className="form-group user-search">
+                                <input type="password" className="form-control" value={this.state.password} onChange={this.handlePasswordChange} name="password" placeholder="Password"/>
+                            </div>
+                            <button type="submit" onClick={this.handleLoginClick} className="btn btn-default">Sign In</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <img src="/assets/poster.jpg" className="background-poster" />
+        <img src="/assets/logo.png" className="logo-home" />
+        <div className="sn-jumbotron jumbotron-home welcome-page">
+	        <div className="float-md-left col-md-7">
+	        <h1 className="alt-h1 text-shadow-dark text-white lh-condensed mb-3">Get FilmedIn Now!</h1>
+	        <p className="alt-lead text-shadow-dark text-white">FilmedIn connects you with your friends so that you can get movie recommendations based on what people you like actually like.</p>
+		      </div>
+        </div>
+				<div className="signup-form">
+					<input type="text" value={this.state.username} onChange={this.handleUsernameChange} placeholder="Username" />
+					<input type="password" value={this.state.password} onChange={this.handlePasswordChange} placeholder="Password" />
+					<input type="text" value={this.state.firstname} onChange={this.handleFirstnameChange} placeholder="First Name" />
+					<input type="text" value={this.state.lastname} onChange={this.handleLastnameChange} placeholder="Last Name" />
+					<input type="text" value={this.state.DOB} onChange={this.handleDobChange} placeholder="Date of Birth (yyyy-mm-dd)" />
+					<button className="btn btn-default" onClick={this.handleSignUpClick} >Register</button>
 				</div>
-
 			{/*this is the signup form for new users*/}
-				<div className="signup">
-				<form onSubmit={this.handleSignUpClick}>
-					<ul>
-						<li>
-							<label>First name:</label>
-							<input type="text" value={this.state.firstname} onChange={this.handleFirstnameChange} placeholder="your first name" />
-						</li>
-						<li>
-							<label>Last name:</label>
-							<input type="text" value={this.state.lastname} onChange={this.handleLastnameChange} placeholder="your last name" />
-						</li>
-						<li>
-							<label>Date of Birth:</label>
-							<input type="text" value={this.state.DOB} onChange={this.handleDobChange} placeholder="yyyy-mm-dd" />
-						</li>
-						<li>
-							<label>Username:</label>
-							<input type="text" value={this.state.username} onChange={this.handleUsernameChange} placeholder="your username" />
-						</li>
-						<li>
-							<label>Password:</label>
-							<input type="password" value={this.state.password} onChange={this.handlePasswordChange} placeholder="your password" />
-						</li>
-						<li>
-							<button type="submit">Sign up!</button>
-						</li>
-					</ul>
-				</form>
-				</div>
-
-
 			</div>
 			)
 	}
 }
 
 export default SignUp;
+
+
+				// <div className="signup">
+				// <form onSubmit={this.handleSignUpClick}>
+				// 	<ul>
+				// 		<li>
+				// 			<label>First name:</label>
+				// 			<input type="text" value={this.state.firstname} onChange={this.handleFirstnameChange} placeholder="your first name" />
+				// 		</li>
+				// 		<li>
+				// 			<label>Last name:</label>
+				// 			<input type="text" value={this.state.lastname} onChange={this.handleLastnameChange} placeholder="your last name" />
+				// 		</li>
+				// 		<li>
+				// 			<label>Date of Birth:</label>
+				// 			<input type="text" value={this.state.DOB} onChange={this.handleDobChange} placeholder="yyyy-mm-dd" />
+				// 		</li>
+				// 		<li>
+				// 			<label>Username:</label>
+				// 			<input type="text" value={this.state.username} onChange={this.handleUsernameChange} placeholder="your username" />
+				// 		</li>
+				// 		<li>
+				// 			<label>Password:</label>
+				// 			<input type="password" value={this.state.password} onChange={this.handlePasswordChange} placeholder="your password" />
+				// 		</li>
+				// 		<li>
+				// 			<button type="submit">Sign up!</button>
+				// 		</li>
+				// 	</ul>
+				// </form>
+				// </div>
+
+
+				// <div className="navbar">
+				// 	<form onSubmit={this.handleLoginClick}>
+				// 		<ul>
+				// 			<li>
+				// 				<label>Username:</label>
+				// 				<input type="text" value={this.state.username} onChange={this.handleUsernameChange} placeholder="your username" />
+				// 			</li>
+				// 			<li>
+				// 				<label>Password:</label>
+				// 				<input type="password" value={this.state.password} onChange={this.handlePasswordChange} placeholder="your password" />
+				// 			</li>
+				// 			<li>
+				// 				<button type="submit">Login</button>
+				// 			</li>
+				// 		</ul>
+				// 	</form>
+				// </div>
