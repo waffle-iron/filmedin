@@ -68,6 +68,8 @@ module.exports = {
                 });
               }
             });
+          }).catch(err => {
+            next(new Error('Failed to hash password'));
           });
       }
     })
@@ -88,6 +90,8 @@ module.exports = {
           cb(null);
         }
       });
+    } else {
+      console.log('No token provided');
     }
   }
 };

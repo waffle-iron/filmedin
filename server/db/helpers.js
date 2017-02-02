@@ -51,6 +51,9 @@ var dbObj =  {
     },
     post: function(rating, cb) {
       db.query(`INSERT INTO rating (profileID, filmID, rating, review) VALUES (?, ?, ?, ?)`, [rating.profileID, rating.filmID, rating.rating, rating.review], cb);
+    },
+    friendGet: function(id, filmID, cb) {
+      db.query(`SELECT r.rating, r.review, r.profileID, p.firstName, p.lastName FROM rating r INNER JOIN profile p on r.profileID = p.id INNER JOIN friends ON p.id = friends.friendID and friends.primaryID = ${id} where r.filmID = ${filmID}`, cb);
     }
   },
 
@@ -59,7 +62,7 @@ var dbObj =  {
       db.query(`SELECT * FROM film where guideBox = ${id}`, cb);
     },
     post: function (film, cb) {
-      db.query(`INSERT INTO film (guideBox, name, releaseDate, director, actor1, actor2, actor3, actor4, posterURL, runtime, genre) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, [film.guideBox, film.name, film.releaseDate, film.director, film.actor1, film.actor2, film.actor3, film.actor4, film.posterURL, film.runtime, film.genre], cb);
+      db.query(`INSERT INTO film (guideBox, name, overview, releaseDate, directors, writers, actors, posterURL, runtime, rt, netflix, hbo, amazon, itunes, genre) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, [film.guideBox, film.name, film.overview, film.releaseDate, film.directors, film.writers, film.actors, film.posterURL, film.trailer, film.runtime, film.rt, film.netflix, film.hbo, film.amazon, film.itunes, film.genre], cb);
     }
   }
 }

@@ -11,10 +11,19 @@ module.exports = {
     auth.checkAuth(req, user => {
       if (user !== null) {
         db.profile.getByUserID(user.id, (err, rows) => {
+          if (err) {
+            console.log('home -> profile.getByUserID', err);
+          }
           var profile = rows[0];
           db.friend.get(profile.id, (err, rows) => {
+            if (err) {
+              console.log('home -> friend.get', err);
+            }
             profile.friends = rows;
             db.rating.get(profile.id, (err, rows) => {
+              if (err) {
+                console.log('home -> rating.get', err);
+              }
               profile.ratings = rows;
               res.send(JSON.stringify(profile));
             });
@@ -29,14 +38,23 @@ module.exports = {
     auth.checkAuth(req, user => {
       if (user !== null) {
         db.profile.get(req.params.id, (err, rows) => {
+          if (err) {
+            console.log('profile -> profile.get', err);
+          }
           var profile = rows[0];
           db.friend.get(profile.id, (err, rows) => {
-          profile.friends = rows;
+            if (err) {
+              console.log('profile -> friend.get', err);
+            }
+            profile.friends = rows;
             db.rating.get(profile.id, (err, rows) => {
-              profile.ratings = rows;
-              res.send(JSON.stringify(profile));
+                if (err) {
+                  console.log('profile -> rating.get', err);
+                }
+                profile.ratings = rows;
+                res.send(JSON.stringify(profile));
+              });
             });
-          });
         });
       } else {
         next(new Error('Invalid credentials'));
@@ -46,28 +64,61 @@ module.exports = {
   film: function (req, res, next) {
     auth.checkAuth(req, user => {
       if (user !== null) {
-        db.film.get(req.params.id, (err, rows) => {
-          if (rows.length !== 0) {
-            res.send(JSON.stringify(rows[0]));
+        db.film.get(req.params.id, (err, films) => {
+          if (err) {
+            console.log('film -> film.get', err);
+          }
+          if (films.length !== 0) {
+            var film = films[0];
+            db.profile.getByUserID(user.id, (err, profiles) => {
+              if (err) {
+                console.log('film -> profile.getByUserID', err);
+              }
+              var profile = profiles[0];
+              db.rating.friendGet(profile.id, film.id, (err, ratings) => {
+                if (err) {
+                  console.log('film -> profile.friendGet', err);
+                }
+                film.friendRatings = ratings;
+                res.send(JSON.stringify(film));    
+              })
+            });
           } else {
             //guidebox
             gb.get(req.params.id, (err, body) => {
+              if (err) {
+                console.log('film -> gb.get', err);
+              } 
               var movie = JSON.parse(body.body);
+              console.log('film -> gb.get -> body', movie);
               var film = {};
               film.guideBox = movie.id;
               film.name = movie.title;
+              film.overview = movie.overview;
               film.releaseDate = movie.release_date;
-              film.director = movie.directors[0].name;
-              film.actor1 = movie.cast[0].name;
-              film.actor2 = movie.cast[1].name;
-              film.actor3 = movie.cast[2].name;
-              film.actor4 = movie.cast[3].name;
+              film.directors = movie.directors.map(director => (director.name)).join(', ');
+              film.writers = movie.writers.map(writer => (writer.name)).join(', ');
+              film.actors = movie.cast.map(actor => (actor.name + ':' + actor.character_name)).join(';');
               film.posterURL = movie.poster_120x171;
+              film.trailer = movie.trailers.web[0] ? movie.trailers.web[0].embed : '';
               film.runtime = (movie.duration / 60) + ' mins.';
+              film.rt = movie.rottentomatoes;
+              var source = movie.subscription_web_sources.find(source => {return (source.source === 'netflix')});
+              film.netflix = source ? source.link : '';
+              source = movie.subscription_web_sources.find(source => {return (source.source === 'hbo_now')});
+              film.hbo = source ? source.link : '';
+              source = movie.subscription_web_sources.find(source => {return (source.source.includes('amazon'))});
+              film.amazon = source ? source.link : '';
+              source = movie.purchase_web_sources.find(source => {return (source.source === 'itunes')});
+              film.itunes = source ? source.link : '';
               film.genre = movie.genres.map(genre => genre.title).join(' ');
               // console.log(film);
               db.film.post(film, (err, rows) => {
+                if (err) {
+                  console.log('film -> film.post', err);
+                } 
                 film.id = rows.insertId;
+                film.friendRatings = [];
                 res.send(JSON.stringify(film));
               })
             });
@@ -84,7 +135,13 @@ module.exports = {
     auth.checkAuth(req, user => {
       if (user !== null) {
         db.profile.getByUserID(user.id, (err, rows) => {
+          if (err) {
+            console.log('feed -> profile.getByUserID', err);
+          } 
           db.rating.getFeed(rows[0].id, (err, rows) => {
+            if (err) {
+              console.log('feed -> rating.getFeed', err);
+            } 
             res.send(JSON.stringify(rows));
           });
         });
@@ -97,12 +154,24 @@ module.exports = {
     auth.checkAuth(req, user => {
       if (user !== null) {
         db.profile.getByUserID(user.id, (err, rows) => { 
+          if (err) {
+            console.log('addFriend -> profile.getByUserID', err);
+          } 
           db.friend.exists(rows[0].id, req.body.friendID, (err, exists) => {
+            if (err) {
+              console.log('addFriend -> friend.exists', err);
+            } 
             if (exists.length > 0) {
               res.end();
             } else {
               db.friend.post(rows[0].id, req.body.friendID, (err, rows2) => {
+                if (err) {
+                  console.log('addFriend -> friend.post', err);
+                } 
                 db.friend.post(req.body.friendID, rows[0].id, (err, rows3) => {
+                  if (err) {
+                    console.log('addFriend -> friend.post', err);
+                  } 
                   res.end();
                 });
               });
@@ -119,14 +188,26 @@ module.exports = {
     auth.checkAuth(req, user  => {
       if (user !== null) {
         db.profile.getByUserID(user.id, (err, rows)  => { 
+          if (err) {
+            console.log('addRating -> profile.getByUserID', err);
+          } 
           req.body.profileID = rows[0].id;
           db.rating.exists(req.body, (err, exists) => {
+            if (err) {
+              console.log('addRating -> rating.exists', err);
+            } 
             if (exists.length > 0) {
               db.rating.update(req.body, (err, rows) => {
+                if (err) {
+                  console.log('addRating -> rating.update', err);
+                } 
                 res.end();
               });
             } else {
               db.rating.post(req.body, (err, rows) => {
+                if (err) {
+                  console.log('addRating -> rating.post', err);
+                } 
                 res.end();
               });
             }
@@ -142,6 +223,9 @@ module.exports = {
     auth.checkAuth(req, user => {
       if (user !== null) {
         db.profile.search(req.params.id, (err, rows) => {
+          if (err) {
+            console.log('searchUser -> profile.search', err);
+          } 
           res.send(rows);
         });
       } else {
@@ -153,6 +237,9 @@ module.exports = {
     auth.checkAuth(req, user => {
       if (user !== null) {
         gb.search(req.params.id, (err, body) => {
+          if (err) {
+            console.log('searchFilm -> gb.search', err);
+          } 
           res.send(JSON.parse(body.body).results);
         });
       } else {
