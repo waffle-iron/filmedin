@@ -84,7 +84,7 @@ module.exports = {
                   if (err) {
                     console.log('film -> profile.myGet', err);
                   }
-                  film.myRating = (myRatings.length !== 0) ? myRatings[0] : {};
+                  film.myRating = (myRatings) ? myRatings[0] : {};
                   res.send(JSON.stringify(film));
                 }));
                     
