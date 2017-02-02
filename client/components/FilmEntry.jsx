@@ -2,7 +2,8 @@ import React from 'react';
 import Rating from 'react-rating';
 
 var FilmEntry = ({handleFilmClick, film}) => (
-	<div className="film-entry" onClick={() => handleFilmClick(film)}>
+  <div className="film-entry" onClick={() => handleFilmClick(film)}>
+    {console.log('film: ', film)}
     <div>
       <img src={film.posterURL} alt="" />
     </div>

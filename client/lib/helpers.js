@@ -79,4 +79,10 @@ helpers.addRating = function(filmID, rating, review) {
   });
 }
 
+helpers.castList = function(string) {
+  return string.split(';').map(pair => {
+    return pair.split(':')
+  })
+}
+
 export default helpers

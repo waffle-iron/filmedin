@@ -75,52 +75,6 @@ class App extends React.Component {
   handleLogInClick(username) {
     helpers.getHome().then(response => {
       console.log('response: ', response)
-      // helpers.getHome().then(response => {
-      //   console.log(response);
-      // });
-      // var response = {};
-      // response.data = {
-      //   id: 12345,
-      //   firstName: 'bob',
-      //   lastName: 'bobby',
-      //   DOB: "1985-01-01",
-      //   friends: [{
-      //     ID: 1,
-      //     firstName: 'joe',
-      //     lastName: 'joey',
-      //     DOB: "1985-01-01"
-      //   },
-      //   {
-      //     ID: 2,
-      //     firstName: 'jim',
-      //     lastName: 'jimmy',
-      //     DOB: "1985-01-01"
-      //   },
-      //   {
-      //     ID: 3,
-      //     firstName: 'steve',
-      //     lastName: 'stevey',
-      //     DOB: "1985-01-01"
-      //   }],
-      //   ratings: [
-      //     {
-      //       guideBox: 135934,
-      //       rating: 1,
-      //       review: 'it sucked',
-      //       name: 'die hard',
-      //       genre: 'love, romance',
-      //       posterURL: 'https://upload.wikimedia.org/wikipedia/en/7/7e/Die_hard.jpg'
-      //     },
-      //     {
-      //       guideBox: 135934,
-      //       rating: 3,
-      //       review: 'it was so so',
-      //       name: 'die hard',
-      //       genre: 'love, romance',
-      //       posterURL: 'https://upload.wikimedia.org/wikipedia/en/7/7e/Die_hard.jpg'
-      //     }
-      //   ]
-      // }
 
       this.setState({
         isLoggedIn: true,
@@ -171,7 +125,11 @@ class App extends React.Component {
 
   render() {
 	  if (!this.state.isLoggedIn) {
-      return ( <SignUp handleLogInClick={this.handleLogInClick} /> )
+      return (
+        <SignUp 
+          handleLogInClick={this.handleLogInClick} 
+        /> 
+      )
     } else {
       return (
         <div>

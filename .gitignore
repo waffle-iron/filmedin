@@ -1,3 +1,5 @@
 server/node_modules/
 client/node_modules/
 server/env/config.js
+client/bundle.js
+client/bundle.js.map
