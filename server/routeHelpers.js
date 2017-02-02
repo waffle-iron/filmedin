@@ -80,13 +80,13 @@ module.exports = {
                   console.log('film -> profile.friendGet', err);
                 }
                 film.friendRatings = ratings;
-                db.rating.myGet(profile.id, film.id, (err, myRatings => {
+                db.rating.myGet(profile.id, film.id, (err, myRatings) => {
                   if (err) {
                     console.log('film -> profile.myGet', err);
                   }
                   film.myRating = (myRatings) ? myRatings[0] : {};
                   res.send(JSON.stringify(film));
-                }));
+                });
                     
               })
             });
