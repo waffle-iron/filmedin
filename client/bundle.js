@@ -24686,6 +24686,9 @@
 				_helpers2.default.searchFilm(this.state.filmSearch).then(function (films) {
 					console.log(films);
 					_this2.props.searchFilm(films.data);
+					_this2.setState({
+						filmSearch: ''
+					});
 				}).catch(function (err) {
 					console.log('error with search film', err);
 				});
@@ -24698,6 +24701,9 @@
 				_helpers2.default.searchProfile(this.state.userSearch).then(function (friends) {
 					console.log(friends);
 					_this3.props.searchUser(friends.data);
+					_this3.setState({
+						userSearch: ''
+					});
 				}).catch(function (err) {
 					console.log('error with search user', err);
 				});
@@ -25427,11 +25433,7 @@
 			_react2.default.createElement('br', null),
 			_react2.default.createElement('img', { src: film.posterURL, alt: '' }),
 			_react2.default.createElement('br', null),
-			_react2.default.createElement(
-				'a',
-				{ href: film.trailer, target: '_blank' },
-				'Watch trailer here'
-			),
+			film.trailer ? _react2.default.createElement('iframe', { src: film.trailer, width: '1000px', height: '400px' }) : _react2.default.createElement('span', null),
 			_react2.default.createElement('br', null),
 			'Links to watch:',
 			film.netflix ? _react2.default.createElement(

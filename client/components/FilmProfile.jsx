@@ -11,7 +11,11 @@ var FilmProfile = ({film, rateFilm}) => (
 			<br />
 			<img src={film.posterURL} alt="" />
 			<br />
-			<a href={film.trailer} target="_blank">Watch trailer here</a>
+				{
+					(film.trailer) ? (
+						<iframe src={film.trailer} width="1000px" height="400px"></iframe>
+					) : (<span />)
+				}
 			<br />
 			Links to watch:
 			
