@@ -25496,9 +25496,10 @@
 					'ul',
 					{ className: 'actors-list' },
 					_helpers2.default.castList(film.actors).map(function (actorAndCharacter) {
-						_react2.default.createElement(
+						return _react2.default.createElement(
 							'li',
 							null,
+							console.log(actorAndCharacter),
 							'Character: ',
 							actorAndCharacter[1],
 							' Played By: ',
@@ -25518,14 +25519,14 @@
 				)
 			),
 			_react2.default.createElement('br', null),
-			_react2.default.createElement(_reactRating2.default, { initialRate: film.myRating, onClick: function onClick(rate, e) {
+			_react2.default.createElement(_reactRating2.default, { initialRate: film.myRating.rating, onClick: function onClick(rate, e) {
 					rateFilm(rate, film.id);
 				} }),
 			_react2.default.createElement(
 				'div',
 				null,
 				'Your ranking: ',
-				film.myRating
+				film.myRating.rating
 			),
 			_react2.default.createElement('br', null),
 			_react2.default.createElement(

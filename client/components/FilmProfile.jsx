@@ -51,9 +51,12 @@ var FilmProfile = ({film, rateFilm}) => (
 				<ul className="actors-list">
 					{
 						helpers.castList(film.actors).map(actorAndCharacter => {
-							<li>
-								Character: {actorAndCharacter[1]} Played By: {actorAndCharacter[0]}
-							</li>
+							return (
+								<li>
+									{console.log(actorAndCharacter)}
+									Character: {actorAndCharacter[1]} Played By: {actorAndCharacter[0]}
+								</li>
+							)
 						})
 					}
 				</ul>
@@ -66,8 +69,8 @@ var FilmProfile = ({film, rateFilm}) => (
 			<br />
 
 
-			<Rating initialRate={film.myRating} onClick={(rate, e) => {rateFilm (rate, film.id)}}/>
-			<div>Your ranking: {film.myRating}</div>
+			<Rating initialRate={film.myRating.rating} onClick={(rate, e) => {rateFilm (rate, film.id)}}/>
+			<div>Your ranking: {film.myRating.rating}</div>
 			<br />
 			<div>Film Genre:<br />{film.genre}</div>
 			<br />
