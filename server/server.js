@@ -17,8 +17,14 @@ app.post('/friend', routeHelpers.addFriend);
 app.post('/rating', routeHelpers.addRating);
 
 app.get('/', routeHelpers.default);
+
 app.get('/home', routeHelpers.home);
+		//send overall /recs
+
 app.get('/profile/:id', routeHelpers.profile);
+		//also send /friendratings
+app.get('/friendratings', routeHelpers.)
+
 app.get('/film/:id', routeHelpers.film);
 app.get('/feed', routeHelpers.feed);
 app.get('/searchprofile/:id', routeHelpers.searchUser);

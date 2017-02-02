@@ -2,7 +2,8 @@ var db = require('./db/helpers');
 var auth = require('./auth');
 var gb = require('./guideBoxHelpers');
 var qs = require('querystring');
-
+var rec = require('./recHelpers');
+var _  = require('underscore');
 module.exports = {
   default: function(req, res, next) {
     res.end();
@@ -25,7 +26,22 @@ module.exports = {
                 console.log('home -> rating.get', err);
               }
               profile.ratings = rows;
-              res.send(JSON.stringify(profile));
+              db.rating.getAllFriendsRatings(_.pluck(profile.friends, 'id'), (err, rows) => {
+                if (err){
+                  console.log('home -> rating.getAllFriendsRatings', err);
+                }
+                // use rows results and feed into recommendations algorithim
+                var myRatings = {};
+                _.each(profile.ratings, (rating) => {myRatings[rating.filmID] = rating.rating});
+                var allRatingsByAllFriends = {};
+                _.each(rows, (rating) => {
+                  allRatingsByAllFriends[rating.profileID] = {}
+                  allRatingsByAllFriends[rating.profileID][rating.filmID] = rating.rating;
+                })
+                profile.rec = rec.generateAllFriendsRecs(myRatings, allRatingsByAllFriends)
+                // profile.recs = rows;
+                res.send(JSON.stringify(profile));
+              })
             });
           });
         });
