@@ -22110,12 +22110,8 @@
 	    var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 	
 	    _this.state = {
-	      profileID: '',
 	      isLoggedIn: false,
-	      firstName: '',
-	      lastName: '',
-	      allFilms: _exampleVideoData2.default,
-	      allFriends: _exampleFriendData2.default,
+	      profile: {},
 	      clickedFilm: {},
 	      clickedUser: {},
 	      view: '',
@@ -22194,10 +22190,7 @@
 	        _this2.setState({
 	          isLoggedIn: true,
 	          username: username,
-	          firstName: response.data.firstName,
-	          lastName: response.data.lastName,
-	          allFriends: response.data.friends,
-	          allFilms: response.data.ratings,
+	          profile: response.data,
 	          view: 'showUserHomeView'
 	        });
 	      });
@@ -22234,16 +22227,10 @@
 	
 	      _helpers2.default.getHome().then(function (response) {
 	        _this5.setState({
-	          firstName: response.data.firstName,
-	          lastName: response.data.lastName,
-	          allFriends: response.data.friends,
-	          allFilms: response.data.ratings,
+	          profile: response.data,
 	          view: 'showUserHomeView'
 	        });
 	      });
-	      // this.setState({
-	      //   view: 'showUserHomeView',
-	      // })
 	    }
 	  }, {
 	    key: 'render',
@@ -22269,17 +22256,13 @@
 	              film: this.state.clickedFilm,
 	              rateFilm: this.rateFilm
 	            }) : this.state.view === 'showUserHomeView' ? _react2.default.createElement(_UserHome2.default, {
-	              firstName: this.state.firstName,
-	              lastName: this.state.lastName,
-	              allFilms: this.state.allFilms,
-	              allFriends: this.state.allFriends,
+	              profile: this.state.profile,
+	              username: this.state.username,
 	              handleFilmClick: this.handleFilmClick,
 	              handleUserClick: this.handleUserClick
 	            }) : this.state.view === 'showUserView' ? _react2.default.createElement(_UserProfile2.default, {
 	              handleFilmClick: this.handleFilmClick,
 	              handleUserClick: this.handleUserClick,
-	              firstName: this.state.firstName,
-	              lastName: this.state.lastName,
 	              user: this.state.clickedUser
 	            }) : this.state.view === 'showSearchFilmView' ? _react2.default.createElement(_SearchFilm2.default, {
 	              search: this.state.searchFilm,
@@ -24332,45 +24315,62 @@
 	var UserHome = function UserHome(_ref) {
 		var handleFilmClick = _ref.handleFilmClick,
 		    handleUserClick = _ref.handleUserClick,
-		    firstName = _ref.firstName,
-		    lastName = _ref.lastName,
-		    allFilms = _ref.allFilms,
-		    allFriends = _ref.allFriends;
+		    profile = _ref.profile,
+		    username = _ref.username;
 		return _react2.default.createElement(
 			'div',
 			{ className: 'user-home' },
 			_react2.default.createElement(
-				'h2',
-				null,
-				'Welcome ',
-				firstName,
-				' ',
-				lastName
-			),
-			_react2.default.createElement(
 				'div',
-				{ className: 'ranked-films' },
+				{ className: 'user-home-personal' },
 				_react2.default.createElement(
 					'h3',
 					null,
-					'List of your ranked films'
+					profile.firstName,
+					' ',
+					profile.lastName
+				),
+				_react2.default.createElement(
+					'h4',
+					null,
+					username
+				),
+				_react2.default.createElement(
+					'div',
+					null,
+					_react2.default.createElement(
+						'i',
+						null,
+						'Member since: ',
+						new Date(profile.createdAt).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })
+					)
+				),
+				_react2.default.createElement(
+					'div',
+					{ className: 'friendStat' },
+					_react2.default.createElement('img', { className: 'friendsLogo', src: 'assets/friends.png' }),
+					profile.friends.length,
+					' Friend(s)'
+				),
+				_react2.default.createElement(
+					'div',
+					{ className: 'friendStat' },
+					_react2.default.createElement('img', { className: 'friendsLogo', src: 'assets/logo2.png' }),
+					profile.ratings.length,
+					' Movie(s) Rated'
 				),
 				_react2.default.createElement(_FilmList2.default, {
 					handleFilmClick: handleFilmClick,
-					allFilms: allFilms
+					allFilms: profile.ratings
 				})
 			),
+			_react2.default.createElement('div', { className: 'user-home-feed' }),
 			_react2.default.createElement(
 				'div',
-				{ className: 'friend-list' },
-				_react2.default.createElement(
-					'h3',
-					null,
-					'List of your friends'
-				),
+				{ className: 'user-home-friends' },
 				_react2.default.createElement(_UserList2.default, {
 					handleUserClick: handleUserClick,
-					allFriends: allFriends
+					allFriends: profile.friends
 				})
 			)
 		);

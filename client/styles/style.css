@@ -230,6 +230,63 @@
 	border-radius: 2px;
 	padding: 5px;
 }
+.friendsLogo {
+	width: 30px;
+	height: 30px;
+	margin-right: 10px;
+}
+.user-home-personal {
+	margin-left: 1%;
+	width: 32%;
+	 float: left;
+	display: inline-block;
+	height: 650px;
+
+	border-style: solid;
+	border-width: 2px;
+	border-radius: 2px;
+	padding: 5px;
+	border-color: #D2C8D8;
+	background-color: #f7f5f8;
+}
+.friendStat {
+	width: 90%;
+	margin-left: 20px;
+	height: 40px;
+	padding: 5px;
+	background-color: #D2C8D8;
+	text-align: center;
+	margin-bottom: 2px;
+	margin-top: 2px;
+}
+.user-home-feed {
+	width: 33%;
+	display: inline-block;
+	margin-left: 0.5%;
+	/*margin-right: 1%;*/
+	height: 650px;
+		border-color: black;
+	border-style: solid;
+	border-width: 2px;
+	border-radius: 2px;
+	padding: 5px;
+		border-color: #D2C8D8;
+	background-color: #f7f5f8;
+}
+.user-home-friends {
+	width: 32%;
+	margin-right: 1%;
+	float: right;
+	display: inline-block;
+	height: 650px;
+		border-color: black;
+	border-style: solid;
+	border-width: 2px;
+	border-radius: 2px;
+	padding: 5px;
+		border-color: #D2C8D8;
+	background-color: #f7f5f8;
+}
 .actors-list {
 	width: 90%;
 	margin-left: 30px;
