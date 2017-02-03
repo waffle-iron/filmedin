@@ -4,7 +4,6 @@ import FilmEntry from './FilmEntry';
 
 var FilmList = ({handleFilmClick, allFilms}) => (
 	<div className="film-list">
-		{console.log('allFilms: ', allFilms)}
 		{allFilms.map(film =>
 			<FilmEntry
 				handleFilmClick={handleFilmClick}

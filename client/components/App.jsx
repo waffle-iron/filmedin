@@ -20,6 +20,7 @@ class App extends React.Component {
       clickedFilm: {},
       clickedUser: {},
       view: '',
+      feed: [],
       searchUser: [],
       searchFilm: []
     }
@@ -108,10 +109,15 @@ class App extends React.Component {
 
   handleHomeClick() {
     helpers.getHome().then(response => {
-      this.setState({
-        profile: response.data,
-        view: 'showUserHomeView'
+      helpers.getFeed().then(feed => {
+        console.log(feed);
+        this.setState({
+          profile: response.data,
+          feed: feed.data,
+          view: 'showUserHomeView'
+        })
       })
+
     })
   }
 
@@ -142,6 +148,7 @@ class App extends React.Component {
                 <UserHome
                   profile={this.state.profile}
                   username={this.state.username}
+                  feed={this.state.feed}
                   handleFilmClick={this.handleFilmClick}
                   handleUserClick={this.handleUserClick}
                 />

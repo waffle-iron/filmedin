@@ -50,7 +50,7 @@ class FilmedInNavBar extends React.Component{
                       <a className="navbar-brand" href="#">FilmedIn</a>
                   </div>
                   <div className="nav-bar-button nav-bar-home nav-bar-hover" onClick={this.props.handleHomeClick}>HOME</div>
-                  <div className="nav-bar-button nav-bar-hover">FEED</div>
+
                   <div className="nav-bar-button">
                     <input type="text" placeholder="Search Film" onChange={this.changeFilm.bind(this)} value={this.state.filmSearch} />
                     <span onClick={this.searchFilm.bind(this)} className="glyphicon glyphicon-search"></span>
@@ -77,7 +77,7 @@ export default FilmedInNavBar;
 
 
 
-
+//                  <div className="nav-bar-button nav-bar-hover">FEED</div>
 
 // <div className="user-login">
 //                       <div className="navbar-collapse collapse" id="navbar-main">
