@@ -26,29 +26,18 @@ module.exports = {
                 console.log('home -> rating.get', err);
               }
               profile.ratings = rows;
-              db.rating.getAllFriendsRatings(_.pluck(profile.friends, 'ID'), (err, rows) => {
-                if (err){
-                  console.log('home -> rating.getAllFriendsRatings', err);
+              db.rating.getRecs(user.id, (err, rows) => {
+                if (err) {
+                  console.log('home -> rating.getRecs', err)
                 }
-                // use rows results and feed into recommendations algorithim
-                var myRatings = {};
-                _.each(profile.ratings, (rating) => {myRatings[rating.filmID] = rating.rating});
-
-                var allRatingsByAllFriends = {};
-                _.each(rows, (rating) => {
-                  if (!allRatingsByAllFriends[rating.profileID]) {
-                    allRatingsByAllFriends[rating.profileID] = {}
+                profile.recs = rows;
+                db.rating.getFriendsDifferences(user.id, (err, rows) => {
+                  if (err) {
+                    console.log('home -> rating.getFriendsDifferences')
                   }
-                  // allRatingsByAllFriends[rating.profileID] = {}
-                  allRatingsByAllFriends[rating.profileID][rating.filmID] = rating.rating;
+                  profile.friendsAndRank = rows
+                  res.send(JSON.stringify(profile));
                 })
-
-                console.log('rows', rows)
-                console.log('allRatingsByAllFriends', allRatingsByAllFriends)
-                console.log('myRatings', myRatings)
-                profile.rec = rec.generateAllFriendsRecs(myRatings, allRatingsByAllFriends)
-                // profile.recs = rows;
-                res.send(JSON.stringify(profile));
               })
             });
           });
@@ -207,7 +196,7 @@ module.exports = {
   updateProfile: function(req, res, next) {
     auth.checkAuth(req, user => {
       if (user !== null) {
-        db.profile.getByUserID(user.id, (err, rows) => { 
+        db.profile.getByUserID(user.id, (err, rows) => {
           db.profile.update(rows[0].id, req.body, (err, rows) => {
             res.end();
           })
