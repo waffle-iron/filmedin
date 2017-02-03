@@ -18,6 +18,7 @@ class App extends React.Component {
     	isLoggedIn: false,
       profile: {},
       clickedFilm: {},
+      clickedFilmRecommend: false,
       clickedUser: {},
       view: '',
       feed: [],
@@ -82,7 +83,7 @@ class App extends React.Component {
   handleUserClick(user) {
     helpers.getProfile((user.id || user.ID)).then(response => {
       response.data.friends = response.data.friends.filter(friend => (friend.ID !== 0))
-      response.data.isFriend = this.state.profile.friends.map(friend => friend.ID).includes(user.ID);
+      response.data.isFriend = this.state.profile.friends.map(friend => friend.ID).includes(user.id || user.ID);
       this.setState({
         view: 'showUserView',
         clickedUser: response.data
@@ -92,15 +93,18 @@ class App extends React.Component {
 
   handleFilmClick(film) {
     helpers.getFilm(film.guideBox || film.id).then(response => {
+      var recommend = this.state.profile.recs.map(rec => rec.filmID).includes(response.data.id);
       this.setState({
         view: 'showFilmView',
-        clickedFilm: response.data
+        clickedFilm: response.data,
+        clickedFilmRecommend: recommend
       })
     })
   }
 
   handleHomeClick() {
     helpers.getHome().then(response => {
+      console.log(response.data);
       helpers.getFeed().then(feed => {
         response.data.friends = response.data.friends.filter(friend => (friend.ID !== 0))
         this.setState({
@@ -136,6 +140,7 @@ class App extends React.Component {
             (this.state.view === 'showFilmView') ? (
                 <FilmProfile
                   film={this.state.clickedFilm}
+                  clickedFilmRecommend={this.state.clickedFilmRecommend}
                   rateFilm={this.rateFilm}
                 />
             ) : (this.state.view === 'showUserHomeView') ? (

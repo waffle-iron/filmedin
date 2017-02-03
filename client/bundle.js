@@ -22113,6 +22113,7 @@
 	      isLoggedIn: false,
 	      profile: {},
 	      clickedFilm: {},
+	      clickedFilmRecommend: false,
 	      clickedUser: {},
 	      view: '',
 	      feed: [],
@@ -22196,7 +22197,7 @@
 	        });
 	        response.data.isFriend = _this2.state.profile.friends.map(function (friend) {
 	          return friend.ID;
-	        }).includes(user.ID);
+	        }).includes(user.id || user.ID);
 	        _this2.setState({
 	          view: 'showUserView',
 	          clickedUser: response.data
@@ -22209,9 +22210,13 @@
 	      var _this3 = this;
 	
 	      _helpers2.default.getFilm(film.guideBox || film.id).then(function (response) {
+	        var recommend = _this3.state.profile.recs.map(function (rec) {
+	          return rec.filmID;
+	        }).includes(response.data.id);
 	        _this3.setState({
 	          view: 'showFilmView',
-	          clickedFilm: response.data
+	          clickedFilm: response.data,
+	          clickedFilmRecommend: recommend
 	        });
 	      });
 	    }
@@ -22221,6 +22226,7 @@
 	      var _this4 = this;
 	
 	      _helpers2.default.getHome().then(function (response) {
+	        console.log(response.data);
 	        _helpers2.default.getFeed().then(function (feed) {
 	          response.data.friends = response.data.friends.filter(function (friend) {
 	            return friend.ID !== 0;
@@ -22257,6 +22263,7 @@
 	            { className: 'bodyContent' },
 	            this.state.view === 'showFilmView' ? _react2.default.createElement(_FilmProfile2.default, {
 	              film: this.state.clickedFilm,
+	              clickedFilmRecommend: this.state.clickedFilmRecommend,
 	              rateFilm: this.rateFilm
 	            }) : this.state.view === 'showUserHomeView' ? _react2.default.createElement(_UserHome2.default, {
 	              profile: this.state.profile,
@@ -25264,13 +25271,14 @@
 	  return _react2.default.createElement(
 	    'div',
 	    { className: 'feed-entry' },
+	    console.log(feed),
 	    _react2.default.createElement(
 	      'div',
 	      { className: 'feed-entry-info' },
 	      _react2.default.createElement(
 	        'a',
 	        { href: '#', onClick: function onClick() {
-	            handleUserClick(feed.id);
+	            handleUserClick(feed);
 	          } },
 	        feed.firstName,
 	        ' ',
@@ -25428,6 +25436,12 @@
 							_react2.default.createElement(_reactRating2.default, { className: 'ratingStar', id: 'rating-img', empty: 'fa fa-star-o fa-2x', full: 'fa fa-star fa-2x', initialRate: this.props.film.myRating ? this.props.film.myRating.rating : 0, onClick: function onClick(rate, e) {
 									_this2.props.rateFilm(rate, _this2.props.film.id);
 								} })
+						),
+						_react2.default.createElement(
+							'div',
+							{ className: this.props.clickedFilmRecommend ? "recommended" : "notrecommended" },
+							_react2.default.createElement('img', { className: 'recommend-img', src: 'assets/popcorn.png' }),
+							'Recommended for you'
 						),
 						_react2.default.createElement(_RatingList2.default, {
 							allFriendsRatings: this.props.film.friendRatings
