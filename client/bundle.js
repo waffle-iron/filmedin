@@ -22183,15 +22183,6 @@
 	  }, {
 	    key: 'handleLogInClick',
 	    value: function handleLogInClick(username) {
-	      // helpers.getHome().then(response => {
-	
-	      //   this.setState({
-	      //     isLoggedIn: true,
-	      //     username: username,
-	      //     profile: response.data,
-	      //     view: 'showUserHomeView'
-	      //   })
-	      // })
 	      this.handleHomeClick();
 	    }
 	  }, {
@@ -22199,11 +22190,13 @@
 	    value: function handleUserClick(user) {
 	      var _this2 = this;
 	
-	      console.log(user);
 	      _helpers2.default.getProfile(user.id || user.ID).then(function (response) {
 	        response.data.friends = response.data.friends.filter(function (friend) {
 	          return friend.ID !== 0;
 	        });
+	        response.data.isFriend = _this2.state.profile.friends.map(function (friend) {
+	          return friend.ID;
+	        }).includes(user.ID);
 	        _this2.setState({
 	          view: 'showUserView',
 	          clickedUser: response.data
@@ -22229,7 +22222,6 @@
 	
 	      _helpers2.default.getHome().then(function (response) {
 	        _helpers2.default.getFeed().then(function (feed) {
-	          console.log(response.data.friends);
 	          response.data.friends = response.data.friends.filter(function (friend) {
 	            return friend.ID !== 0;
 	          });
@@ -22280,6 +22272,7 @@
 	              search: this.state.searchFilm,
 	              handleFilmClick: this.handleFilmClick
 	            }) : _react2.default.createElement(_SearchUser2.default, {
+	              friends: this.state.profile.friends,
 	              search: this.state.searchUser,
 	              handleUserClick: this.handleUserClick,
 	              addFriend: this.addFriend
@@ -24682,7 +24675,10 @@
 	      _react2.default.createElement(
 	        'div',
 	        { className: 'film-entry-name' },
-	        film.name
+	        film.name,
+	        ' (',
+	        film.releaseDate ? film.releaseDate.substring(0, 4) : "",
+	        ')'
 	      ),
 	      _react2.default.createElement(
 	        'div',
@@ -25132,7 +25128,6 @@
 		return _react2.default.createElement(
 			'div',
 			{ className: 'user-list' },
-			console.log('allFriends: ', allFriends),
 			allFriends.map(function (user) {
 				return _react2.default.createElement(_UserEntry2.default, {
 					handleUserClick: handleUserClick,
@@ -25171,7 +25166,6 @@
 	    { className: "user-entry", onClick: function onClick() {
 	        return handleUserClick(user);
 	      } },
-	    console.log(user),
 	    _react2.default.createElement(
 	      "div",
 	      { className: "user-entry-username" },
@@ -25269,7 +25263,6 @@
 	  return _react2.default.createElement(
 	    'div',
 	    { className: 'feed-entry' },
-	    console.log(feed),
 	    _react2.default.createElement(
 	      'div',
 	      { className: 'feed-entry-info' },
@@ -25297,7 +25290,7 @@
 	    _react2.default.createElement(
 	      'div',
 	      { className: 'feed-entry-time' },
-	      "Rated " + _helpers2.default.dateDiff(feed.createdAt) + " ago"
+	      "Rated " + _helpers2.default.dateDiff(feed.rCreatedAt) + " ago"
 	    )
 	  );
 	};
@@ -31285,13 +31278,13 @@
 	
 	var _NavBar2 = _interopRequireDefault(_NavBar);
 	
-	var _FilmList = __webpack_require__(/*! ./FilmList */ 208);
+	var _FriendFilmList = __webpack_require__(/*! ./FriendFilmList */ 367);
 	
-	var _FilmList2 = _interopRequireDefault(_FilmList);
+	var _FriendFilmList2 = _interopRequireDefault(_FriendFilmList);
 	
-	var _UserList = __webpack_require__(/*! ./UserList */ 211);
+	var _FriendUserList = __webpack_require__(/*! ./FriendUserList */ 366);
 	
-	var _UserList2 = _interopRequireDefault(_UserList);
+	var _FriendUserList2 = _interopRequireDefault(_FriendUserList);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -31302,35 +31295,76 @@
 		return _react2.default.createElement(
 			'div',
 			{ className: 'user-profile' },
+			console.log(user),
 			_react2.default.createElement(
-				'h1',
-				null,
-				user.firstName,
-				' ',
-				user.lastName
+				'div',
+				{ className: 'user-left-panel' },
+				_react2.default.createElement(
+					'div',
+					{ className: 'user-profile-info' },
+					_react2.default.createElement(
+						'h4',
+						{ className: 'user-profile-username' },
+						'@',
+						user.username
+					),
+					_react2.default.createElement(
+						'h1',
+						null,
+						user.firstName,
+						' ',
+						user.lastName
+					),
+					_react2.default.createElement(
+						'div',
+						{ className: 'friendStat-profile' },
+						_react2.default.createElement('img', { className: 'friendsLogo', src: user.isFriend ? "assets/isFriend.png" : "assets/addFriend.png" }),
+						user.isFriend ? "Friends" : "Add Friend"
+					),
+					_react2.default.createElement(
+						'div',
+						{ className: 'friendStat-profile' },
+						_react2.default.createElement('img', { className: 'friendsLogo', src: 'assets/friends.png' }),
+						user.friends.length,
+						' Friend(s)'
+					),
+					_react2.default.createElement(
+						'div',
+						{ className: 'friendStat-profile' },
+						_react2.default.createElement('img', { className: 'friendsLogo', src: 'assets/logo2.png' }),
+						user.ratings.length,
+						' Movie(s) Rated'
+					)
+				),
+				_react2.default.createElement(
+					'div',
+					{ className: 'user-profile-friends' },
+					_react2.default.createElement(
+						'h3',
+						{ className: 'user-profile-friends-title' },
+						user.firstName,
+						'\'s Friends'
+					),
+					_react2.default.createElement(_FriendUserList2.default, {
+						allFriends: user.friends,
+						handleUserClick: handleUserClick
+					})
+				)
 			),
 			_react2.default.createElement(
-				'h3',
-				null,
-				'List of ',
-				user.firstName,
-				'\'s ranked films'
-			),
-			_react2.default.createElement(_FilmList2.default, {
-				allFilms: user.ratings,
-				handleFilmClick: handleFilmClick
-			}),
-			_react2.default.createElement(
-				'h3',
-				null,
-				'List of ',
-				user.firstName,
-				'\'s friends'
-			),
-			_react2.default.createElement(_UserList2.default, {
-				allFriends: user.friends,
-				handleUserClick: handleUserClick
-			})
+				'div',
+				{ className: 'user-profile-films' },
+				_react2.default.createElement(
+					'h3',
+					{ className: 'user-profile-films-title' },
+					user.firstName,
+					'\'s Films'
+				),
+				_react2.default.createElement(_FriendFilmList2.default, {
+					allFilms: user.ratings,
+					handleFilmClick: handleFilmClick
+				})
+			)
 		);
 	};
 	
@@ -31661,13 +31695,27 @@
 	  function SearchUser(props) {
 	    _classCallCheck(this, SearchUser);
 	
-	    return _possibleConstructorReturn(this, (SearchUser.__proto__ || Object.getPrototypeOf(SearchUser)).call(this, props));
+	    var _this = _possibleConstructorReturn(this, (SearchUser.__proto__ || Object.getPrototypeOf(SearchUser)).call(this, props));
+	
+	    _this.state = {
+	      friends: []
+	    };
+	    return _this;
 	  }
 	
 	  _createClass(SearchUser, [{
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
+	      var friendIDs = this.props.friends ? this.props.friends.map(function (friend) {
+	        return friend.ID;
+	      }) : [];
+	      this.setState({ friends: friendIDs });
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(_SearchUserList2.default, {
+	        curFriends: this.state.friends,
 	        allFriends: this.props.search,
 	        handleUserClick: this.props.handleUserClick,
 	        addFriend: this.props.addFriend
@@ -31706,12 +31754,14 @@
 	var SearchUserList = function SearchUserList(_ref) {
 	  var handleUserClick = _ref.handleUserClick,
 	      allFriends = _ref.allFriends,
-	      addFriend = _ref.addFriend;
+	      addFriend = _ref.addFriend,
+	      curFriends = _ref.curFriends;
 	  return _react2.default.createElement(
 	    'div',
 	    { className: 'search-user-list' },
 	    allFriends.map(function (user) {
 	      return _react2.default.createElement(_SearchUserEntry2.default, {
+	        isFriend: curFriends.includes(user.id),
 	        handleUserClick: handleUserClick,
 	        addFriend: addFriend,
 	        user: user
@@ -31744,7 +31794,8 @@
 	var SearchUserEntry = function SearchUserEntry(_ref) {
 	  var handleUserClick = _ref.handleUserClick,
 	      addFriend = _ref.addFriend,
-	      user = _ref.user;
+	      user = _ref.user,
+	      isFriend = _ref.isFriend;
 	  return _react2.default.createElement(
 	    "div",
 	    { className: "user-entry" },
@@ -31754,9 +31805,9 @@
 	      _react2.default.createElement(
 	        "button",
 	        { className: "addFriend-button", onClick: function onClick() {
-	            return addFriend(user);
+	            !isFriend ? addFriend(user) : console.log('Already Friends');
 	          } },
-	        _react2.default.createElement("span", { className: "glyphicon glyphicon-plus" })
+	        _react2.default.createElement("span", { className: !isFriend ? "glyphicon glyphicon-plus" : "glyphicon glyphicon-ok" })
 	      )
 	    ),
 	    _react2.default.createElement(
@@ -31773,6 +31824,12 @@
 	      "span",
 	      { className: "user-email" },
 	      user.email
+	    ),
+	    _react2.default.createElement(
+	      "span",
+	      { className: "user-email" },
+	      "Member since: ",
+	      new Date(user.createdAt).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })
 	    )
 	  );
 	};
@@ -31945,6 +32002,86 @@
 	
 	exports.default = SearchFilmEntry;
 	// <div>Release Date: {film.release_date}</div>
+
+/***/ },
+/* 366 */
+/*!***************************************!*\
+  !*** ./components/FriendUserList.jsx ***!
+  \***************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _UserEntry = __webpack_require__(/*! ./UserEntry */ 212);
+	
+	var _UserEntry2 = _interopRequireDefault(_UserEntry);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var FriendUserList = function FriendUserList(_ref) {
+	  var handleUserClick = _ref.handleUserClick,
+	      allFriends = _ref.allFriends;
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'friend-user-list' },
+	    allFriends.map(function (user) {
+	      return _react2.default.createElement(_UserEntry2.default, {
+	        handleUserClick: handleUserClick,
+	        user: user
+	      });
+	    })
+	  );
+	};
+	
+	exports.default = FriendUserList;
+
+/***/ },
+/* 367 */
+/*!***************************************!*\
+  !*** ./components/FriendFilmList.jsx ***!
+  \***************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _FilmEntry = __webpack_require__(/*! ./FilmEntry */ 209);
+	
+	var _FilmEntry2 = _interopRequireDefault(_FilmEntry);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var FriendFilmList = function FriendFilmList(_ref) {
+	  var handleFilmClick = _ref.handleFilmClick,
+	      allFilms = _ref.allFilms;
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'friend-film-list' },
+	    allFilms.map(function (film) {
+	      return _react2.default.createElement(_FilmEntry2.default, {
+	        handleFilmClick: handleFilmClick,
+	        film: film
+	      });
+	    })
+	  );
+	};
+	
+	exports.default = FriendFilmList;
 
 /***/ }
 /******/ ]);

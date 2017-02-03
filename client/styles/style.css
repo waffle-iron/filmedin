@@ -266,6 +266,16 @@
 	margin-bottom: 2px;
 	margin-top: 2px;
 }
+.friendStat-profile {
+	width: 80%;
+	margin-left: 20px;
+	height: 40px;
+	padding: 5px;
+	background-color: #D2C8D8;
+	text-align: center;
+	margin-bottom: 2px;
+	margin-top: 2px;
+}
 .user-home-feed {
 	width: 33%;
 	display: inline-block;
@@ -387,6 +397,11 @@ margin-left: 50px;
 
 }
 
+.friend-film-list {
+	height: 600px;
+	overflow: auto;
+}
+
 .search-film-list {
 	padding: 5px 5px 5px 5px;
 	margin: 15px 15px 15px 15px;
@@ -405,6 +420,7 @@ margin-left: 50px;
 	margin: 15px 15px 15px 15px;
 	padding: 5px;
 	height: 90px;
+	cursor: pointer;
 }
 
 .film-entry-poster {
@@ -446,6 +462,10 @@ margin-left: 50px;
 	height: 630px;
 	overflow: auto;
 }
+.friend-user-list {
+	height: 400px;
+	overflow: auto;
+}
 .user-entry-stat {
 	width: 40%;
 	margin-left: 30%;
@@ -478,6 +498,16 @@ margin-left: 50px;
 	display: inline;
 	margin-top: 27px;
 	margin-right: 15px;
+}
+.user-profile-username {
+	color: grey;
+	font-size: 12px;
+	font-style: italic;
+	margin-right: 80px;
+	margin-top: 35px;
+	float: right;
+	display: inline-block;
+	/*float:left;*/
 }
 .user-entry {
 	border-style: solid;
@@ -530,8 +560,11 @@ margin-left: 50px;
 	cursor: pointer;
 }
 .user-email {
-	margin-left: 15px;
-	font-color: lightgrey;
+	margin-top: -5px;
+	margin-left: 25px;
+	vertical-align: middle;
+	color: grey;
+	font-size: 14px;
 }
 
 .ranked-films {
@@ -606,10 +639,39 @@ margin-left: 50px;
 	height:625px;
 	overflow: auto;
 }
+.user-profile-info {
+	width: 100%;
+	height: 220px;
+	margin-left: 3%;
+	display: inline-block;
+}
 
+.user-profile-friends {
+	width: 100%;
+	/*height: 600px;*/
+	display: inline-block;
+}
+.user-left-panel {
+	float: left;
+	height: 625px;
+}
+.user-profile-films {
+	/*float: right;*/
+	/*height: 625px;*/
+	/*margin-top: 40px;*/
+}
 
+.user-profile-friends-title {
+	margin-bottom: 0px;
+	margin-left: 10px;
+	margin-top: 0px;
+}
 
-
+.user-profile-films-title {
+	margin-bottom: 0px;
+	margin-left: 10px;
+	margin-top: 0px;
+}
 
 
 
