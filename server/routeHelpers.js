@@ -66,19 +66,6 @@ module.exports = {
               }
               profile.ratings = rows;
 
-
-              // //nick added this - probably mostly wrong
-              // var myRatings = {};
-              // _.each(profile.ratings, (rating) => {myRatings[rating.filmID] = rating.rating});
-              // var allRatingsByAllFriends = {};
-              // _.each(rows, (rating) => {
-              //   allRatingsByAllFriends[rating.profileID] = {}
-              //   allRatingsByAllFriends[rating.profileID][rating.filmID] = rating.rating;
-              // })
-              // // end of this line probably wrong
-              // //profile.rec is all recs, want rec[friend]. Is profileID the right field for this?
-              // profile.rec = rec.generateAllFriendsRecs(myRatings, allRatingsByAllFriends)[profileID]
-
               res.send(JSON.stringify(profile));
             });
           });
@@ -141,7 +128,7 @@ module.exports = {
               film.actors = movie.cast.map(actor => (actor.name + ':' + actor.character_name)).join(';');
               film.posterURL = movie.poster_120x171;
               film.trailer = movie.trailers.web[0] ? movie.trailers.web[0].embed : '';
-              film.runtime = (movie.duration / 60) + ' mins.';
+              film.runtime = (Math.round(movie.duration / 60)) + ' mins.';
               film.rt = movie.rottentomatoes;
               film.imdb = movie.imdb;
               film.wiki = movie.wikipedia_id;
