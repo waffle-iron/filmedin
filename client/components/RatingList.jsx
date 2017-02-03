@@ -3,11 +3,23 @@ import RatingEntry from './RatingEntry';
 
 var RatingList = ({allFriendsRatings}) => (
 
-  <div className="rating-list">
+  <table className="table table-striped table-hover">
+    <thead>
+    <tr>
+      <th>Name</th>
+      <th>Rating</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Fake</td>
+      <td>Test</td>
+    </tr>
   {allFriendsRatings.map(rating =>
     <RatingEntry rating={rating}/>
     )}
-  </div>
+    </tbody>
+  </table>
 )
 
 export default RatingList;

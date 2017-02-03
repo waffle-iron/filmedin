@@ -42,7 +42,6 @@ class App extends React.Component {
     if (window.localStorage.getItem('filmedInToken')) {
       this.setState({isLoggedIn:true});
       this.handleHomeClick();
-      console.log('test');
     }
   }
   addFriend(friend) {
