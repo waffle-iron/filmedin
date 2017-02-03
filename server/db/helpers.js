@@ -65,14 +65,13 @@ var dbObj =  {
       friendIDs = friendIDs.join(',');
       db.query(`SELECT r.profileID as profileID, r.filmID as filmID, r.rating as rating, f.name as name, f.genre as genre, f.posterURL as posterURL, f.guideBox as guideBox FROM rating r INNER JOIN film f on r.filmID = f.id where r.profileID in (${friendIDs})`, cb)
     },
-    getRecs: function(results, friendIDs, cb){
-
-      // db.query('stuff', function() {
-      //   //push the results to results
-      //   //subtract last friend from friendIDs
-      //   //if friendIDs is empty, then run the cb
-      //   rating.getRecs(results, friendIDs, cb);
-      // }
+    getRecs: function(userID, cb){
+      // returns a list of all recs from all friends based on your diff score with all friends
+      db.query(`SELECT recs.filmID FROM rating recs WHERE recs.rating >= 4 AND recs.filmID NOT IN (SELECT filmID FROM rating WHERE profileID = ${userID}) AND recs.profileID IN (SELECT profileID FROM (SELECT * FROM (SELECT (sum(ABS(r2.rating - (SELECT r1.rating from rating r1 where r1.profileID = ${userID} and r1.filmID = r2.filmID))) / (SELECT count(*) FROM rating myrating JOIN rating friendrating on myrating.filmID = friendrating.filmID where myrating.profileID = ${userID} and friendrating.profileID = r2.profileID)) as DiffScore, r2.profileID FROM rating r2 WHERE r2.filmID in (SELECT filmID from rating where profileID = ${userID}) AND r2.profileID in (SELECT friendID from friends where primaryID = ${userID}) group by r2.profileID) as diffTable WHERE DiffScore <= 2) as filteredDiffTable)`, cb)
+    },
+    getFriendsDifferences: function(userID, cb) {
+      // returns a list of friends and their ratings diff score from you (diffScore = sum(absolute value of differences in ratings between you and the friend)/(total number of films you guys both built))
+      db.query(`SELECT (sum(ABS(r2.rating - (SELECT r1.rating from rating r1 where r1.profileID = ${userID} and r1.filmID = r2.filmID))) / (SELECT count(*) FROM rating myrating JOIN rating friendrating on myrating.filmID = friendrating.filmID where myrating.profileID = ${userID} and friendrating.profileID = r2.profileID)) as DiffScore, r2.profileID FROM rating r2 WHERE r2.filmID in (SELECT filmID from rating where profileID = ${userID}) AND r2.profileID in (SELECT friendID from friends where primaryID = ${userID}) group by r2.profileID ORDER BY DiffScore`, cb)
     }
   },
 
