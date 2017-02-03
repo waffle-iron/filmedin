@@ -88,7 +88,6 @@ class SignUp extends React.Component {
 		helpers.logInUser(signinInputs).then(response => {
 			window.localStorage.setItem('filmedInToken', response.data.token);
 			this.setState({loginMsg: 'valid-login'});
-			console.log('token', response.data.token);
 			this.props.handleLogInClick(this.state.username);
 			}).catch(err => {
 				this.setState({loginMsg:'invalid-login'});

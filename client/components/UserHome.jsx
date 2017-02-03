@@ -7,7 +7,7 @@ import FeedList from './FeedList';
 var UserHome = ({handleFilmClick, handleUserClick, profile, username, feed}) => (
 	<div className="user-home">
 		<div className="user-home-personal">
-					<h4 className="user-home-username">@username</h4>
+					<h4 className="user-home-username">@{username}</h4>
 			<h3>{profile.firstName} {profile.lastName}</h3>
 
 			<div className="memberStatus"><i>Member since: {new Date(profile.createdAt).toLocaleDateString("en-US", {year: "numeric", month: "short",day: "numeric"})}</i></div>
