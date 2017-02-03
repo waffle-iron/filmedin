@@ -4,24 +4,34 @@ import FilmList from './FilmList';
 import UserList from './UserList';
 
 
-var UserHome = ({handleFilmClick, handleUserClick, firstName, lastName, allFilms, allFriends}) => (
+var UserHome = ({handleFilmClick, handleUserClick, profile, username}) => (
 	<div className="user-home">
-
-				<h2>Welcome {firstName} {lastName}</h2>
-				<div className="ranked-films">
-					<h3>List of your ranked films</h3>
-					<FilmList
-						handleFilmClick={handleFilmClick}
-						allFilms={allFilms}
-					/>
-				</div>
-				<div className="friend-list">
-					<h3>List of your friends</h3>
-					<UserList
-						handleUserClick={handleUserClick}
-						allFriends={allFriends}
-					/>
-				</div>
+		<div className="user-home-personal">
+			<h3>{profile.firstName} {profile.lastName}</h3>
+			<h4>{username}</h4>
+			<div><i>Member since: {new Date(profile.createdAt).toLocaleDateString("en-US", {year: "numeric", month: "short",day: "numeric"})}</i></div>
+			<div className="friendStat">
+				<img className="friendsLogo" src="assets/friends.png"/>
+				{profile.friends.length} Friend(s)
+			</div>
+			<div className="friendStat">
+				<img className="friendsLogo" src="assets/logo2.png"/>
+				{profile.ratings.length} Movie(s) Rated
+			</div>
+			<FilmList
+				handleFilmClick={handleFilmClick}
+				allFilms={profile.ratings}
+			/>
+		</div>
+		<div className="user-home-feed">
+			
+		</div>
+		<div className="user-home-friends">
+			<UserList
+				handleUserClick={handleUserClick}
+				allFriends={profile.friends}
+			/>
+		</div>
 	</div>
 	)
 

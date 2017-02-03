@@ -15,12 +15,8 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      profileID: '',
     	isLoggedIn: false,
-      firstName: '',
-      lastName: '',
-      allFilms: exampleVideoData,
-      allFriends: exampleFriendData,
+      profile: {},
       clickedFilm: {},
       clickedUser: {},
       view: '',
@@ -84,10 +80,7 @@ class App extends React.Component {
       this.setState({
         isLoggedIn: true,
         username: username,
-        firstName: response.data.firstName,
-        lastName: response.data.lastName,
-        allFriends: response.data.friends,
-        allFilms: response.data.ratings,
+        profile: response.data,
         view: 'showUserHomeView'
       })
     })
@@ -116,16 +109,10 @@ class App extends React.Component {
   handleHomeClick() {
     helpers.getHome().then(response => {
       this.setState({
-        firstName: response.data.firstName,
-        lastName: response.data.lastName,
-        allFriends: response.data.friends,
-        allFilms: response.data.ratings,
+        profile: response.data,
         view: 'showUserHomeView'
       })
     })
-    // this.setState({
-    //   view: 'showUserHomeView',
-    // })
   }
 
   render() {
@@ -153,10 +140,8 @@ class App extends React.Component {
                 />
             ) : (this.state.view === 'showUserHomeView') ? (
                 <UserHome
-                  firstName={this.state.firstName}
-                  lastName={this.state.lastName}
-                  allFilms={this.state.allFilms}
-                  allFriends={this.state.allFriends}
+                  profile={this.state.profile}
+                  username={this.state.username}
                   handleFilmClick={this.handleFilmClick}
                   handleUserClick={this.handleUserClick}
                 />
@@ -164,8 +149,6 @@ class App extends React.Component {
                 <UserProfile
                   handleFilmClick={this.handleFilmClick}
                   handleUserClick={this.handleUserClick}
-                  firstName={this.state.firstName}
-                  lastName={this.state.lastName}
                   user={this.state.clickedUser}
                 />              
             ) : (this.state.view === 'showSearchFilmView') ? (
