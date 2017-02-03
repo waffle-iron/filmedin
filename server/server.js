@@ -23,7 +23,6 @@ app.get('/home', routeHelpers.home);
 
 app.get('/profile/:id', routeHelpers.profile);
 		//also send /friendratings
-app.get('/friendratings', routeHelpers.)
 
 app.get('/film/:id', routeHelpers.film);
 app.get('/feed', routeHelpers.feed);

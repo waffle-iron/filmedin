@@ -27,6 +27,7 @@
     "jwt-simple": "^0.5.1",
     "mysql": "^2.13.0",
     "querystring": "^0.2.0",
-    "request": "^2.79.0"
+    "request": "^2.79.0",
+    "underscore": "^1.8.3"
   }
 }

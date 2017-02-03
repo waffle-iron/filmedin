@@ -26,18 +26,26 @@ module.exports = {
                 console.log('home -> rating.get', err);
               }
               profile.ratings = rows;
-              db.rating.getAllFriendsRatings(_.pluck(profile.friends, 'id'), (err, rows) => {
+              db.rating.getAllFriendsRatings(_.pluck(profile.friends, 'ID'), (err, rows) => {
                 if (err){
                   console.log('home -> rating.getAllFriendsRatings', err);
                 }
                 // use rows results and feed into recommendations algorithim
                 var myRatings = {};
                 _.each(profile.ratings, (rating) => {myRatings[rating.filmID] = rating.rating});
+
                 var allRatingsByAllFriends = {};
                 _.each(rows, (rating) => {
-                  allRatingsByAllFriends[rating.profileID] = {}
+                  if (!allRatingsByAllFriends[rating.profileID]) {
+                    allRatingsByAllFriends[rating.profileID] = {}
+                  }
+                  // allRatingsByAllFriends[rating.profileID] = {}
                   allRatingsByAllFriends[rating.profileID][rating.filmID] = rating.rating;
                 })
+
+                console.log('rows', rows)
+                console.log('allRatingsByAllFriends', allRatingsByAllFriends)
+                console.log('myRatings', myRatings)
                 profile.rec = rec.generateAllFriendsRecs(myRatings, allRatingsByAllFriends)
                 // profile.recs = rows;
                 res.send(JSON.stringify(profile));
@@ -64,17 +72,31 @@ module.exports = {
             }
             profile.friends = rows;
             db.rating.get(profile.id, (err, rows) => {
-                if (err) {
-                  console.log('profile -> rating.get', err);
-                }
-                profile.ratings = rows;
-                res.send(JSON.stringify(profile));
-              });
+              if (err) {
+                console.log('profile -> rating.get', err);
+              }
+              profile.ratings = rows;
+
+
+              // //nick added this - probably mostly wrong
+              // var myRatings = {};
+              // _.each(profile.ratings, (rating) => {myRatings[rating.filmID] = rating.rating});
+              // var allRatingsByAllFriends = {};
+              // _.each(rows, (rating) => {
+              //   allRatingsByAllFriends[rating.profileID] = {}
+              //   allRatingsByAllFriends[rating.profileID][rating.filmID] = rating.rating;
+              // })
+              // // end of this line probably wrong
+              // //profile.rec is all recs, want rec[friend]. Is profileID the right field for this?
+              // profile.rec = rec.generateAllFriendsRecs(myRatings, allRatingsByAllFriends)[profileID]
+
+              res.send(JSON.stringify(profile));
             });
+          });
         });
       } else {
         next(new Error('Invalid credentials'));
-      }   
+      }
     });
   },
   film: function (req, res, next) {
@@ -100,10 +122,16 @@ module.exports = {
                   if (err) {
                     console.log('film -> profile.myGet', err);
                   }
-                  film.myRating = (myRatings) ? myRatings[0] : {};
+                  // film.myRating = {};
+                  film.myRating = (myRatings.length !== 0) ? myRatings[0] : {};
+                  console.log('myRatings', myRatings)
+                  console.log('film.myRating', film.myRating)
+                  //add 'suggested': true/false property to film
+
+
                   res.send(JSON.stringify(film));
                 });
-                    
+
               })
             });
           } else {
@@ -111,7 +139,7 @@ module.exports = {
             gb.get(req.params.id, (err, body) => {
               if (err) {
                 console.log('film -> gb.get', err);
-              } 
+              }
               var movie = JSON.parse(body.body);
               console.log('film -> gb.get -> body', movie);
               var film = {};
@@ -139,7 +167,7 @@ module.exports = {
               db.film.post(film, (err, rows) => {
                 if (err) {
                   console.log('film -> film.post', err);
-                } 
+                }
                 film.id = rows.insertId;
                 film.friendRatings = [];
                 film.myRating = {};
@@ -161,11 +189,11 @@ module.exports = {
         db.profile.getByUserID(user.id, (err, rows) => {
           if (err) {
             console.log('feed -> profile.getByUserID', err);
-          } 
+          }
           db.rating.getFeed(rows[0].id, (err, rows) => {
             if (err) {
               console.log('feed -> rating.getFeed', err);
-            } 
+            }
             res.send(JSON.stringify(rows));
           });
         });
@@ -177,31 +205,31 @@ module.exports = {
   addFriend: function (req, res, next) {
     auth.checkAuth(req, user => {
       if (user !== null) {
-        db.profile.getByUserID(user.id, (err, rows) => { 
+        db.profile.getByUserID(user.id, (err, rows) => {
           if (err) {
             console.log('addFriend -> profile.getByUserID', err);
-          } 
+          }
           db.friend.exists(rows[0].id, req.body.friendID, (err, exists) => {
             if (err) {
               console.log('addFriend -> friend.exists', err);
-            } 
+            }
             if (exists.length > 0) {
               res.end();
             } else {
               db.friend.post(rows[0].id, req.body.friendID, (err, rows2) => {
                 if (err) {
                   console.log('addFriend -> friend.post', err);
-                } 
+                }
                 db.friend.post(req.body.friendID, rows[0].id, (err, rows3) => {
                   if (err) {
                     console.log('addFriend -> friend.post', err);
-                  } 
+                  }
                   res.end();
                 });
               });
             }
           })
-          
+
         });
       } else {
         next(new Error('Invalid credentials'));
@@ -211,27 +239,27 @@ module.exports = {
   addRating: function (req, res, next) {
     auth.checkAuth(req, user  => {
       if (user !== null) {
-        db.profile.getByUserID(user.id, (err, rows)  => { 
+        db.profile.getByUserID(user.id, (err, rows)  => {
           if (err) {
             console.log('addRating -> profile.getByUserID', err);
-          } 
+          }
           req.body.profileID = rows[0].id;
           db.rating.exists(req.body, (err, exists) => {
             if (err) {
               console.log('addRating -> rating.exists', err);
-            } 
+            }
             if (exists.length > 0) {
               db.rating.update(req.body, (err, rows) => {
                 if (err) {
                   console.log('addRating -> rating.update', err);
-                } 
+                }
                 res.end();
               });
             } else {
               db.rating.post(req.body, (err, rows) => {
                 if (err) {
                   console.log('addRating -> rating.post', err);
-                } 
+                }
                 res.end();
               });
             }
@@ -249,7 +277,7 @@ module.exports = {
         db.profile.search(req.params.id, (err, rows) => {
           if (err) {
             console.log('searchUser -> profile.search', err);
-          } 
+          }
           res.send(rows);
         });
       } else {
@@ -263,7 +291,7 @@ module.exports = {
         gb.search(req.params.id, (err, body) => {
           if (err) {
             console.log('searchFilm -> gb.search', err);
-          } 
+          }
           res.send(JSON.parse(body.body).results);
         });
       } else {
