@@ -3,91 +3,107 @@ import NavBar from './NavBar';
 import Rating from 'react-rating';
 import RatingList from './RatingList';
 import helpers from '../lib/helpers';
+import Modal from 'react-bootstrap/lib/Modal';
+// import FontAwesome from 'font-awesome';
+//<iframe src={this.props.film.trailer} className="trailer"></iframe>
+class FilmProfile extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			showModal: false
+		}
+		this.close = this.close.bind(this);
+		this.open = this.open.bind(this);
+	}
+  close() {
+    this.setState({ showModal: false });
+  }
 
-var FilmProfile = ({film, rateFilm}) => (
+  open() {
+    this.setState({ showModal: true });
+  }
+	render () {
+		return (
 		<div className="film-profile">
-		{console.log('film: ', film)}
-			<h1>{film.name}</h1>
-			<br />
-			<img src={film.posterURL} alt="" />
-			<br />
-				{
-					(film.trailer) ? (
-						<iframe src={film.trailer} width="1000px" height="400px"></iframe>
-					) : (<span />)
-				}
-			<br />
-			Links to watch:
+			<div className="filmHeader">
 			
+				<div className="filmTitle">{this.props.film.name}</div>
+				<div className="filmBanner">
+					<span className="genre">Genre: {this.props.film.genre}</span>
+					<span className="releaseDate">Release Date: {new Date(this.props.film.releaseDate).toLocaleDateString("en-US", {weekday: "long", year: "numeric", month: "short",day: "numeric"})}</span>
+					<span className="runtime">Runtime: {this.props.film.runtime}</span>
+				</div>
+			</div>
+			<img className="filmPoster" src={this.props.film.posterURL} alt="" />
+			<div className="ratingBlock">
+				<div className="yourRatingBlock">
+					<span className="yourRating">Rate: </span>
+					<Rating className="ratingStar" id="rating-img" empty="fa fa-star-o fa-2x" full="fa fa-star fa-2x" initialRate={this.props.film.myRating ? this.props.film.myRating.rating : 0} onClick={(rate, e) => {rateFilm (rate, this.props.film.id)}}/>
+				</div>
+				<div className="friendRatingsTitle">Friend's Ratings:</div>
+					<RatingList 
+						allFriendsRatings={this.props.film.friendRatings}
+					/>
+			</div>
+      <Modal show={this.state.showModal}  dialogClassName="my-modal" onHide={this.close} closeButton>
+        <Modal.Body>
+        	<iframe src={this.props.film.trailer} className="trailer"></iframe>
+				</Modal.Body>
+      </Modal>
 			{
-				(film.netflix) ? (
-						<a href={film.netflix} target="_blank">Click here to watch on Netflix</a>
-					) : (<span />)
+				(this.props.film.trailer) ? (
+					<button className="trailer-button" onClick={this.open}>Watch Trailer</button>
+				) : (<span />)
 			}
+			<div className="streamLinks">
+				<a href={this.props.film.netflix} className="streamA" target="_blank"><img className={"streamImg " + (this.props.film.netflix ? "streamHighlight" : "streamOpaque")} src="assets/netflix_icon.jpg"/></a>
+				<a href={this.props.film.hbo} className="streamA"  target="_blank"><img className={"streamImg " + (this.props.film.hbo ? "streamHighlight" : "streamOpaque")} src="assets/hbo_icon.jpg"/></a>
+				<a href={this.props.film.amazon} className="streamA" target="_blank"><img className={"streamImg " + (this.props.film.amazon ? "streamHighlight" : "streamOpaque")}  src="assets/amazon_icon.jpg"/></a>
+				<a href={this.props.film.itunes} className="streamA" target="_blank"><img className={"streamImg " + (this.props.film.itunes ? "streamHighlight" : "streamOpaque")} src="assets/itunes_icon.jpg"/></a>
+			</div>
 
-			{
-				(film.hbo) ? (
-						<a href={film.hbo} target="_blank">Click here to watch on hbo</a>
-					) : (<span />)
-			}
+			
+			<div className="filmInfo">
+				<div><b>Overview:</b> {this.props.film.overview}</div>
+				<br/>
+				<div><b>Directors:</b> {this.props.film.directors}</div>
+				<br/>
+				<div><b>Writers:</b> {this.props.film.writers}</div>
+				<br/>
+			</div>
 
-			{
-				(film.amazon) ? (
-						<a href={film.amazon} target="_blank">Click here to watch on amazon</a>
-					) : (<span />)
-			}
-
-			{
-				(film.itunes) ? (
-						<a href={film.itunes} target="_blank">Click here to watch on itunes</a>
-					) : (<span />)
-			}
-
-			<div>Release Date: {film.releaseDate}</div>
-			<br />
-			<div>Overview: {film.overview}</div>
-			<br />
-			<div>Directors: {film.directors}</div>
-			<br />
-			<div>Writers: {film.writers}</div>
-			<br />
-			<div>Cast: 
-				<ul className="actors-list">
+			<div>
+				<table className="actors-list table table-striped table-hover">
+					<thead>
+						<tr>
+							<th>Character</th>
+							<th>Played By</th>
+						</tr>
+					</thead>
+					<tbody>
 					{
-						helpers.castList(film.actors).map(actorAndCharacter => {
+						helpers.castList(this.props.film.actors).map(actorAndCharacter => {
 							return (
-								<li>
-									{console.log(actorAndCharacter)}
-									Character: {actorAndCharacter[1]} Played By: {actorAndCharacter[0]}
-								</li>
+								<tr>
+									<td>{actorAndCharacter[1]}</td>
+									<td>{actorAndCharacter[0]}</td>	
+								</tr>
 							)
 						})
 					}
-				</ul>
-			</div>
+					</tbody>
+				</table>
+				</div>
 			<br />
 			<div>
-				<a href={'http://www.rottentomatoes.com/m/' + film.rt} target="_blank">Rotten Tomatoes</a>
+				<a href={'http://www.rottentomatoes.com/m/' + this.props.film.rt} target="_blank">Rotten Tomatoes</a>
 			</div>
 
 			<br />
-
-
-			<Rating initialRate={film.myRating.rating} onClick={(rate, e) => {rateFilm (rate, film.id)}}/>
-			<div>Your ranking: {film.myRating.rating}</div>
-			<br />
-			<div>Film Genre:<br />{film.genre}</div>
-			<br />
-			<div>This will contain links to stream the film</div>
-			<br />
-			<div>This will contain friends who have ranked the film
-				<RatingList 
-					allFriendsRatings={film.friendRatings}
-				/>
-			</div>
-
 		</div>
 	)
+	}
+}
 
 export default FilmProfile
 

@@ -10,8 +10,11 @@ class SignUp extends React.Component {
 		this.state = {
 			username: '',
 			password: '',
+			newUsername: '',
+			newPassword: '',
 			firstname: '',
 			lastname: '',
+			email: '',
 			DOB: '',
 			loginMsg: 'valid-login'
 		}
@@ -22,7 +25,10 @@ class SignUp extends React.Component {
 		this.handlePasswordChange = this.handlePasswordChange.bind(this);
 		this.handleFirstnameChange = this.handleFirstnameChange.bind(this);
 		this.handleLastnameChange = this.handleLastnameChange.bind(this);
+		this.handleEmailChange = this.handleEmailChange.bind(this);
 		this.handleDobChange = this.handleDobChange.bind(this);
+		this.handleNewUsernameChange = this.handleNewUsernameChange.bind(this);
+		this.handleNewPasswordChange = this.handleNewPasswordChange.bind(this);
 		// this.signUpUser = helpers.signUpUser.bind(this);
 		// this.logInUser = helpers.logInUser.bind(this);
 	}
@@ -34,7 +40,16 @@ class SignUp extends React.Component {
 			username: e.target.value
 		})
 	}
-
+	handleNewUsernameChange(e) {
+		this.setState({
+			newUsername: e.target.value
+		})
+	}
+	handleNewPasswordChange(e) {
+		this.setState({
+			newPassword: e.target.value
+		})
+	}
 	handlePasswordChange(e) {
 		this.setState({
 			password: e.target.value
@@ -50,6 +65,11 @@ class SignUp extends React.Component {
 	handleLastnameChange(e) {
 		this.setState({
 			lastname: e.target.value
+		})
+	}
+	handleEmailChange(e) {
+		this.setState({
+			email: e.target.value
 		})
 	}
 
@@ -79,10 +99,11 @@ class SignUp extends React.Component {
 	handleSignUpClick(event) {
 		event.preventDefault();
 	  var signupInputs = {
-	    username: this.state.username,
-	    password: this.state.password,
+	    username: this.state.newUsername,
+	    password: this.state.newPassword,
 	    firstName: this.state.firstname,
 	    lastName: this.state.lastname,
+	    email: this.state.email,
 	    DOB: this.state.DOB
 	  }
 
@@ -129,10 +150,11 @@ class SignUp extends React.Component {
 		      </div>
         </div>
 				<div className="signup-form">
-					<input type="text" value={this.state.username} onChange={this.handleUsernameChange} placeholder="Username" />
-					<input type="password" value={this.state.password} onChange={this.handlePasswordChange} placeholder="Password" />
+					<input type="text" value={this.state.newUsername} onChange={this.handleNewUsernameChange} placeholder="Username" />
+					<input type="password" value={this.state.newPassword} onChange={this.handleNewPasswordChange} placeholder="Password" />
 					<input type="text" value={this.state.firstname} onChange={this.handleFirstnameChange} placeholder="First Name" />
 					<input type="text" value={this.state.lastname} onChange={this.handleLastnameChange} placeholder="Last Name" />
+					<input type="text" value={this.state.email} onChange={this.handleEmailChange} placeholder="E-Mail" />
 					<input type="text" value={this.state.DOB} onChange={this.handleDobChange} placeholder="Date of Birth (yyyy-mm-dd)" />
 					<button className="btn btn-default" onClick={this.handleSignUpClick} >Register</button>
 				</div>

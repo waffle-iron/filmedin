@@ -8,14 +8,14 @@ var UserHome = ({handleFilmClick, handleUserClick, firstName, lastName, allFilms
 	<div className="user-home">
 
 				<h2>Welcome {firstName} {lastName}</h2>
-				<div>
+				<div className="ranked-films">
 					<h3>List of your ranked films</h3>
 					<FilmList
 						handleFilmClick={handleFilmClick}
 						allFilms={allFilms}
 					/>
 				</div>
-				<div>
+				<div className="friend-list">
 					<h3>List of your friends</h3>
 					<UserList
 						handleUserClick={handleUserClick}
