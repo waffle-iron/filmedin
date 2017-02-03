@@ -3,14 +3,14 @@ import NavBar from './NavBar';
 import FriendFilmList from './FriendFilmList';
 import FriendUserList from './FriendUserList';
 
-var UserProfile = ({user, handleFilmClick, handleUserClick}) => (
+var UserProfile = ({user, handleFilmClick, handleUserClick, addFriend}) => (
 		<div className="user-profile">
 			{console.log(user)}
 			<div className="user-left-panel" >
 				<div className="user-profile-info">
 					<h4 className="user-profile-username">@{user.username}</h4>
 					<h1>{user.firstName} {user.lastName}</h1>
-					<div className="friendStat-profile">
+					<div onClick={() => {!user.isFriend ? addFriend(user) : console.log("Already friends")}} className="friendStat-profile">
 						<img className="friendsLogo" src={user.isFriend ? "assets/isFriend.png" : "assets/addFriend.png"}/>
 						{user.isFriend ? "Friends" : "Add Friend"}
 					</div>
