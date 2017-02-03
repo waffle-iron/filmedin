@@ -30,7 +30,7 @@ var dbObj =  {
   },
   friend: {
     get: function (id, cb) {
-      db.query(`SELECT p.firstName as firstName, p.lastName as lastName, p.DOB as DOB, p.id as ID, u.username, count(r.filmID) as count FROM friends f inner join profile p on p.id = f.friendID and f.primaryID = ${id} inner join user u on u.id = p.userID left join rating r on r.profileID = p.id order by count desc`, cb);
+      db.query(`SELECT p.firstName as firstName, p.lastName as lastName, p.DOB as DOB, p.id as ID, u.username, count(r.filmID) as count FROM friends f inner join profile p on p.id = f.friendID and f.primaryID = ${id} inner join user u on u.id = p.userID left join rating r on r.profileID = p.id group by firstName, lastName, DOB, ID, username order by count desc`, cb);
     },
     exists: function (id, friendID, cb) {
       db.query(`SELECT * FROM friends where primaryID = ? and friendID = ?`, [id, friendID], cb);
@@ -44,7 +44,7 @@ var dbObj =  {
       db.query(`SELECT r.filmID as filmID, r.rating as rating, r.review as review, f.name as name, f.genre as genre, f.posterURL as posterURL, f.guideBox as guideBox from rating r INNER JOIN film f ON r.filmID = f.id where r.profileID = ${id}`, cb);
     },
     getFeed: function(id, cb) {
-      db.query(`SELECT p.*, r.id as ratingID, r.rating as rating, r.review as review, f.id as filmID, f.name as name, f.genre as genre, f.posterURL as posterURL, f.guideBox as guideBox from rating r INNER JOIN film f ON r.filmID = f.id INNER JOIN profile p on p.id = r.profileID where r.profileID in (SELECT friendID FROM friends where primaryID = ${id}) order by r.createdAt DESC LIMIT 100`, cb);
+      db.query(`SELECT p.*, r.id as ratingID, r.rating as rating, r.createdAt as rCreatedAt, r.review as review, f.id as filmID, f.name as name, f.genre as genre, f.posterURL as posterURL, f.guideBox as guideBox from rating r INNER JOIN film f ON r.filmID = f.id INNER JOIN profile p on p.id = r.profileID where r.profileID in (SELECT friendID FROM friends where primaryID = ${id}) order by r.createdAt DESC LIMIT 100`, cb);
     },
     exists: function(rating, cb) {
       db.query(`SELECT * FROM rating where profileID = ? and filmID = ?`, [rating.profileID, rating.filmID], cb);

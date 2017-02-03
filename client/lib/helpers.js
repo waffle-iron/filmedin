@@ -84,5 +84,16 @@ helpers.castList = function(string) {
     return pair.split(':')
   })
 }
-
+helpers.dateDiff = function(date) {
+  var today = new Date();
+  var calcDate = new Date(date);
+  var diff = today - calcDate;
+  var msec = diff;
+  var dd = Math.floor(msec / 1000 / 60 / 60 / 24);
+  msec -= dd * 1000 * 60 * 60 * 24;
+  var hh = Math.floor(msec / 1000 / 60 / 60);
+  msec -= hh * 1000 * 60 * 60;
+  var mm = Math.floor(msec / 1000 / 60);
+  return (dd !== 0 ? (dd + "d ") : "") + (hh !== 0 ? (hh + "h ") : "") + (mm !== 0 ? (mm + "m ") : "");
+}
 export default helpers

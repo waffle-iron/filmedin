@@ -75,22 +75,23 @@ class App extends React.Component {
   }
 
   handleLogInClick(username) {
-    helpers.getHome().then(response => {
-      console.log('response: ', response)
+    // helpers.getHome().then(response => {
 
-      this.setState({
-        isLoggedIn: true,
-        username: username,
-        profile: response.data,
-        view: 'showUserHomeView'
-      })
-    })
+    //   this.setState({
+    //     isLoggedIn: true,
+    //     username: username,
+    //     profile: response.data,
+    //     view: 'showUserHomeView'
+    //   })
+    // })
+    this.handleHomeClick();
   }
 
 
   handleUserClick(user) {
     console.log(user);
     helpers.getProfile((user.id || user.ID)).then(response => {
+      response.data.friends = response.data.friends.filter(friend => (friend.ID !== 0))
       this.setState({
         view: 'showUserView',
         clickedUser: response.data
@@ -110,9 +111,12 @@ class App extends React.Component {
   handleHomeClick() {
     helpers.getHome().then(response => {
       helpers.getFeed().then(feed => {
-        console.log(feed);
+        console.log(response.data.friends);
+        response.data.friends = response.data.friends.filter(friend => (friend.ID !== 0))
         this.setState({
+          isLoggedIn: true,
           profile: response.data,
+          username: response.data.username,
           feed: feed.data,
           view: 'showUserHomeView'
         })

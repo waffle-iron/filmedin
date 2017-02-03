@@ -11,10 +11,6 @@ var RatingList = ({allFriendsRatings}) => (
     </tr>
     </thead>
     <tbody>
-    <tr>
-      <td>Fake</td>
-      <td>Test</td>
-    </tr>
   {allFriendsRatings.map(rating =>
     <RatingEntry rating={rating}/>
     )}
