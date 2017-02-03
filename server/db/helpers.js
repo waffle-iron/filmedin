@@ -59,7 +59,17 @@ var dbObj =  {
       db.query(`SELECT r.rating, r.review FROM rating r where r.profileID = ${id} and r.filmID = ${filmID}`, cb);
     },
     getAllFriendsRatings: function(friendIDs, cb) {
-      db.query(`SELECT profileID, filmID, rating FROM rating where profileID in ${friendIDS}`, cb)
+      friendIDs = friendIDs.join(',');
+      db.query(`SELECT r.profileID as profileID, r.filmID as filmID, r.rating as rating, f.name as name, f.genre as genre, f.posterURL as posterURL, f.guideBox as guideBox FROM rating r INNER JOIN film f on r.filmID = f.id where r.profileID in (${friendIDs})`, cb)
+    },
+    getRecs: function(results, friendIDs, cb){
+
+      // db.query('stuff', function() {
+      //   //push the results to results
+      //   //subtract last friend from friendIDs
+      //   //if friendIDs is empty, then run the cb
+      //   rating.getRecs(results, friendIDs, cb);
+      // }
     }
   },
 
