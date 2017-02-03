@@ -38,7 +38,7 @@ class FilmProfile extends React.Component {
 			<div className="ratingBlock">
 				<div className="yourRatingBlock">
 					<span className="yourRating">Rate: </span>
-					<Rating className="ratingStar" id="rating-img" empty="fa fa-star-o fa-2x" full="fa fa-star fa-2x" initialRate={this.props.film.myRating ? this.props.film.myRating.rating : 0} onClick={(rate, e) => {rateFilm (rate, this.props.film.id)}}/>
+					<Rating className="ratingStar" id="rating-img" empty="fa fa-star-o fa-2x" full="fa fa-star fa-2x" initialRate={this.props.film.myRating ? this.props.film.myRating.rating : 0} onClick={(rate, e) => {this.props.rateFilm (rate, this.props.film.id)}}/>
 				</div>
 				<div className="friendRatingsTitle">Friend's Ratings:</div>
 					<RatingList 

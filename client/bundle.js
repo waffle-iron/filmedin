@@ -22115,6 +22115,7 @@
 	      clickedFilm: {},
 	      clickedUser: {},
 	      view: '',
+	      feed: [],
 	      searchUser: [],
 	      searchFilm: []
 	    };
@@ -22226,9 +22227,13 @@
 	      var _this5 = this;
 	
 	      _helpers2.default.getHome().then(function (response) {
-	        _this5.setState({
-	          profile: response.data,
-	          view: 'showUserHomeView'
+	        _helpers2.default.getFeed().then(function (feed) {
+	          console.log(feed);
+	          _this5.setState({
+	            profile: response.data,
+	            feed: feed.data,
+	            view: 'showUserHomeView'
+	          });
 	        });
 	      });
 	    }
@@ -22258,6 +22263,7 @@
 	            }) : this.state.view === 'showUserHomeView' ? _react2.default.createElement(_UserHome2.default, {
 	              profile: this.state.profile,
 	              username: this.state.username,
+	              feed: this.state.feed,
 	              handleFilmClick: this.handleFilmClick,
 	              handleUserClick: this.handleUserClick
 	            }) : this.state.view === 'showUserView' ? _react2.default.createElement(_UserProfile2.default, {
@@ -24310,19 +24316,29 @@
 	
 	var _UserList2 = _interopRequireDefault(_UserList);
 	
+	var _FeedList = __webpack_require__(/*! ./FeedList */ 364);
+	
+	var _FeedList2 = _interopRequireDefault(_FeedList);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var UserHome = function UserHome(_ref) {
 		var handleFilmClick = _ref.handleFilmClick,
 		    handleUserClick = _ref.handleUserClick,
 		    profile = _ref.profile,
-		    username = _ref.username;
+		    username = _ref.username,
+		    feed = _ref.feed;
 		return _react2.default.createElement(
 			'div',
 			{ className: 'user-home' },
 			_react2.default.createElement(
 				'div',
 				{ className: 'user-home-personal' },
+				_react2.default.createElement(
+					'h4',
+					{ className: 'user-home-username' },
+					'@username'
+				),
 				_react2.default.createElement(
 					'h3',
 					null,
@@ -24331,13 +24347,8 @@
 					profile.lastName
 				),
 				_react2.default.createElement(
-					'h4',
-					null,
-					username
-				),
-				_react2.default.createElement(
 					'div',
-					null,
+					{ className: 'memberStatus' },
 					_react2.default.createElement(
 						'i',
 						null,
@@ -24359,12 +24370,21 @@
 					profile.ratings.length,
 					' Movie(s) Rated'
 				),
+				_react2.default.createElement(
+					'div',
+					{ className: 'filmStatus' },
+					'Films you have rated: '
+				),
 				_react2.default.createElement(_FilmList2.default, {
 					handleFilmClick: handleFilmClick,
 					allFilms: profile.ratings
 				})
 			),
-			_react2.default.createElement('div', { className: 'user-home-feed' }),
+			_react2.default.createElement(
+				'div',
+				{ className: 'user-home-feed' },
+				_react2.default.createElement(_FeedList2.default, { handleFilmClick: handleFilmClick, handleUserClick: handleUserClick, feeds: feed })
+			),
 			_react2.default.createElement(
 				'div',
 				{ className: 'user-home-friends' },
@@ -24492,11 +24512,6 @@
 	            ),
 	            _react2.default.createElement(
 	              'div',
-	              { className: 'nav-bar-button nav-bar-hover' },
-	              'FEED'
-	            ),
-	            _react2.default.createElement(
-	              'div',
 	              { className: 'nav-bar-button' },
 	              _react2.default.createElement('input', { type: 'text', placeholder: 'Search Film', onChange: this.changeFilm.bind(this), value: this.state.filmSearch }),
 	              _react2.default.createElement('span', { onClick: this.searchFilm.bind(this), className: 'glyphicon glyphicon-search' })
@@ -24523,6 +24538,8 @@
 	}(_react2.default.Component);
 	
 	exports.default = FilmedInNavBar;
+	
+	//                  <div className="nav-bar-button nav-bar-hover">FEED</div>
 	
 	// <div className="user-login">
 	//                       <div className="navbar-collapse collapse" id="navbar-main">
@@ -24595,7 +24612,6 @@
 		return _react2.default.createElement(
 			'div',
 			{ className: 'film-list' },
-			console.log('allFilms: ', allFilms),
 			allFilms.map(function (film) {
 				return _react2.default.createElement(_FilmEntry2.default, {
 					handleFilmClick: handleFilmClick,
@@ -24638,31 +24654,26 @@
 	    { className: 'film-entry', onClick: function onClick() {
 	        return handleFilmClick(film);
 	      } },
-	    console.log('film: ', film),
 	    _react2.default.createElement(
 	      'div',
-	      null,
+	      { className: 'film-entry-poster' },
 	      _react2.default.createElement('img', { src: film.posterURL, alt: '' })
 	    ),
 	    _react2.default.createElement(
 	      'div',
-	      null,
-	      film.name
-	    ),
-	    _react2.default.createElement(
-	      'div',
-	      null,
-	      film.genre
-	    ),
-	    _react2.default.createElement(
-	      'div',
-	      null,
-	      film.rating
-	    ),
-	    _react2.default.createElement(
-	      'div',
-	      null,
-	      film.review
+	      { className: 'film-entry-info' },
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'film-entry-name' },
+	        film.name
+	      ),
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'film-entry-genre' },
+	        'Genre: ',
+	        film.genre
+	      ),
+	      _react2.default.createElement(_reactRating2.default, { className: 'ratingStar', empty: 'fa fa-star-o fa-2x', full: 'fa fa-star fa-2x', initialRate: film.rating, readonly: true })
 	    )
 	  );
 	};
@@ -25145,16 +25156,21 @@
 	      } },
 	    _react2.default.createElement(
 	      "div",
-	      null,
+	      { className: "user-entry-username" },
+	      "@username"
+	    ),
+	    _react2.default.createElement(
+	      "div",
+	      { className: "user-entry-name" },
 	      user.firstName,
 	      " ",
 	      user.lastName
 	    ),
 	    _react2.default.createElement(
 	      "div",
-	      null,
-	      "DOB: ",
-	      user.DOB
+	      { className: "user-entry-stat" },
+	      _react2.default.createElement("img", { className: "user-entry-logo", src: "assets/logo2.png" }),
+	      "Movie(s) Rated"
 	    )
 	  );
 	};
@@ -25288,7 +25304,7 @@
 								'Rate: '
 							),
 							_react2.default.createElement(_reactRating2.default, { className: 'ratingStar', id: 'rating-img', empty: 'fa fa-star-o fa-2x', full: 'fa fa-star fa-2x', initialRate: this.props.film.myRating ? this.props.film.myRating.rating : 0, onClick: function onClick(rate, e) {
-									rateFilm(rate, _this2.props.film.id);
+									_this2.props.rateFilm(rate, _this2.props.film.id);
 								} })
 						),
 						_react2.default.createElement(
@@ -31790,32 +31806,133 @@
 	      film = _ref.film;
 	  return _react2.default.createElement(
 	    "div",
-	    { className: "film-entry", onClick: function onClick() {
+	    { className: "search-film-entry", onClick: function onClick() {
 	        return handleFilmClick(film);
 	      } },
+	    console.log(film),
 	    _react2.default.createElement(
-	      "span",
-	      null,
-	      _react2.default.createElement("img", { src: film.poster_120x171, alt: "" })
+	      "div",
+	      { className: "search-film-entry-poster" },
+	      _react2.default.createElement("img", { className: "search-film-entry-poster-img", src: film.poster_120x171, alt: "" })
 	    ),
 	    _react2.default.createElement(
-	      "span",
-	      null,
+	      "div",
+	      { className: "search-film-entry-info" },
 	      _react2.default.createElement(
 	        "div",
-	        null,
-	        film.title
-	      ),
-	      _react2.default.createElement(
-	        "div",
-	        null,
-	        film.release_date
+	        { className: "search-film-entry-title" },
+	        film.title,
+	        " (",
+	        film.release_year,
+	        ")"
 	      )
 	    )
 	  );
 	};
 	
 	exports.default = SearchFilmEntry;
+	// <div>Release Date: {film.release_date}</div>
+
+/***/ },
+/* 364 */
+/*!*********************************!*\
+  !*** ./components/FeedList.jsx ***!
+  \*********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _FeedEntry = __webpack_require__(/*! ./FeedEntry */ 365);
+	
+	var _FeedEntry2 = _interopRequireDefault(_FeedEntry);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var FeedList = function FeedList(_ref) {
+	  var handleFilmClick = _ref.handleFilmClick,
+	      handleUserClick = _ref.handleUserClick,
+	      feeds = _ref.feeds;
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'feed-list' },
+	    feeds.map(function (feed) {
+	      return _react2.default.createElement(_FeedEntry2.default, {
+	        handleFilmClick: handleFilmClick,
+	        handleUserClick: handleUserClick,
+	        feed: feed
+	      });
+	    })
+	  );
+	};
+	
+	exports.default = FeedList;
+
+/***/ },
+/* 365 */
+/*!**********************************!*\
+  !*** ./components/FeedEntry.jsx ***!
+  \**********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var FeedEntry = function FeedEntry(_ref) {
+	  var handleFilmClick = _ref.handleFilmClick,
+	      handleUserClick = _ref.handleUserClick,
+	      feed = _ref.feed;
+	  return _react2.default.createElement(
+	    "div",
+	    { className: "feed-entry" },
+	    console.log(feed),
+	    _react2.default.createElement(
+	      "div",
+	      { className: "feed-entry-info" },
+	      _react2.default.createElement(
+	        "a",
+	        { href: "#", onClick: function onClick() {
+	            handleUserClick(id);
+	          } },
+	        "firstName lastName"
+	      ),
+	      " rated ",
+	      _react2.default.createElement(
+	        "a",
+	        { href: "#", onClick: function onClick() {
+	            handleFilmClick(filmID);
+	          } },
+	        feed.name
+	      ),
+	      " ",
+	      feed.rating,
+	      " stars."
+	    ),
+	    _react2.default.createElement(
+	      "div",
+	      { className: "feed-entry-time" },
+	      new Date("2017-02-03T05:53:54.000Z").toLocaleTimeString("en-us", { year: "numeric", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" })
+	    )
+	  );
+	};
+	
+	exports.default = FeedEntry;
 
 /***/ }
 /******/ ]);
