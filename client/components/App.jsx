@@ -75,23 +75,14 @@ class App extends React.Component {
   }
 
   handleLogInClick(username) {
-    // helpers.getHome().then(response => {
-
-    //   this.setState({
-    //     isLoggedIn: true,
-    //     username: username,
-    //     profile: response.data,
-    //     view: 'showUserHomeView'
-    //   })
-    // })
     this.handleHomeClick();
   }
 
 
   handleUserClick(user) {
-    console.log(user);
     helpers.getProfile((user.id || user.ID)).then(response => {
       response.data.friends = response.data.friends.filter(friend => (friend.ID !== 0))
+      response.data.isFriend = this.state.profile.friends.map(friend => friend.ID).includes(user.ID);
       this.setState({
         view: 'showUserView',
         clickedUser: response.data
@@ -111,7 +102,6 @@ class App extends React.Component {
   handleHomeClick() {
     helpers.getHome().then(response => {
       helpers.getFeed().then(feed => {
-        console.log(response.data.friends);
         response.data.friends = response.data.friends.filter(friend => (friend.ID !== 0))
         this.setState({
           isLoggedIn: true,
@@ -169,6 +159,7 @@ class App extends React.Component {
                 />               
             ) : (
                 <SearchUser
+                  friends={this.state.profile.friends}
                   search={this.state.searchUser}
                   handleUserClick={this.handleUserClick}
                   addFriend={this.addFriend}
