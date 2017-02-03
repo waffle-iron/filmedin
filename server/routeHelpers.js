@@ -154,6 +154,8 @@ module.exports = {
               film.trailer = movie.trailers.web[0] ? movie.trailers.web[0].embed : '';
               film.runtime = (movie.duration / 60) + ' mins.';
               film.rt = movie.rottentomatoes;
+              film.imdb = movie.imdb;
+              film.wiki = movie.wikipedia_id;
               var source = movie.subscription_web_sources.find(source => {return (source.source === 'netflix')});
               film.netflix = source ? source.link : '';
               source = movie.subscription_web_sources.find(source => {return (source.source === 'hbo_now')});
@@ -201,6 +203,19 @@ module.exports = {
         next(new Error('Invalid credentials'));
       }
     })
+  },
+  updateProfile: function(req, res, next) {
+    auth.checkAuth(req, user => {
+      if (user !== null) {
+        db.profile.getByUserID(user.id, (err, rows) => { 
+          db.profile.update(rows[0].id, req.body, (err, rows) => {
+            res.end();
+          })
+        });
+      } else {
+        next(new Error('Invalid credentials'));
+      }
+    });
   },
   addFriend: function (req, res, next) {
     auth.checkAuth(req, user => {

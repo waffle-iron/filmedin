@@ -19,10 +19,11 @@ app.post('/rating', routeHelpers.addRating);
 app.get('/', routeHelpers.default);
 
 app.get('/home', routeHelpers.home);
-		//send overall /recs
+    //send overall /recs
 
 app.get('/profile/:id', routeHelpers.profile);
-		//also send /friendratings
+app.post('/profile', routeHelpers.updateProfile);
+    //also send /friendratings
 
 app.get('/film/:id', routeHelpers.film);
 app.get('/feed', routeHelpers.feed);
