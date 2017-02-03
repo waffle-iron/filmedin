@@ -151,6 +151,7 @@ class App extends React.Component {
                   handleFilmClick={this.handleFilmClick}
                   handleUserClick={this.handleUserClick}
                   user={this.state.clickedUser}
+                  addFriend={this.addFriend}
                 />              
             ) : (this.state.view === 'showSearchFilmView') ? (
                 <SearchFilm

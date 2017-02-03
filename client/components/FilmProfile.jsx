@@ -26,7 +26,7 @@ class FilmProfile extends React.Component {
 		return (
 		<div className="film-profile">
 			<div className="filmHeader">
-			
+				{console.log(this.props.film)}
 				<div className="filmTitle">{this.props.film.name}</div>
 				<div className="filmBanner">
 					<span className="genre">Genre: {this.props.film.genre}</span>
@@ -40,7 +40,7 @@ class FilmProfile extends React.Component {
 					<span className="yourRating">Rate: </span>
 					<Rating className="ratingStar" id="rating-img" empty="fa fa-star-o fa-2x" full="fa fa-star fa-2x" initialRate={this.props.film.myRating ? this.props.film.myRating.rating : 0} onClick={(rate, e) => {this.props.rateFilm (rate, this.props.film.id)}}/>
 				</div>
-				<div className="friendRatingsTitle">Friend's Ratings:</div>
+
 					<RatingList 
 						allFriendsRatings={this.props.film.friendRatings}
 					/>
@@ -60,6 +60,11 @@ class FilmProfile extends React.Component {
 				<a href={this.props.film.hbo} className="streamA"  target="_blank"><img className={"streamImg " + (this.props.film.hbo ? "streamHighlight" : "streamOpaque")} src="assets/hbo_icon.jpg"/></a>
 				<a href={this.props.film.amazon} className="streamA" target="_blank"><img className={"streamImg " + (this.props.film.amazon ? "streamHighlight" : "streamOpaque")}  src="assets/amazon_icon.jpg"/></a>
 				<a href={this.props.film.itunes} className="streamA" target="_blank"><img className={"streamImg " + (this.props.film.itunes ? "streamHighlight" : "streamOpaque")} src="assets/itunes_icon.jpg"/></a>
+			</div>
+			<div className="resourceLinks">
+				<a href={'http://www.rottentomatoes.com/m/' + this.props.film.rt} className="streamA" target="_blank"><img className={"streamImg " + (this.props.film.rt ? "streamHighlight" : "streamOpaque")} src="assets/rottentomatoes_icon.jpg"/></a>
+				<a href={'https://en.wikipedia.org/w/index.php?curid=' + this.props.film.imdb} className="streamA"  target="_blank"><img className={"streamImg " + (this.props.film.wiki ? "streamHighlight" : "streamOpaque")} src="assets/wikipedia_icon.jpg"/></a>
+				<a href={'http://www.imdb.com/title/' + this.props.film.wiki} className="streamA" target="_blank"><img className={"streamImg " + (this.props.film.imdb ? "streamHighlight" : "streamOpaque")}  src="assets/imdb_icon.jpg"/></a>
 			</div>
 
 			
@@ -94,12 +99,6 @@ class FilmProfile extends React.Component {
 					</tbody>
 				</table>
 				</div>
-			<br />
-			<div>
-				<a href={'http://www.rottentomatoes.com/m/' + this.props.film.rt} target="_blank">Rotten Tomatoes</a>
-			</div>
-
-			<br />
 		</div>
 	)
 	}
