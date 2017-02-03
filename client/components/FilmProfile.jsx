@@ -40,7 +40,7 @@ class FilmProfile extends React.Component {
 					<span className="yourRating">Rate: </span>
 					<Rating className="ratingStar" id="rating-img" empty="fa fa-star-o fa-2x" full="fa fa-star fa-2x" initialRate={this.props.film.myRating ? this.props.film.myRating.rating : 0} onClick={(rate, e) => {this.props.rateFilm (rate, this.props.film.id)}}/>
 				</div>
-
+				<div className={this.props.clickedFilmRecommend ? "recommended" : "notrecommended"}><img className="recommend-img" src="assets/popcorn.png"/>Recommended for you</div>
 					<RatingList 
 						allFriendsRatings={this.props.film.friendRatings}
 					/>

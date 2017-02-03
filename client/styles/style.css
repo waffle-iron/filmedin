@@ -681,10 +681,21 @@ margin-left: 50px;
 	margin-top: 0px;
 }
 
+.recommended {
+	text-align: center;
+	font-style: italic;
+	font-size: 16px;
+	color:gold;
+	vertical-align: middle;
+}
+.notrecommended {
+	display: none;
+}
 
-
-
-
+.recommend-img {
+	width: 18px;
+	height: 18px;
+}
 
 
 
