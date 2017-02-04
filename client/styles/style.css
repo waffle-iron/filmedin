@@ -333,8 +333,12 @@
 	overflow: auto;
 }
 .user-home-recs > div {
-	height: 290px;
+	height: 270px;
 	overflow: auto;
+}
+.user-home-recs-title {
+	margin-left: 20px;
+	font-size: 16px;
 }
 .actors-list {
 	width: 90%;
