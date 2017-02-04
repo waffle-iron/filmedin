@@ -24390,7 +24390,7 @@
 					{ className: 'friendStat' },
 					_react2.default.createElement('img', { className: 'friendsLogo', src: 'assets/logo2.png' }),
 					profile.ratings.length,
-					' Movie(s) Rated'
+					' Film(s) Rated'
 				),
 				_react2.default.createElement(
 					'div',
@@ -25221,7 +25221,7 @@
 	      { className: "user-entry-stat" },
 	      _react2.default.createElement("img", { className: "user-entry-logo", src: "assets/logo2.png" }),
 	      user.count,
-	      " Movie(s) Rated"
+	      " Film(s) Rated"
 	    )
 	  );
 	};

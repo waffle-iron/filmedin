@@ -12,7 +12,7 @@ var UserEntry = ({handleUserClick, user}) => (
     </div>
       <div className="user-entry-stat">
         <img className="user-entry-logo" src="assets/logo2.png"/>
-         {user.count} Movie(s) Rated
+         {user.count} Film(s) Rated
       </div>
   </div>
 )

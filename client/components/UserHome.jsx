@@ -18,7 +18,7 @@ var UserHome = ({handleFilmClick, handleUserClick, profile, username, feed}) => 
 			</div>
 			<div className="friendStat">
 				<img className="friendsLogo" src="assets/logo2.png"/>
-				{profile.ratings.length} Movie(s) Rated
+				{profile.ratings.length} Film(s) Rated
 			</div>
 			<div className="filmStatus">Films you have rated: </div>
 			<FilmList
