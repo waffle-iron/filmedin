@@ -3,6 +3,7 @@ import NavBar from './NavBar';
 import FilmList from './FilmList';
 import UserList from './UserList';
 import FeedList from './FeedList';
+import _ from 'underscore';
 
 var UserHome = ({handleFilmClick, handleUserClick, profile, username, feed}) => (
 	<div className="user-home">
@@ -28,14 +29,27 @@ var UserHome = ({handleFilmClick, handleUserClick, profile, username, feed}) => 
 		<div className="user-home-feed">
 			<FeedList handleFilmClick={handleFilmClick} handleUserClick={handleUserClick} feeds={feed}/>
 		</div>
-		<div className="user-home-friends">
-			<UserList
-				handleUserClick={handleUserClick}
-				allFriends={profile.friends}
-			/>
+		<div className="user-home-right-panel">
+			<div className="user-home-recs">
+				<span className="user-home-recs-title">Recommended For You</span>
+				<FilmList 
+					handleFilmClick={handleFilmClick}
+					allFilms={_.uniq(profile.recs, rec => rec.filmID)}
+					rating={true}
+				/>
+			</div>
+			<div className="user-home-friends">
+				<UserList
+					handleUserClick={handleUserClick}
+					allFriends={profile.friends}
+				/>
+			</div>
 		</div>
+
 	</div>
 	)
 
 
 export default UserHome;
+
+//				<span>Films recommended for you:</span>

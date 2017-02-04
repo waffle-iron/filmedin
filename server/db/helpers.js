@@ -67,7 +67,7 @@ var dbObj =  {
     },
     getRecs: function(userID, cb){
       // returns a list of all recs from all friends based on your diff score with all friends
-      db.query(`SELECT recs.filmID as filmID, f.name as name, f.releaseDate as releaseDate, f.genre as genre, f.posterURL as posterURL FROM rating recs JOIN film f on recs.filmID = f.id WHERE recs.rating >= 4 AND recs.filmID NOT IN (SELECT filmID FROM rating WHERE profileID = ${userID}) AND recs.profileID IN (SELECT profileID FROM (SELECT * FROM (SELECT (sum(ABS(r2.rating - (SELECT r1.rating from rating r1 where r1.profileID = ${userID} and r1.filmID = r2.filmID))) / (SELECT count(*) FROM rating myrating JOIN rating friendrating on myrating.filmID = friendrating.filmID where myrating.profileID = ${userID} and friendrating.profileID = r2.profileID)) as DiffScore, r2.profileID FROM rating r2 WHERE r2.filmID in (SELECT filmID from rating where profileID = ${userID}) AND r2.profileID in (SELECT friendID from friends where primaryID = ${userID}) group by r2.profileID) as diffTable WHERE DiffScore <= 2) as filteredDiffTable)`, cb)
+      db.query(`SELECT recs.filmID as filmID, f.name as name, f.guideBox, f.releaseDate as releaseDate, f.genre as genre, f.posterURL as posterURL FROM rating recs JOIN film f on recs.filmID = f.id WHERE recs.rating >= 4 AND recs.filmID NOT IN (SELECT filmID FROM rating WHERE profileID = ${userID}) AND recs.profileID IN (SELECT profileID FROM (SELECT * FROM (SELECT (sum(ABS(r2.rating - (SELECT r1.rating from rating r1 where r1.profileID = ${userID} and r1.filmID = r2.filmID))) / (SELECT count(*) FROM rating myrating JOIN rating friendrating on myrating.filmID = friendrating.filmID where myrating.profileID = ${userID} and friendrating.profileID = r2.profileID)) as DiffScore, r2.profileID FROM rating r2 WHERE r2.filmID in (SELECT filmID from rating where profileID = ${userID}) AND r2.profileID in (SELECT friendID from friends where primaryID = ${userID}) group by r2.profileID) as diffTable WHERE DiffScore <= 2) as filteredDiffTable)`, cb)
     },
     getFriendsDifferences: function(userID, cb) {
       // returns a list of friends and their ratings diff score from you (diffScore = sum(absolute value of differences in ratings between you and the friend)/(total number of films you guys both built))
@@ -80,7 +80,7 @@ var dbObj =  {
       db.query(`SELECT * FROM film where guideBox = ${id}`, cb);
     },
     post: function (film, cb) {
-      db.query(`INSERT INTO film (guideBox, name, overview, releaseDate, directors, writers, actors, posterURL, trailer, runtime, rt, netflix, hbo, amazon, itunes, genre, imdb, wiki) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, [film.guideBox, film.name, film.overview, film.releaseDate, film.directors, film.writers, film.actors, film.posterURL, film.trailer, film.runtime, film.rt, film.netflix, film.hbo, film.amazon, film.itunes, film.genre, film.wiki, film.imdb], cb);
+      db.query(`INSERT INTO film (guideBox, name, overview, releaseDate, directors, writers, actors, posterURL, trailer, runtime, rt, netflix, hbo, amazon, itunes, genre, imdb, wiki) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, [film.guideBox, film.name, film.overview, film.releaseDate, film.directors, film.writers, film.actors, film.posterURL, film.trailer, film.runtime, film.rt, film.netflix, film.hbo, film.amazon, film.itunes, film.genre, film.imdb, film.wiki], cb);
     }
   }
 }

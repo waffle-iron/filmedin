@@ -297,11 +297,12 @@
 	background-color: #f7f5f8;
 }
 .user-home-friends {
-	width: 32%;
-	margin-right: 1%;
-	float: right;
+	/*margin-top: 300px;*/
+	width: 100%;
+
+	/*float: right;*/
 	display: inline-block;
-	height: 650px;
+	height: 337px;
 		border-color: black;
 	border-style: solid;
 	border-width: 2px;
@@ -309,6 +310,35 @@
 	padding: 5px;
 		border-color: #D2C8D8;
 	background-color: #f7f5f8;
+}
+.user-home-right-panel {
+	float: right;
+	width: 32%;
+		margin-right: 1%;
+}
+.user-home-recs {
+
+	width: 100%;
+	margin-right: 1%;
+	/*float: right;*/
+	display: inline-block;
+	height: 308px;
+		border-color: black;
+	border-style: solid;
+	border-width: 2px;
+	border-radius: 2px;
+	padding: 5px;
+		border-color: #D2C8D8;
+	background-color: #f7f5f8;
+	overflow: auto;
+}
+.user-home-recs > div {
+	height: 270px;
+	overflow: auto;
+}
+.user-home-recs-title {
+	margin-left: 20px;
+	font-size: 16px;
 }
 .actors-list {
 	width: 90%;
@@ -467,7 +497,7 @@ margin-left: 50px;
 }
 
 .user-list{
-	height: 630px;
+	height: 300px;
 	overflow: auto;
 }
 .friend-user-list {
