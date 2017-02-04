@@ -28,14 +28,26 @@ var UserHome = ({handleFilmClick, handleUserClick, profile, username, feed}) => 
 		<div className="user-home-feed">
 			<FeedList handleFilmClick={handleFilmClick} handleUserClick={handleUserClick} feeds={feed}/>
 		</div>
-		<div className="user-home-friends">
-			<UserList
-				handleUserClick={handleUserClick}
-				allFriends={profile.friends}
-			/>
+		<div className="user-home-right-panel">
+			<div className="user-home-recs">
+
+				<FilmList 
+					handleFilmClick={handleFilmClick}
+					allFilms={profile.ratings}
+				/>
+			</div>
+			<div className="user-home-friends">
+				<UserList
+					handleUserClick={handleUserClick}
+					allFriends={profile.friends}
+				/>
+			</div>
 		</div>
+
 	</div>
 	)
 
 
 export default UserHome;
+
+//				<span>Films recommended for you:</span>

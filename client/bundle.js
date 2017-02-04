@@ -24405,16 +24405,30 @@
 			),
 			_react2.default.createElement(
 				'div',
-				{ className: 'user-home-friends' },
-				_react2.default.createElement(_UserList2.default, {
-					handleUserClick: handleUserClick,
-					allFriends: profile.friends
-				})
+				{ className: 'user-home-right-panel' },
+				_react2.default.createElement(
+					'div',
+					{ className: 'user-home-recs' },
+					_react2.default.createElement(_FilmList2.default, {
+						handleFilmClick: handleFilmClick,
+						allFilms: profile.ratings
+					})
+				),
+				_react2.default.createElement(
+					'div',
+					{ className: 'user-home-friends' },
+					_react2.default.createElement(_UserList2.default, {
+						handleUserClick: handleUserClick,
+						allFriends: profile.friends
+					})
+				)
 			)
 		);
 	};
 	
 	exports.default = UserHome;
+	
+	//				<span>Films recommended for you:</span>
 
 /***/ },
 /* 207 */
