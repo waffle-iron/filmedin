@@ -63,8 +63,8 @@ class FilmProfile extends React.Component {
 			</div>
 			<div className="resourceLinks">
 				<a href={'http://www.rottentomatoes.com/m/' + this.props.film.rt} className="streamA" target="_blank"><img className={"streamImg " + (this.props.film.rt ? "streamHighlight" : "streamOpaque")} src="assets/rottentomatoes_icon.jpg"/></a>
-				<a href={'https://en.wikipedia.org/w/index.php?curid=' + this.props.film.imdb} className="streamA"  target="_blank"><img className={"streamImg " + (this.props.film.wiki ? "streamHighlight" : "streamOpaque")} src="assets/wikipedia_icon.jpg"/></a>
-				<a href={'http://www.imdb.com/title/' + this.props.film.wiki} className="streamA" target="_blank"><img className={"streamImg " + (this.props.film.imdb ? "streamHighlight" : "streamOpaque")}  src="assets/imdb_icon.jpg"/></a>
+				<a href={'https://en.wikipedia.org/w/index.php?curid=' + this.props.film.wiki} className="streamA"  target="_blank"><img className={"streamImg " + (this.props.film.wiki ? "streamHighlight" : "streamOpaque")} src="assets/wikipedia_icon.jpg"/></a>
+				<a href={'http://www.imdb.com/title/' + this.props.film.imdb} className="streamA" target="_blank"><img className={"streamImg " + (this.props.film.imdb ? "streamHighlight" : "streamOpaque")}  src="assets/imdb_icon.jpg"/></a>
 			</div>
 
 			
