@@ -24390,7 +24390,7 @@
 					{ className: 'friendStat' },
 					_react2.default.createElement('img', { className: 'friendsLogo', src: 'assets/logo2.png' }),
 					profile.ratings.length,
-					' Movie(s) Rated'
+					' Film(s) Rated'
 				),
 				_react2.default.createElement(
 					'div',
@@ -25221,7 +25221,7 @@
 	      { className: "user-entry-stat" },
 	      _react2.default.createElement("img", { className: "user-entry-logo", src: "assets/logo2.png" }),
 	      user.count,
-	      " Movie(s) Rated"
+	      " Film(s) Rated"
 	    )
 	  );
 	};
@@ -25524,12 +25524,12 @@
 						),
 						_react2.default.createElement(
 							'a',
-							{ href: 'https://en.wikipedia.org/w/index.php?curid=' + this.props.film.imdb, className: 'streamA', target: '_blank' },
+							{ href: 'https://en.wikipedia.org/w/index.php?curid=' + this.props.film.wiki, className: 'streamA', target: '_blank' },
 							_react2.default.createElement('img', { className: "streamImg " + (this.props.film.wiki ? "streamHighlight" : "streamOpaque"), src: 'assets/wikipedia_icon.jpg' })
 						),
 						_react2.default.createElement(
 							'a',
-							{ href: 'http://www.imdb.com/title/' + this.props.film.wiki, className: 'streamA', target: '_blank' },
+							{ href: 'http://www.imdb.com/title/' + this.props.film.imdb, className: 'streamA', target: '_blank' },
 							_react2.default.createElement('img', { className: "streamImg " + (this.props.film.imdb ? "streamHighlight" : "streamOpaque"), src: 'assets/imdb_icon.jpg' })
 						)
 					),
