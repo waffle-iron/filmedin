@@ -113,6 +113,9 @@ class SignUp extends React.Component {
   		console.log('error with signup')
   	})
 	}
+	loginKeyPress() {
+		this.handleLoginClick();
+	}
 
 	render() {
 		return (
@@ -132,7 +135,7 @@ class SignUp extends React.Component {
                                 <input type="text" className="form-control" value={this.state.username} onChange={this.handleUsernameChange} name="username" placeholder="Username"/>
                             </div>
                             <div className="form-group user-search">
-                                <input type="password" className="form-control" value={this.state.password} onChange={this.handlePasswordChange} name="password" placeholder="Password"/>
+                                <input type="password" className="form-control" value={this.state.password} onChange={this.handlePasswordChange} onKeyDown={this.loginKeyPress.bind(this)} name="password" placeholder="Password"/>
                             </div>
                             <button type="submit" onClick={this.handleLoginClick} className="btn btn-default">Sign In</button>
                         </form>
