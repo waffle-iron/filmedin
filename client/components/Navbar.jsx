@@ -16,6 +16,7 @@ class FilmedInNavBar extends React.Component{
 		this.setState({filmSearch: e.target.value});
 	}
 	searchFilm() {
+    console.log('test');
 		helpers.searchFilm(this.state.filmSearch).then(films => {
 			console.log(films);
       this.props.searchFilm(films.data);
@@ -39,8 +40,16 @@ class FilmedInNavBar extends React.Component{
     })
 		
 	}
-
-
+  searchFilmKeyPress (e) {
+    if (e.key === 'Enter') {
+      this.searchFilm();
+    }
+  }
+  searchUserKeyPress (e) {
+    if (e.key === 'Enter') {
+      this.searchUser();
+    }
+  }
 	render() {
 		return (
         <div>
@@ -52,11 +61,11 @@ class FilmedInNavBar extends React.Component{
                   <div className="nav-bar-button nav-bar-home nav-bar-hover" onClick={this.props.handleHomeClick}>HOME</div>
 
                   <div className="nav-bar-button">
-                    <input type="text" placeholder="Search Film" onChange={this.changeFilm.bind(this)} value={this.state.filmSearch} />
+                    <input type="text" placeholder="Search Film" onKeyDown={this.searchFilmKeyPress.bind(this)} onChange={this.changeFilm.bind(this)} value={this.state.filmSearch} />
                     <span onClick={this.searchFilm.bind(this)} className="glyphicon glyphicon-search"></span>
                   </div>
                   <div className="nav-bar-button nav-bar-right">
-                    <input type="text" placeholder="Search Friends" onChange={this.changeUser.bind(this)} value={this.state.userSearch}/>
+                    <input type="text" placeholder="Search Friends" onKeyDown={this.searchUserKeyPress.bind(this)} onChange={this.changeUser.bind(this)} value={this.state.userSearch}/>
                     <span onClick={this.searchUser.bind(this)} className="glyphicon glyphicon-search"></span>
                   </div>
                   <div onClick={this.props.handleLogOutClick} className="nav-bar-button nav-bar-logout nav-bar-hover">Logout</div>

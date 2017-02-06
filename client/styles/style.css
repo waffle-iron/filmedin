@@ -27,6 +27,9 @@
 	margin-right: 30px;
 	margin-top: 3px; 
 }
+.glyphicon-search:hover {
+	font-size: 22px;
+}
 .login-bar-container {
 
 	margin-left: 5px;

@@ -44,7 +44,7 @@ class App extends React.Component {
   }
   addFriend(friend) {
     helpers.addFriend(friend.id).then(res => {
-      console.log('added');
+      this.handleHomeClick();
     });
   }
   handleSearchUserClick(searchUser) {
